@@ -1,7 +1,12 @@
 import React from 'react';
+import Navbar from './Navbar.jsx';
 
 const HomePage = () => {
   return (
+    <>
+     <div className="navbar-wrapper">
+     <Navbar />
+     </div>
     <div className="container mt-5">
       <div className="jumbotron">
         <h1 className="display-4">Bienvenue sur F-Race</h1>
@@ -15,6 +20,7 @@ const HomePage = () => {
         <button className="btn btn-primary btn-lg">Inscrivez-vous</button>
       </div>
     </div>
+    </>
   );
 };
 
