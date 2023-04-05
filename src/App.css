@@ -40,3 +40,29 @@
 .read-the-docs {
   color: #888;
 }
+
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+}
+
+.nav-item {
+  margin-right: 40px;
+ list-style-type: none;
+}
+
+.navbar {
+  background-color: rgba(10, 9, 9, 0.493); 
+}
+
+.nav-link {
+  color: white;
+}
