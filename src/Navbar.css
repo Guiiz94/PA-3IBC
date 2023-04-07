@@ -1,0 +1,19 @@
+.navbar-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo-content h2{
+    margin: 0 0 0 1em;
+}
+
+.navbar-logo{
+    margin: 5px 0 0 5px;
+}
