@@ -1,8 +1,15 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body{
+  height: 100vh;
+  overflow: hidden;
 }
 
 .logo {
@@ -60,9 +67,22 @@
 }
 
 .navbar {
-  background-color: rgba(10, 9, 9, 0.493); 
+  background-color: rgba(10, 9, 9, 0.8); 
 }
 
 .nav-link {
   color: white;
+}
+
+.App{
+  width: 100%;
+}
+
+.background{
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  background-image: url('./images/landing_page.png');
+  opacity: 40%;
+  z-index: -1;
 }
