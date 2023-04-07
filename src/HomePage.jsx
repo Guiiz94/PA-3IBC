@@ -1,13 +1,13 @@
 import React from 'react';
 import Navbar from './Navbar.jsx';
+import demo_gif from './images/course.gif'
+import './HomePage.css';
 
 const HomePage = () => {
   return (
     <>
-     <div className="navbar-wrapper">
      <Navbar />
-     </div>
-    <div className="container mt-5">
+    <div className="container mt-5 home-content">
       <div className="jumbotron">
         <h1 className="display-4">Bienvenue sur F-Race</h1>
         <p className="lead">
@@ -17,7 +17,7 @@ const HomePage = () => {
         <p>
           Inscrivez-vous dès maintenant et commencez à échanger vos crypto-monnaies.
         </p>
-        <button className="btn btn-primary btn-lg">Inscrivez-vous</button>
+        <img className='gif-demo' src={demo_gif}/>
       </div>
     </div>
     </>
