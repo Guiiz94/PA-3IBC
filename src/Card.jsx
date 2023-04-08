@@ -3,14 +3,21 @@ import ReactDOM from 'react-dom';
 import VanillaTilt from 'vanilla-tilt';
 import car from './images/car.png'
 import cardBg from './images/card-bg.jpg'
+import Statistic from './Statistic';
 
 
 function Card(props) {
 
 
+    let values = [
+        //Generate a random number between 3 and 10
+        Math.floor(Math.random()*7 + 3),
+        Math.floor(Math.random()*7 + 3),
+        Math.floor(Math.random()*7 + 3)
+        ]
+
   return (
     <>
-      <div className='card-wrapper'>
         <div className="card">
             <img className='card-bg' src={cardBg}/>
             <div className='card-content'>
@@ -21,21 +28,13 @@ function Card(props) {
                 <img src={car}/>
             </div>
             <div className="card-body">
-                <p>Caractéristiques : </p>
-                <ul>
-                <div class="caracteristique">
-                    <li>300CV</li>
-                    <li>Sportive</li>
-                    <li>2 places</li>
-                    <li>Propulsion</li>
-                    <li>Pneu Sport</li>
-                    <li>Frein Céramique</li>
-                </div>
-                </ul>
+              <p>Skills : </p>
+              <Statistic name={"Speed"} value={values[0]}/>
+              <Statistic name={"Acceleration"} value={values[1]}/>
+              <Statistic name={"Maneuvrability"} value={values[2]}/>
             </div>
             </div>
         </div>
-      </div>
     </>
   );
 }

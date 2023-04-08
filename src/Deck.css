@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Khojki&display=swap');
+
 .deck {
     display: flex;
     padding: 3rem;
@@ -10,10 +12,11 @@
     height: 100%;
     clip-path: inset(0 0 1px 0 round 3px);
     position: absolute;
-    opacity: 60%;
+    opacity: 70%;
   }
   
 .card {
+font-family: 'Noto Serif Khojki', serif;
 height: 380px;
 width: 170px;
 min-width: 250px;
@@ -95,6 +98,9 @@ margin: 0;
 padding: 0.1rem;
 display: flex;
 justify-content: start;
+text-shadow: 0 0 1px #434344,
+             0 0 2px #434344,
+             0 0 4px #434344;
 }
 
 .card-title > h3{
@@ -104,16 +110,17 @@ padding: 0;
 
 .card-content{
 transform: translateZ(0px);
-/* width: 100%; */
+width: 90%;
 display: flex;
 align-items: left;
 flex-direction: column;
 padding: 0 0.5rem 0 0.5rem;
 }
 
+
 .card-content > .img{
 height: 40%;
-padding-bottom: 1rem;
+/* padding-bottom: 1rem; */
 }
 
 .card-content > .img > img{
@@ -123,11 +130,31 @@ height: 100%;
 }
 
 .card-body > p{
-font-family: 'Poppins', sans-serif;
-color: rgb(18, 18, 19);
+/* font-family: 'Poppins', sans-serif; */
 font-weight: 800;
 margin-top: 10px;
 font-size: 0.9rem;
+margin-bottom: 0.5rem;
+text-transform:uppercase;
+letter-spacing: 0.5rem;
+font-weight: bold;
+transform: translateX(5%);
+text-shadow: 0 0 1px #434344,
+             0 0 2px #434344,
+             0 0 4px #434344;
+}
+
+.card-body > p::after{
+    content: '';
+    width: 90%;
+    height: 0.1rem;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    left:0;
+    transform: translateY(1.8rem);
+    border-radius: 5px;
+    box-shadow: 0 0 1px #434344,
+                 0 0 2px #434344;
 }
 
 .card-body > h2{

@@ -11,7 +11,11 @@ const Deck = (props) => {
     }
 
     for(let i = 0; i < props.length; i++){
-        cardsArray.push(<Card key={i} selected={true} onClick={resetCards}/>)
+        cardsArray.push(
+            <div key={i} className='card-wrapper'>
+                <Card selected={true} onClick={resetCards}/>
+            </div>
+        )
     }
 
     const [cards, setCards] = useState(cardsArray)

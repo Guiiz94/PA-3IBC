@@ -44,6 +44,13 @@
       rgba(255, 255, 255, 0.25) 120%
     )
     var(--bg-x) var(--bg-y) / 300%;
+
+    --skill-common: rgb(225, 225, 225);
+    --skill-uncommon: rgb(18, 169, 10);
+    --skill-rare: rgb(98, 153, 205);
+    --skill-mythical: rgb(191, 41, 133);
+    --skill-legendary: rgb(215, 152, 27);
+    --skill-relic: rgb(202, 34, 34);
 }
 
 a {

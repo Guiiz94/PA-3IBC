@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import VanillaTilt from 'vanilla-tilt';
 import car from './images/car.png'
 import cardBg from './images/card-bg.jpg'
+import Statistic from "./Statistic"
 
 
 function Tilt(props) {
@@ -18,31 +19,6 @@ function Tilt(props) {
 
 function SelectedCard(props) {
 
-  const [selected, setSelected] = useState(props.selected)
-
-  const [card, setCard] = useState(<div className="box"/>)
-
-  const triggerCard = () => {
-    setSelected(!selected)
-    console.log(selected);
-    setCard(selected == true ? (<Tilt className="box" options={options} />) : <div className="box" />)
-  }
-  /* 
-  {
-    reverse:           false,  // reverse the tilt direction
-    max:               35,     // max tilt rotation (degrees)
-    perspective:       1000,   // Transform perspective, the lower the more extreme the tilt gets.
-    scale:             1,      // 2 = 200%, 1.5 = 150%, etc..
-    speed:             300,    // Speed of the enter/exit transition
-    transition:        true,   // Set a transition on enter/exit.
-    axis:              null,   // What axis should be disabled. Can be X or Y.
-    reset:             true,   // If the tilt effect has to be reset on exit.
-    easing:            "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
-    glare:             false,   // if it should have a "glare" effect
-    "max-glare":       1,      // the maximum "glare" opacity (1 = 100%, 0.5 = 50%)
-    "glare-prerender": false   // false = VanillaTilt creates the glare elements for you, otherwise
-                               // you need to add .js-tilt-glare>.js-tilt-glare-inner by yourself
-} */
   const options = {
     scale: 1.2,
     speed: 1000,
@@ -90,6 +66,14 @@ function SelectedCard(props) {
     });
   }, []);
 
+  let values = [
+    //Generate a random number between 3 and 10
+    Math.floor(Math.random()*7 + 3),
+    Math.floor(Math.random()*7 + 3),
+    Math.floor(Math.random()*7 + 3)
+  ]
+
+  console.log(values);
 
   return (
     <>
@@ -104,20 +88,16 @@ function SelectedCard(props) {
               <img src={car}/>
             </div>
             <div className="card-body">
-              <p>Caractéristiques : </p>
-              <ul>
-                <div class="caracteristique">
-                    <li>300CV</li>
-                    <li>Sportive</li>
-                    <li>2 places</li>
-                    <li>Propulsion</li>
-                    <li>Pneu Sport</li>
-                    <li>Frein Céramique</li>
-                </div>
-              </ul>
+              <p>Skills : </p>
+              {/* <Statistic name={"Speed"} value={values[0]}/>
+              <Statistic name={"Acceleration"} value={values[1]}/>
+              <Statistic name={"Maneuvrability"} value={values[2]}/> */}
+              <Statistic name={"Speed"} value={10}/>
+              <Statistic name={"Acceleration"} value={10}/>
+              <Statistic name={"Maneuvrability"} value={10}/>
             </div>
           </div>
-          <div className='card-layer1'/>
+          {/* <div className='card-layer1'/> */}
           <div className='card-layer2'/>
         </Tilt>
       </div>
