@@ -5,8 +5,7 @@ import './HomePage.css';
 
 const HomePage = () => {
   return (
-    <>
-     <Navbar />
+   
     <div className="container mt-5 home-content">
       <div className="jumbotron">
         <h1 className="display-4">Bienvenue sur F-Race</h1>
@@ -20,7 +19,6 @@ const HomePage = () => {
         <img className='gif-demo' src={demo_gif}/>
       </div>
     </div>
-    </>
   );
 };
 
