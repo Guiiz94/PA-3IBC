@@ -3,6 +3,7 @@ import React from 'react';
 import HomePage from './HomePage';
 import Card from './Card';
 import ErrorPage from './ErrorPage';
+import Garage from './Garage';
 import MyErrorBoundary from './MyErrorBoundary';
 import {
   createBrowserRouter,
@@ -35,6 +36,8 @@ function App() {
       <MyErrorBoundary>
         <RouterProvider router={router}/>
       </MyErrorBoundary>
+      {/* <HomePage /> */}
+      <Garage/>
     </div>
   );
 }

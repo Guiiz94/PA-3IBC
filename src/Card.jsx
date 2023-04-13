@@ -1,27 +1,42 @@
-import React from 'react';
-import Navbar from './Navbar.jsx';
-import demo_gif from './images/course.gif'
-import './HomePage.css';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
+import VanillaTilt from 'vanilla-tilt';
+import car from './images/car.png'
+import cardBg from './images/card-bg.jpg'
+import Statistic from './Statistic';
 
-const Card = () => {
+
+function Card(props) {
+
+
+    let values = [
+        //Generate a random number between 3 and 10
+        Math.floor(Math.random()*7 + 3),
+        Math.floor(Math.random()*7 + 3),
+        Math.floor(Math.random()*7 + 3)
+        ]
+
   return (
     <>
-     <Navbar />
-    <div className="container mt-5 home-content">
-      <div className="jumbotron">
-        <h1 className="display-4">Bienvenue sur F-Race</h1>
-        <p className="lead">
-          Le pire site pour échanger vos crypto-monnaies rapidement et en toute sécurité.
-        </p>
-        <hr className="my-4" />
-        <p>
-          Inscrivez-vous dès maintenant et commencez à échanger vos crypto-monnaies.
-        </p>
-        <img className='gif-demo' src={demo_gif}/>
-      </div>
-    </div>
+        <div className="card">
+            <img className='card-bg' src={cardBg}/>
+            <div className='card-content'>
+            <div className='card-title'>
+                <h3>Lamborghini</h3>
+            </div>
+            <div className='img'>
+                <img src={car}/>
+            </div>
+            <div className="card-body">
+              <p>Skills : </p>
+              <Statistic name={"Speed"} value={values[0]}/>
+              <Statistic name={"Acceleration"} value={values[1]}/>
+              <Statistic name={"Maneuvrability"} value={values[2]}/>
+            </div>
+            </div>
+        </div>
     </>
   );
-};
+}
 
-export default Card;
+export default Card

@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Web3 from 'web3';
 import logo from './images/F-Racelogo.png'
 import './Navbar.css'
 
 const Navbar = () => {
+
+  const [account, setAccount] = useState('');
+
+  const loadAccount = async () => {
+    if (window.ethereum) {
+      await window.ethereum.enable();
+      const web3 = new Web3(window.ethereum);
+      const accounts = await web3.eth.getAccounts();
+      setAccount(accounts[0]);
+    }
+  };
+
+  useEffect(() => {  
+    // loadAccount();
+    window.ethereum.on('accountsChanged', () => {
+      loadAccount()
+    });
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
@@ -36,9 +56,9 @@ const Navbar = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/connexion">
-                Connexion
-              </a>
+            <a className="nav-link" href="/connexion" onClick={loadAccount}>
+              {account ? account.substr(0, 8) + '...' + account.substr(account.length - 6) : 'Connexion'}
+            </a>
             </li>
             </ul>
           </div>
