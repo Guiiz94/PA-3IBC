@@ -1,10 +1,12 @@
 import './App.css'
 import React from 'react';
 import HomePage from './HomePage';
-import Card from './Card';
 import ErrorPage from './ErrorPage';
 import Garage from './Garage';
 import MyErrorBoundary from './MyErrorBoundary';
+import Navbar from './Navbar';
+import MarketPlace from './MarketPlace';
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -21,7 +23,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/garage",
-    element: <Card />,
+    element: <Garage />,
+  },
+  {
+    path: "/marketplace",
+    element: <MarketPlace />,
+  },
+  {
+    path: "/race",
+    element: <ErrorPage />,
   },
   {
     path: "*",
@@ -33,11 +43,12 @@ function App() {
   return (
     <div className="App">
       <div className='background'/>
-      <MyErrorBoundary>
-        <RouterProvider router={router}/>
-      </MyErrorBoundary>
-      {/* <HomePage /> */}
-      <Garage/>
+      <Navbar />
+      <div className="content">
+        <MyErrorBoundary>
+          <RouterProvider router={router}/>
+        </MyErrorBoundary>        
+      </div>
     </div>
   );
 }
