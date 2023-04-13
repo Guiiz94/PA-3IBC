@@ -6,7 +6,7 @@ import './HomePage.css';
 const HomePage = () => {
   return (
     <>
-    <div className="container mt-5 home-content">
+    <div className="container-mt-5-home-content">
       <div className="jumbotron">
         <h1 className="display-4">Bienvenue sur F-Race</h1>
         <p className="lead">

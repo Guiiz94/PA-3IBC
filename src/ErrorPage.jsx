@@ -7,7 +7,7 @@ const ErrorPage = () => {
 
   return (
     <>
-    <div className="container mt-5 home-content">
+    <div className="container-mt-5-home-content">
       <div className="jumbotron">
         {/* <h1 className="display-4">{`ERREUR ${errorCode || "404"} - Page Not Found`}</h1> */}
         <h1 className="display-4">{`ERREUR 404 - Page Not Found`}</h1>
