@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-.card {
+.cardmp {
   font-family: 'Noto Serif Khojki', serif;
   height: 380px;
   width: 170px;
@@ -22,38 +22,38 @@
   transform-style: preserve-3d;
 }
 
-.card-content {
+.card-contentmp {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.card-title {
+.card-titlemp {
   margin-top: 10px;
 }
 
-.img img {
-  width: 100%;
-  height: 200px;
+.imgmp img {
+
+  align-items: center;
   object-fit: cover;
   border-radius: 5px 5px 0 0;
   margin: 60px;
 }
 
-.card-body {
+.card-bodymp {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.card-footer {
+.card-footermp {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.btn {
-  margin-top: 20px;
+.btnmp {
+  margin-top: -10px;
   
   background-color: #f1c229; /* Couleur d'arrière-plan plus vive */
   color: #000000; /* Couleur du texte en blanc */
