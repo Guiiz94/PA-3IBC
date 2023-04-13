@@ -6,6 +6,7 @@ import Garage from './Garage';
 import MyErrorBoundary from './MyErrorBoundary';
 import Navbar from './Navbar';
 import MarketPlace from './MarketPlace';
+import Footer from './footer';
 
 import {
   createBrowserRouter,
@@ -49,6 +50,7 @@ function App() {
           <RouterProvider router={router}/>
         </MyErrorBoundary>        
       </div>
+        <Footer/>
     </div>
   );
 }

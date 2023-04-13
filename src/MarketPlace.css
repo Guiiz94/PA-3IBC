@@ -1,4 +1,70 @@
 .marketplace {
-    min-height: 100vh;
-  }
+  min-height: 100vh;
+}
+
+.card {
+  font-family: 'Noto Serif Khojki', serif;
+  height: 380px;
+  width: 170px;
+  min-width: 250px;
+  margin: 0 0.5rem 0 0.5rem;
+  border: 10px solid rgb(50, 5, 53);
+  border-radius: 16px;
+  background: linear-gradient(to top, #202020, #00a0b5, #85007e);
+  box-shadow: -1rem 0 3rem #000;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  scroll-snap-align: start;
+  clear: both;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-title {
+  margin-top: 10px;
+}
+
+.img img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+  margin: 60px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  margin-top: 20px;
   
+  background-color: #f1c229; /* Couleur d'arrière-plan plus vive */
+  color: #000000; /* Couleur du texte en blanc */
+  font-size: 18px; /* Augmentation de la taille du texte */
+  font-weight: bold; /* Gras */
+  padding: 10px 20px; /* Augmentation de l'espace intérieur du bouton */
+  border-radius: 5px; /* Bordures arrondies */
+  text-decoration: none; /* Suppression du soulignement du texte */
+  transition: background-color 0.3s; /* Transition pour l'effet de survol */
+}
+
+.btn:hover {
+  background-color: #f3734a; /* Couleur d'arrière-plan plus claire au survol */
+}
