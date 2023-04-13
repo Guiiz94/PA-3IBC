@@ -1,24 +1,28 @@
 import React from 'react';
-import demo_gif from './images/course.gif'
-import './HomePage.css';
+import './MarketPlace.css';
 
-const HomePage = () => {
+const MarketPlace = () => {
   return (
-   
-    <div className="container mt-5 home-content">
-      <div className="jumbotron">
-        <h1 className="display-4">Bienvenue sur F-Race</h1>
-        <p className="lead">
-          Le meilleur site pour échanger vos crypto-monnaies rapidement et en toute sécurité.
-        </p>
-        <hr className="my-4" />
-        <p>
-          Inscrivez-vous dès maintenant et commencez à échanger vos crypto-monnaies.
-        </p>
-        <img className='gif-demo' src={demo_gif}/>
+    <div className="container marketplace mt-5">
+      <h1 className="text-center mb-4">Marketplace NFT</h1>
+      <div className="row">
+        {
+        <div className="col-md-4">
+        <div className="card mb-4">
+          <img src="lien_vers_image_nft" className="card-img-top" alt="Nom du NFT" />
+          <div className="card-body">
+            <h5 className="card-title">Nom du NFT</h5>
+            <p className="card-text">Description du NFT</p>
+            <p className="card-text">Prix : 0.5 ETH</p>
+            <a href="#" className="btn btn-primary">Acheter</a>
+          </div>
+        </div>
+      </div>
+            
+        }
       </div>
     </div>
   );
 };
 
-export default HomePage;
+export default MarketPlace;
