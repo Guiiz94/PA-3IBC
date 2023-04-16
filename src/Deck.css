@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Khojki&display=swap');
+
+.deck {
+    display: flex;
+    padding: 3rem;
+    /* overflow-x: scroll; */
+}
+
+
+.card-bg{
+    width: 100%;
+    height: 100%;
+    clip-path: inset(0 0 1px 0 round 3px);
+    position: absolute;
+    opacity: 70%;
+  }
+  
+.card {
+font-family: 'Noto Serif Khojki', serif;
+height: 380px;
+width: 170px;
+min-width: 250px;
+margin: 0 0.5rem 0 0.5rem;
+border: 10px solid rgb(92, 4, 96);
+border-radius: 16px;
+background: linear-gradient(to top, #00a0b5, #00a0b5, #85007e);
+box-shadow: -1rem 0 3rem #000;
+display: flex;
+align-items: center;
+flex-direction: column;
+/* transition: .5s ease-in-out; */
+margin: 0;
+scroll-snap-align: start;
+clear: both;
+position: relative;
+transform-style: preserve-3d;
+/* transform: rotateY(var(--r-x)) rotateX(var(--r-y)); */
+}
+
+/* soft light */
+.card-layer1 {
+position: absolute;
+inset: 0;
+z-index: 20;
+mix-blend-mode: soft-light;
+clip-path: inset(0 0 1px 0 round 48px);
+background: radial-gradient(
+    farthest-corner circle at var(--x) var(--y),
+    rgba(255, 255, 255, 0.8) 10%,
+    rgba(255, 255, 255, 0.65) 20%,
+    rgba(255, 255, 255, 0) 90%
+);
+}
+
+/* first crazy blend  */
+.card-layer2 {
+position: absolute;
+inset: 0;
+z-index: 30;
+
+mix-blend-mode: color-dodge;
+will-change: background;
+transition-property: opacity;
+clip-path: inset(0 0 1px 0 round 3px);
+
+background-blend-mode: hue, hue, hard-light, overlay;
+background: var(--pattern), var(--rainbow), var(--diagonal);
+}
+/* second crazy blend  */
+.card-layer2:after {
+content: "";
+position: absolute;
+inset: 0;
+background: var(--pattern), var(--rainbow), var(--diagonal), var(--shade);
+mix-blend-mode: exclusion;
+background-size: 75%, 200% 400%, 800%, 200%;
+background-blend-mode: soft-light, hue, hard-light;
+}
+
+.card-wrapper{
+transition: 0.5s ease-in-out;
+}
+
+.card-wrapper:focus-within~.card-wrapper, .card-wrapper:hover~.card-wrapper {
+transform: translateX(135px);
+}
+
+.card-wrapper:hover {
+transform: translateY(-12rem);
+}
+
+.card-wrapper:not(:first-child) {
+margin-left: -130px;
+}
+
+.card-title{
+margin: 0;
+padding: 0.1rem;
+display: flex;
+justify-content: start;
+text-shadow: 0 0 1px #434344,
+             0 0 2px #434344,
+             0 0 4px #434344;
+}
+
+.card-title > h3{
+margin: 0;
+padding: 0;
+}
+
+.card-content{
+transform: translateZ(0px);
+width: 90%;
+display: flex;
+align-items: left;
+flex-direction: column;
+padding: 0 0.5rem 0 0.5rem;
+}
+
+
+.card-content > .img{
+height: 40%;
+/* padding-bottom: 1rem; */
+}
+
+.card-content > .img > img{
+border: 1px solid black;
+width: 100%;
+height: 100%;
+}
+
+.card-body > p{
+/* font-family: 'Poppins', sans-serif; */
+font-weight: 800;
+margin-top: 10px;
+font-size: 0.9rem;
+margin-bottom: 0.5rem;
+text-transform:uppercase;
+letter-spacing: 0.5rem;
+font-weight: bold;
+transform: translateX(5%);
+text-shadow: 0 0 1px #434344,
+             0 0 2px #434344,
+             0 0 4px #434344;
+}
+
+.card-body > p::after{
+    content: '';
+    width: 90%;
+    height: 0.1rem;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    left:0;
+    transform: translateY(1.8rem);
+    border-radius: 5px;
+    box-shadow: 0 0 1px #434344,
+                 0 0 2px #434344;
+}
+
+.card-body > h2{
+font-family: 'Poppins', sans-serif;
+color: rgb(18, 18, 19);
+font-weight: 600;
+font-size: 1.7rem;
+}
+
+.card-body > ul{
+margin-top: 10px;
+list-style: none;
+columns: 2;
+}
+
+.card-body > ul > li{
+list-style: none;
+/* margin: 5px 0; */
+font-family: 'Pavanam', sans-serif;
+}
