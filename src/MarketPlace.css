@@ -1,6 +1,43 @@
-.marketplace {
-  height: 80vh;
+.marketplace form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
+
+.marketplace input,
+.marketplace textarea,
+.marketplace button {
+  width: 100%;
+}
+
+.marketplace label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.marketplace input,
+.marketplace textarea {
+  margin-bottom: 20px;
+}
+
+.marketplace button {
+  cursor: pointer;
+  background-color: #f1c229;
+  color: #000000;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border: none;
+}
+
+.marketplace button:hover {
+  background-color: #f3734a;
+}
+
 
 .cardmp {
   font-family: 'Noto Serif Khojki', serif;
@@ -106,3 +143,4 @@
   display: flex;
   flex-wrap: wrap;
 }
+
