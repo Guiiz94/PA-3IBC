@@ -5,9 +5,7 @@
 .cardmp {
   font-family: 'Noto Serif Khojki', serif;
   height: 380px;
-  width: 170px;
-  min-width: 250px;
-  margin: 0 0.5rem 0 0.5rem;
+  width: 270px;
   border: 10px solid rgb(50, 5, 53);
   border-radius: 16px;
   background: linear-gradient(to top, #202020, #00a0b5, #85007e);
@@ -15,11 +13,10 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 0;
-  scroll-snap-align: start;
-  clear: both;
   position: relative;
   transform-style: preserve-3d;
+  margin-bottom: 1rem;
+  margin-right: 2rem;
 }
 
 .card-contentmp {
@@ -33,11 +30,10 @@
 }
 
 .imgmp img {
-
   align-items: center;
   object-fit: cover;
   border-radius: 5px 5px 0 0;
-  margin: 60px;
+  margin: 0 auto;
 }
 
 .card-bodymp {
@@ -54,17 +50,59 @@
 
 .btnmp {
   margin-top: -10px;
-  
-  background-color: #f1c229; /* Couleur d'arrière-plan plus vive */
-  color: #000000; /* Couleur du texte en blanc */
-  font-size: 18px; /* Augmentation de la taille du texte */
-  font-weight: bold; /* Gras */
-  padding: 10px 20px; /* Augmentation de l'espace intérieur du bouton */
-  border-radius: 5px; /* Bordures arrondies */
-  text-decoration: none; /* Suppression du soulignement du texte */
-  transition: background-color 0.3s; /* Transition pour l'effet de survol */
+  background-color: #f1c229;
+  color: #000000;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
 }
 
-.btn:hover {
-  background-color: #f3734a; /* Couleur d'arrière-plan plus claire au survol */
+.btnmp:hover {
+  background-color: #f3734a;
+}
+
+.react-tabs__tab-list {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.react-tabs__tab {
+  list-style-type: none;
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  margin-bottom: -1px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #888;
+}
+
+.react-tabs__tab--selected {
+  border: 1px solid #ccc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: white;
+  color: #333;
+}
+
+.react-tabs__tab-panel {
+  border: 1px solid #ccc;
+  padding: 20px;
+  display: none;
+}
+
+.react-tabs__tab-panel--selected {
+  display: block;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
 }
