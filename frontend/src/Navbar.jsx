@@ -19,7 +19,7 @@ const Navbar = () => {
   useEffect(() => {  
     // loadAccount();
     window.ethereum.on('accountsChanged', () => {
-      loadAccount()
+      // loadAccount()
     });
   }, []);
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Navbar.jsx';
 import demo_gif from './images/course.gif'
 import './HomePage.css';
+import Dapp from './web3/Dapp.jsx';
 
 const HomePage = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage = () => {
     <div className="container-mt-5-home-content">
       <div className="jumbotron">
         <h1 className="display-4">Bienvenue sur F-Race</h1>
+        <Dapp/>
         <p className="lead">
           Le meilleur site pour échanger vos crypto-monnaies rapidement et en toute sécurité.
         </p>
