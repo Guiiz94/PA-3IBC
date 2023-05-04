@@ -3,14 +3,43 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './MarketPlace.css';
 import SelectedCard from "./SelectedCard"
 
+import Web3 from 'web3';
 
 const MarketPlace = () => {
+  const [web3, setWeb3] = useState(null);
   const [nftName, setNftName] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [nftImage, setNftImage] = useState(null);
   const [nftSpeed, setNftSpeed] = useState(''); //Ajout de la variable nftSpeed
-const [nftAcceleration, setNftAcceleration] = useState(''); //Ajout de la variable nftAcceleration
-const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la variable nftManeuverability
+  const [nftAcceleration, setNftAcceleration] = useState(''); //Ajout de la variable nftAcceleration
+  const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la variable nftManeuverability
+
+  const buyNFT = async (tokenId, price) => {
+    if (!contract || !account) {
+      alert("Veuillez vous connecter à votre portefeuille.");
+      return;
+    }
+
+    try {
+      const transaction = await contract.purchaseToken(tokenId, { value: price });
+      await transaction.wait();
+      alert("Félicitations ! Vous avez acheté le NFT avec succès.");
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur s'est produite lors de l'achat du NFT.");
+    }
+  };
+
+  const loadAccount = async () => {
+    if (window.ethereum) {
+      await window.ethereum.enable();
+      const web3Instance = new Web3(window.ethereum);
+      setWeb3(web3Instance);
+      const accounts = await web3Instance.eth.getAccounts();
+      setAccount(accounts[0]);
+    }
+  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +54,24 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
     // ajouter le code pour interagir avec la blockchain et créer l'NFT
   };
 
+  const nfts = [
+    {
+      id: 1,
+      name: "NFT 1",
+      imageUrl: "",
+      price: web3 ? web3.utils.toWei("0.1", "ether") : 0,
+    },
+    {
+      id: 2,
+      name: "NFT 2",
+      imageUrl: "https://example.com/nft2.png",
+      price: web3 ? web3.utils.toWei("0.2", "ether") : 0,
+    },
+    // ...
+  ];
+  
+  
+
   return (
     <div className="container marketplace mt-5">
       <h1 className="text-center mb-4">Marketplace NFT</h1>
@@ -37,6 +84,20 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
 
         <TabPanel>
           Contenu du catalogue Spécial  
+          <div>
+      {nfts.map((nft) => (
+        <div key={nft.id}>
+          <img src={nft.imageUrl} alt={nft.name} />
+          <h3>{nft.name}</h3>
+          <p>Prix: {web3 ? web3.utils.fromWei(nft.price, "ether") : '...'} ETH</p>
+          <button
+            onClick={() => buyNFT(nft.id, nft.price)}
+          >
+            Acheter
+          </button>
+        </div>
+      ))}
+    </div>
           <div className="row">
             {/* Première carte NFT */}
             <div className="col-md-4">
@@ -53,7 +114,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.5 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -73,7 +134,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.5 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                  <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -97,7 +158,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.3 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                  <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -117,7 +178,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.3 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -141,7 +202,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.1 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -161,7 +222,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.1 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -185,7 +246,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.05 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -205,7 +266,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.05 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -229,7 +290,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.2 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -249,7 +310,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.02 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -273,7 +334,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.1 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -293,7 +354,7 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
                     <p>Prix : 0.01 ETH</p>
                   </div>
                   <div className="card-footermp">
-                    <a href="#" className="btnmp btn-primary">Acheter</a>
+                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
