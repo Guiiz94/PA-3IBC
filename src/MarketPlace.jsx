@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './MarketPlace.css';
+import SelectedCard from "./SelectedCard"
+
 
 const MarketPlace = () => {
   const [nftName, setNftName] = useState('');
@@ -301,6 +303,20 @@ const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la 
         <TabPanel>
           {/* Contenu de l'onglet Enchères */}
           <p>Contenu de l'onglet Enchères.</p>
+
+          <div className="row">
+          <SelectedCard/>   
+          <SelectedCard/>   
+          <SelectedCard/>   
+          <SelectedCard/>   
+          <SelectedCard/>   
+          <SelectedCard/>   
+          </div>  
+
+          <div className="row">
+          
+          </div>          
+
         </TabPanel>
              <TabPanel>
               {/* Contenu de l'onglet Mise en vente */}
