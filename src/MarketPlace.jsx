@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './MarketPlace.css';
+import Web3 from 'web3';
 
 const MarketPlace = () => {
+  const [web3, setWeb3] = useState(null);
   const [nftName, setNftName] = useState('');
   const [nftPrice, setNftPrice] = useState('');
   const [nftImage, setNftImage] = useState(null);
@@ -10,11 +12,32 @@ const MarketPlace = () => {
   const [nftAcceleration, setNftAcceleration] = useState(''); //Ajout de la variable nftAcceleration
   const [nftManeuverability, setNftManeuverability] = useState(''); //Ajout de la variable nftManeuverability
 
-  const buyNFT = (nftId) => {
-    console.log('Acheter NFT avec ID:', nftId);
-    // ajouter le code pour interagir avec la blockchain et acheter l'NFT
+  const buyNFT = async (tokenId, price) => {
+    if (!contract || !account) {
+      alert("Veuillez vous connecter à votre portefeuille.");
+      return;
+    }
+
+    try {
+      const transaction = await contract.purchaseToken(tokenId, { value: price });
+      await transaction.wait();
+      alert("Félicitations ! Vous avez acheté le NFT avec succès.");
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur s'est produite lors de l'achat du NFT.");
+    }
   };
 
+  const loadAccount = async () => {
+    if (window.ethereum) {
+      await window.ethereum.enable();
+      const web3Instance = new Web3(window.ethereum);
+      setWeb3(web3Instance);
+      const accounts = await web3Instance.eth.getAccounts();
+      setAccount(accounts[0]);
+    }
+  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,6 +52,24 @@ const MarketPlace = () => {
     // ajouter le code pour interagir avec la blockchain et créer l'NFT
   };
 
+  const nfts = [
+    {
+      id: 1,
+      name: "NFT 1",
+      imageUrl: "",
+      price: web3 ? web3.utils.toWei("0.1", "ether") : 0,
+    },
+    {
+      id: 2,
+      name: "NFT 2",
+      imageUrl: "https://example.com/nft2.png",
+      price: web3 ? web3.utils.toWei("0.2", "ether") : 0,
+    },
+    // ...
+  ];
+  
+  
+
   return (
     <div className="container marketplace mt-5">
       <h1 className="text-center mb-4">Marketplace NFT</h1>
@@ -41,6 +82,20 @@ const MarketPlace = () => {
 
         <TabPanel>
           Contenu du catalogue Spécial  
+          <div>
+      {nfts.map((nft) => (
+        <div key={nft.id}>
+          <img src={nft.imageUrl} alt={nft.name} />
+          <h3>{nft.name}</h3>
+          <p>Prix: {web3 ? web3.utils.fromWei(nft.price, "ether") : '...'} ETH</p>
+          <button
+            onClick={() => buyNFT(nft.id, nft.price)}
+          >
+            Acheter
+          </button>
+        </div>
+      ))}
+    </div>
           <div className="row">
             {/* Première carte NFT */}
             <div className="col-md-4">
