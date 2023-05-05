@@ -5,7 +5,8 @@ const fs = require("fs");
 
 task("faucet", "Sends ETH and tokens to an address")
   .addPositionalParam("receiver", "The address that will receive them")
-  .setAction(async ({ receiver }, { ethers }) => {
+  .addPositionalParam("tokenAmount", "The amount of tokens to send to the receiver")
+  .setAction(async ({ receiver, tokenAmount }, { ethers }) => {
     if (network.name === "hardhat") {
       console.warn(
         "You are running the faucet task with Hardhat network, which" +
@@ -33,7 +34,7 @@ task("faucet", "Sends ETH and tokens to an address")
     const token = await ethers.getContractAt("FToken", address.Token);
     const [sender] = await ethers.getSigners();
 
-    const tx = await token.transfer(receiver, receiver == 0xa35CC4A4096d53e718460fDDE30d36854133282A ? 10000 : 100);
+    const tx = await token.transfer(receiver, tokenAmount);
     await tx.wait();
 
     const tx2 = await sender.sendTransaction({
@@ -42,5 +43,5 @@ task("faucet", "Sends ETH and tokens to an address")
     });
     await tx2.wait();
 
-    console.log(`Transferred 1 ETH and 100 tokens to ${receiver}`);
+    console.log(`Transferred 1 ETH and ${tokenAmount} tokens to ${receiver}`);
   });
