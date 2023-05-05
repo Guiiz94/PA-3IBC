@@ -57,17 +57,10 @@ const MarketPlace = () => {
   const nfts = [
     {
       id: 1,
-      name: "NFT 1",
+      name: "NFT SUPER CAR",
       imageUrl: "",
-      price: web3 ? web3.utils.toWei("0.1", "ether") : 0,
-    },
-    {
-      id: 2,
-      name: "NFT 2",
-      imageUrl: "https://example.com/nft2.png",
       price: web3 ? web3.utils.toWei("0.2", "ether") : 0,
-    },
-    // ...
+    }
   ];
   
   
@@ -83,22 +76,28 @@ const MarketPlace = () => {
         </TabList>
 
         <TabPanel>
-          Contenu du catalogue Spécial  
-          <div>
-      {nfts.map((nft) => (
-        <div key={nft.id}>
-          <img src={nft.imageUrl} alt={nft.name} />
-          <h3>{nft.name}</h3>
-          <p>Prix: {web3 ? web3.utils.fromWei(nft.price, "ether") : '...'} ETH</p>
-          <button
-            onClick={() => buyNFT(nft.id, nft.price)}
-          >
-            Acheter
-          </button>
-        </div>
-      ))}
-    </div>
+          Contenu du catalogue Spécial
+
           <div className="row">
+            <div className="cardmp">
+              <div className="card-contentmp">
+                <div className="card-titlemp">
+                  <div>
+                    {nfts.map((nft) => (
+                    <div key={nft.id}>
+                    <h3>{nft.name}</h3>
+                    <img src={nft.imageUrl} alt={nft.name} />
+                    <p>Prix: {web3 ? web3.utils.fromWei(nft.price, "ether") : '...'} ETH</p>
+                    <button onClick={() => buyNFT(nft.id, nft.price)}>
+                      Acheter
+                    </button>
+                  </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
             {/* Première carte NFT */}
             <div className="col-md-4">
               <div className="cardmp">
@@ -115,26 +114,6 @@ const MarketPlace = () => {
                   </div>
                   <div className="card-footermp">
                     <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Deuxième carte NFT */}
-            <div className="col-md-4">
-              <div className="cardmp">
-                <div className="card-contentmp">
-                  <div className="card-titlemp">
-                    <h3>Nom du NFT</h3>
-                  </div>
-                  <div className="imgmp">
-                    <img src="lien_vers_image_nft" alt="img" />
-                  </div>
-                  <div className="card-bodymp">
-                    <p>Description du NFT</p>
-                    <p>Prix : 0.5 ETH</p>
-                  </div>
-                  <div className="card-footermp">
-                  <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
                   </div>
                 </div>
               </div>
@@ -163,51 +142,11 @@ const MarketPlace = () => {
                 </div>
               </div>
             </div>
-            {/* Deuxième carte NFT */}
-            <div className="col-md-4">
-              <div className="cardmp">
-                <div className="card-contentmp">
-                  <div className="card-titlemp">
-                    <h3>Nom du NFT</h3>
-                  </div>
-                  <div className="imgmp">
-                    <img src="lien_vers_image_nft" alt="img" />
-                  </div>
-                  <div className="card-bodymp">
-                    <p>Description du NFT</p>
-                    <p>Prix : 0.3 ETH</p>
-                  </div>
-                  <div className="card-footermp">
-                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <hr />
           Contenu du catalogue Or 
           <div className="row">
             {/* Première carte NFT */}
-            <div className="col-md-4">
-              <div className="cardmp">
-                <div className="card-contentmp">
-                  <div className="card-titlemp">
-                    <h3>Nom du NFT</h3>
-                  </div>
-                  <div className="imgmp">
-                    <img src="lien_vers_image_nft" alt="img" />
-                  </div>
-                  <div className="card-bodymp">
-                    <p>Description du NFT</p>
-                    <p>Prix : 0.1 ETH</p>
-                  </div>
-                  <div className="card-footermp">
-                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Deuxième carte NFT */}
             <div className="col-md-4">
               <div className="cardmp">
                 <div className="card-contentmp">
@@ -251,26 +190,6 @@ const MarketPlace = () => {
                 </div>
               </div>
             </div>
-            {/* Deuxième carte NFT */}
-            <div className="col-md-4">
-              <div className="cardmp">
-                <div className="card-contentmp">
-                  <div className="card-titlemp">
-                    <h3>Nom du NFT</h3>
-                  </div>
-                  <div className="imgmp">
-                    <img src="lien_vers_image_nft" alt="img" />
-                  </div>
-                  <div className="card-bodymp">
-                    <p>Description du NFT</p>
-                    <p>Prix : 0.05 ETH</p>
-                  </div>
-                  <div className="card-footermp">
-                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <hr />
           Contenu du catalogue Bronze 
@@ -295,26 +214,6 @@ const MarketPlace = () => {
                 </div>
               </div>
             </div>
-            {/* Deuxième carte NFT */}
-            <div className="col-md-4">
-              <div className="cardmp">
-                <div className="card-contentmp">
-                  <div className="card-titlemp">
-                    <h3>Nom du NFT</h3>
-                  </div>
-                  <div className="imgmp">
-                    <img src="lien_vers_image_nft" alt="img" />
-                  </div>
-                  <div className="card-bodymp">
-                    <p>Description du NFT</p>
-                    <p>Prix : 0.02 ETH</p>
-                  </div>
-                  <div className="card-footermp">
-                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <hr />
           Contenu du catalogue Classique 
@@ -332,26 +231,6 @@ const MarketPlace = () => {
                   <div className="card-bodymp">
                     <p>Description du NFT</p>
                     <p>Prix : 0.1 ETH</p>
-                  </div>
-                  <div className="card-footermp">
-                    <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Deuxième carte NFT */}
-            <div className="col-md-4">
-              <div className="cardmp">
-                <div className="card-contentmp">
-                  <div className="card-titlemp">
-                    <h3>Nom du NFT</h3>
-                  </div>
-                  <div className="imgmp">
-                    <img src="lien_vers_image_nft" alt="img" />
-                  </div>
-                  <div className="card-bodymp">
-                    <p>Description du NFT</p>
-                    <p>Prix : 0.01 ETH</p>
                   </div>
                   <div className="card-footermp">
                     <button onClick={() => buyNFT(nftId)} className="btnmp btn-primary">Acheter</button>
