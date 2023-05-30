@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 // We import the contract's artifacts and address here, as we are going to be
 // using them with ethers
 import TokenArtifact from "../contracts/FToken.json";
-import contractAddress from "../contracts/contract-address.json";
+import TokenAddress from "../contracts/contract-address.json";
 
 // All the logic of this dapp is contained in the Dapp component.
 // These other components are just presentational ones: they don't have any
@@ -17,6 +17,7 @@ import { Loading } from "./Loading";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
+import Deck from "../Deck";
 
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = '31337';
@@ -51,6 +52,7 @@ class Dapp extends React.Component {
       transactionError: undefined,
       networkError: undefined,
       hasBet: false,
+      cars:[],
     };
 
     this.state = this.initialState;
@@ -99,6 +101,21 @@ class Dapp extends React.Component {
               <b>
                 {this.state.balance.toString()} {this.state.tokenData.symbol}
               </b>
+              <NewCar 
+              generateCar={(rarity) => this._generateCar(rarity)}
+              type={0}
+              ></NewCar>
+              <NewCar 
+              generateCar={(rarity) => this._generateCar(rarity)}
+              type={1}
+              ></NewCar>
+              <NewCar 
+              generateCar={(rarity) => this._generateCar(rarity)}
+              type={2}
+              ></NewCar>
+              <GetCars getUserCars={() => this._getUserCars()}></GetCars>
+              {this.state.cars.length > 0 ? <Deck cars={this.state.cars}></Deck>: <></>}
+              {/* {this.state.cars.length > 0 ? <>OK</>:<>KO</>} */}
               .
             </p>
           </div>
@@ -217,6 +234,7 @@ class Dapp extends React.Component {
     this._initializeEthers();
     this._getTokenData();
     this._startPollingData();
+    this._updateCars();
   }
 
   async _initializeEthers() {
@@ -226,7 +244,7 @@ class Dapp extends React.Component {
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
     this._token = new ethers.Contract(
-      contractAddress.Token,
+      TokenAddress.Token,
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
@@ -263,6 +281,11 @@ class Dapp extends React.Component {
   async _updateBalance() {
     const balance = await this._token.balanceOf(this.state.selectedAddress);
     this.setState({ balance });
+  }
+
+  async _updateCars(){
+    const cars = await this._getUserCars();
+    this.setState({cars});
   }
 
   // This method sends an ethereum transaction to transfer tokens.
@@ -474,7 +497,127 @@ class Dapp extends React.Component {
       this.setState({ txBeingSent: undefined });
     }
   }
+
+  async _generateCar(rarity) {
+    try {
+      // send the transaction, and save its hash in the Dapp's state. This
+      // way we can indicate that we are waiting for it to be mined.
+      const tx = await this._token.generateBooster(rarity,{gasLimit: 1000000 });
+      this.setState({ txBeingSent: tx.hash });
   
+      // We use .wait() to wait for the transaction to be mined. This method
+      // returns the transaction's receipt.
+      const receipt = await tx.wait();
+
+      this._updateCars();
+  
+      // The receipt, contains a status flag, which is 0 to indicate an error.
+      if (receipt.status === 0) {
+        // We can't know the exact error that made the transaction fail when it
+        // was mined, so we throw this generic one.
+        throw new Error("Transaction failed");
+      }
+
+    } catch(error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+  
+      // Other errors are logged and stored in the Dapp's state. 
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // clear the txBeingSent part of the state.
+      this.setState({ txBeingSent: undefined });
+    }
+    this.setState({ hasBet: true });
+  }
+
+  async _getUserCars() {
+    try {
+      // send the transaction, and save its hash in the Dapp's state. This
+      // way we can indicate that we are waiting for it to be mined.
+      const tx = await this._token.getUserCars();
+      this.setState({ txBeingSent: tx.hash });
+      // console.log(tx);
+      let cars = []
+      tx.forEach(async elm => {
+        const car = await this._token.getCar(elm);
+        cars.push(car)
+      })
+
+      return cars
+      
+    } catch(error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+  
+      // Other errors are logged and stored in the Dapp's state. 
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // clear the txBeingSent part of the state.
+      this.setState({ txBeingSent: undefined });
+    }
+    this.setState({ hasBet: true });
+  }
+  
+}
+
+function NewCar({generateCar, type}){
+  let rarity
+  switch(type){
+    case 0:
+      rarity = "GOLD"
+      break;
+    case 1:
+      rarity = "SILVER"
+      break;
+    case 2:
+      rarity = "BRONZE"
+      break;
+  }
+  return(
+    <>
+      <form
+        onSubmit={(event) => {
+          // This function just calls the transferTokens callback with the
+          // form's data.
+          event.preventDefault();
+
+          generateCar(type);
+        }}
+      >
+        <div className="form-group">
+          <input className="btn btn-primary" type="submit" value={rarity} />
+        </div>
+      </form>
+    </>
+  )
+}
+
+function GetCars({getUserCars}){
+  return(
+    <>
+      <form
+        onSubmit={async (event) => {
+          // This function just calls the transferTokens callback with the
+          // form's data.
+          event.preventDefault();
+          getUserCars();
+        }}
+      >
+        <div className="form-group">
+          <input className="btn btn-primary" type="submit" value="get" />
+        </div>
+      </form>
+    </>
+  )
 }
 
 export default Dapp

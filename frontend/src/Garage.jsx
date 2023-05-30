@@ -1,6 +1,7 @@
 import Deck from "./Deck"
 import SelectedCard from "./SelectedCard"
 import './Garage.css'
+import Dapp from "./web3/Dapp"
 
 const Garage = () => {
     return (
@@ -9,7 +10,8 @@ const Garage = () => {
                 <SelectedCard/>
             </div>
             <div className='reserve'>
-                <Deck length={6} />
+                {/* <Deck length={6} /> */}
+                <Dapp></Dapp>
             </div>
         </div>
     )

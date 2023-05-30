@@ -3,17 +3,18 @@ import Card from './Card'
 import './Deck.css'
 
 
-const Deck = (props) => {
+const Deck = ({cars}) => {
+    console.log(cars);
     let cardsArray = []
     const resetCards = () => {
         console.log(cardsArray);
         setCards(cardsArray)
     }
 
-    for(let i = 0; i < props.length; i++){
+    for(let i = 0; i < cars.length; i++){
         cardsArray.push(
             <div key={i} className='card-wrapper'>
-                <Card selected={true} onClick={resetCards}/>
+                <Card speed={cars[i].speed} acceleration={cars[i].acceleration} maniability={cars[i].maniability} onClick={resetCards}/>
             </div>
         )
     }

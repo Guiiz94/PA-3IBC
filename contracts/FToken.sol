@@ -5,9 +5,10 @@
 pragma solidity ^0.8.9;
 
 import "hardhat/console.sol";
+import "./FCar.sol";
 
 // This is the main building block for smart contracts.
-contract FToken {
+contract FToken is FCar {
     // Some string type variables to identify the token.
     string public name = "F-Race Token";
     string public symbol = "FRT";
@@ -16,7 +17,7 @@ contract FToken {
     uint256 public totalSupply = 1000000;
 
     // An address type variable is used to store ethereum accounts.
-    address public owner;
+    // address public owner;
 
     // A mapping is a key/value map. Here we store each account's balance.
     mapping(address => uint256) balances;
