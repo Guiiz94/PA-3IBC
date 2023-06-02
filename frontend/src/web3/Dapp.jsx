@@ -53,6 +53,7 @@ class Dapp extends React.Component {
       networkError: undefined,
       hasBet: false,
       cars:[],
+      carsRows:[]
     };
 
     this.state = this.initialState;
@@ -114,7 +115,11 @@ class Dapp extends React.Component {
               type={2}
               ></NewCar>
               <GetCars getUserCars={() => this._getUserCars()}></GetCars>
-              {this.state.cars.length > 0 ? <Deck cars={this.state.cars}></Deck>: <></>}
+              {this.state.carsRows.map((row, index) => (
+                <Deck key={index} cars={row} resetCooldown={(id) => this._resetCooldown(id)} />
+              ))}
+
+              {/* {this.state.cars.length > 0 ? <Deck cars={this.state.cars}></Deck>: <></>} */}
               {/* {this.state.cars.length > 0 ? <>OK</>:<>KO</>} */}
               .
             </p>
@@ -258,10 +263,11 @@ class Dapp extends React.Component {
   // don't need to poll it. If that's the case, you can just fetch it when you
   // initialize the app, as we do with the token data.
   _startPollingData() {
-    this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
+    this._pollDataInterval = setInterval(() => {this._updateBalance();this._updateCars()}, 1000);
 
     // We run it once immediately so we don't have to wait for it
     this._updateBalance();
+    this._updateCars();
   }
 
   _stopPollingData() {
@@ -286,6 +292,51 @@ class Dapp extends React.Component {
   async _updateCars(){
     const cars = await this._getUserCars();
     this.setState({cars});
+    this._updateRows()
+  }
+
+  async _updateRows(){
+      // Copiez le tableau de voitures de l'état
+    const sortedCars = [...this.state.cars];
+    // console.log(sortedCars);
+
+    // Triez les voitures par rareté (premier élément de chaque voiture)
+    sortedCars.sort((car1, car2) => {
+      const rarityOrder = {
+        "Relic": 6,
+        "Legendary": 5,
+        "Mythic": 4,
+        "Rare": 3,
+        "Uncommon": 2,
+        "Common": 1
+      };
+    
+      const rarity1 = car1[0];
+      const rarity2 = car2[0];
+    
+      // Comparez les valeurs de rareté en utilisant l'ordre de hiérarchie défini
+      if (rarityOrder[rarity1] > rarityOrder[rarity2]) {
+        return -1;
+      } else if (rarityOrder[rarity1] < rarityOrder[rarity2]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    
+
+    let carsRows = []
+    let carsRow = []
+    for(let i = 1; i <= sortedCars.length; i++){
+      carsRow.push(sortedCars[i-1]);
+      if(i%7==0){
+        carsRows.push(carsRow);
+        carsRow = []
+      }
+      if(i == sortedCars.length && carsRow.length > 0)carsRows.push(carsRow)
+    }
+    this.setState({carsRows});
+    // console.log(this.state.carsRows);
   }
 
   // This method sends an ethereum transaction to transfer tokens.
@@ -510,6 +561,10 @@ class Dapp extends React.Component {
       const receipt = await tx.wait();
 
       this._updateCars();
+      
+      
+      // update the user's balance.
+      await this._updateBalance();
   
       // The receipt, contains a status flag, which is 0 to indicate an error.
       if (receipt.status === 0) {
@@ -565,6 +620,34 @@ class Dapp extends React.Component {
       this.setState({ txBeingSent: undefined });
     }
     this.setState({ hasBet: true });
+  }
+
+  async _resetCooldown(id) {
+    try {
+      // send the transaction, and save its hash in the Dapp's state. This
+      // way we can indicate that we are waiting for it to be mined.
+      const tx = await this._token.resetCooldown(id);
+      this.setState({ txBeingSent: tx.hash });
+
+      
+      
+      // update the user's balance.
+      await this._updateBalance();
+      
+    } catch(error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+  
+      // Other errors are logged and stored in the Dapp's state. 
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // clear the txBeingSent part of the state.
+      this.setState({ txBeingSent: undefined });
+    }
   }
   
 }

@@ -2,5 +2,9 @@
   "name": "hardhat-project",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2"
+  },
+  "scripts": {
+    "deploy": "npx hardhat run scripts/deploy.js --network localhost",
+    "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a 150"
   }
 }

@@ -17,7 +17,9 @@ function Tilt(props) {
   return <div ref={tilt} {...rest} />;
 }
 
-function SelectedCard(props) {
+function SelectedCard({cardProps}) {
+
+  // console.log(cardProps);
 
   const options = {
     scale: 1.2,
@@ -40,7 +42,7 @@ function SelectedCard(props) {
       let rY = (Y - 0.5) * 26;
       let bgX = 40 + 20 * X;
       let bgY = 40 + 20 * Y;
-      console.log(X, Y);
+      // console.log(X, Y);
       document.documentElement.style.setProperty("--x", 100 * X + "%");
       document.documentElement.style.setProperty("--y", 100 * Y + "%");
       document.documentElement.style.setProperty("--bg-x", bgX + "%");
@@ -66,15 +68,6 @@ function SelectedCard(props) {
     });
   }, []);
 
-  let values = [
-    //Generate a random number between 3 and 10
-    Math.floor(Math.random()*7 + 3),
-    Math.floor(Math.random()*7 + 3),
-    Math.floor(Math.random()*7 + 3)
-  ]
-
-  console.log(values);
-
   return (
     <>
       <div className='selectedCard-wrapper'>
@@ -92,9 +85,9 @@ function SelectedCard(props) {
               {/* <Statistic name={"Speed"} value={values[0]}/>
               <Statistic name={"Acceleration"} value={values[1]}/>
               <Statistic name={"Maneuvrability"} value={values[2]}/> */}
-              <Statistic name={"Speed"} value={10}/>
-              <Statistic name={"Acceleration"} value={10}/>
-              <Statistic name={"Maneuvrability"} value={10}/>
+              <Statistic name={"Speed"} value={Math.round(cardProps.speed / 10)}/>
+              <Statistic name={"Acceleration"} value={Math.round(cardProps.acceleration / 10)}/>
+              <Statistic name={"Maneuvrability"} value={Math.round(cardProps.maniability / 10)}/>
             </div>
           </div>
           {/* <div className='card-layer1'/> */}

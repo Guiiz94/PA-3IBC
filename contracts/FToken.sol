@@ -72,4 +72,41 @@ contract FToken is FCar {
     function balanceOf(address account) external view returns (uint256) {
         return balances[account];
     }
+
+    function generateBooster(uint8 rarity) external payable{
+        uint16 price = prices[rarity];
+        require(balances[msg.sender] >= price);
+
+        console.log(
+            "%s buying %s booster for %s tokens",
+            msg.sender,
+            _getRarity(rarity),
+            price
+        );
+
+        balances[msg.sender] -= price;
+        balances[owner] += price;
+
+        _generateBooster(rarity);
+    }
+
+    function resetCooldown(uint id) external payable{
+        require(balances[msg.sender] >= 10, "Not enough tokens");
+
+        console.log(
+            "%s buying cooldown for %s tokens (%s)",
+            msg.sender,
+            10,
+            owner
+        );
+
+        // Transfer the amount.
+        balances[msg.sender] -= 10;
+        balances[owner] += 10;
+
+        _resetCooldown(id, msg.sender);
+
+        // Notify off-chain applications of the transfer.
+        emit Transfer(msg.sender, owner, 10);
+    }
 }

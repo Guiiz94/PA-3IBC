@@ -6,9 +6,9 @@ import Dapp from "./web3/Dapp"
 const Garage = () => {
     return (
         <div className="garage">
-            <div className='main-deck'>
+            {/* <div className='main-deck'>
                 <SelectedCard/>
-            </div>
+            </div> */}
             <div className='reserve'>
                 {/* <Deck length={6} /> */}
                 <Dapp></Dapp>

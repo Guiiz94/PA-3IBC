@@ -11,9 +11,12 @@ contract FCar {
         _;
     }
 
+    event ResetCooldown(address indexed _user, uint indexed _car);
+
     address public owner;
 
     struct Car {
+        uint id;
         string rarity;
         uint8 speed;
         uint8 acceleration;
@@ -29,6 +32,12 @@ contract FCar {
 
     uint256 randNonce = 0;
     uint32 cooldownTime = 1 days;
+    
+    uint16[] prices = [
+        150,
+        75,
+        10
+    ];
 
     event NewCar(
         uint256 id,
@@ -113,8 +122,11 @@ contract FCar {
         s_rarity = determineRarity(actualRarity);
         stats = determineStats(carDna, actualRarity, boostind);
 
+        uint256 id = cars.length;
+
         cars.push(
             Car(
+                id,
                 s_rarity,
                 stats.speed,
                 stats.acceleration,
@@ -122,7 +134,6 @@ contract FCar {
                 readyTime
             )
         );
-        uint256 id = cars.length - 1;
 
         carToOwner[id] = msg.sender;
         ownerCarCount[msg.sender]++;
@@ -220,14 +231,24 @@ contract FCar {
         }
     }
 
-    function generateBooster(uint8 rarity) external{
+    function _getRarity(uint256 rarity) internal pure returns (string memory) {
+        if (rarity == 0) {
+            return "Gold";
+        } else if (rarity == 1) {
+            return "Silver";
+        } else{
+            return "Bronze";
+        }
+    }
+
+    function _generateBooster(uint8 rarity) internal {
         require(rarity >= 0 && rarity <= 3, "Invalid booster type");
         _newCar(rarity + 3);
         for(uint8 i = 0; i < 4; i++)_newCar(0);
     }
 
     function _triggerCooldown(Car storage _car) internal {
-        _car.readyTime = uint32(block.timestamp + cooldownTime);
+        _car.readyTime = uint32(block.timestamp + 1 seconds);
     }
 
     function _isReady(Car storage _car) internal view returns (bool) {
@@ -240,5 +261,11 @@ contract FCar {
 
     function getCar(uint id) external view returns(Car memory){
         return cars[id];
+    }
+
+    function _resetCooldown(uint id, address user) internal{
+        require(carToOwner[id] == user, "User not owner of this car");
+        cars[id].readyTime = uint32(block.timestamp + 1 seconds);
+        emit ResetCooldown(user, id);
     }
 }
