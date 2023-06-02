@@ -19,6 +19,7 @@ function Card({speed, acceleration, maniability, cooldown}) {
   return (
     <>
         <div className="card">
+            {cooldown ? <div className='cooldown-banner'>ON COOLDOWN</div> : <></>}
             <img className='card-bg' src={cardBg}/>
             <div className='card-content'>
             <div className='card-title'>

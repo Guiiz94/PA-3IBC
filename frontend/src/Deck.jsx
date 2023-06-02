@@ -10,13 +10,35 @@ const Deck = ({cars, resetCooldown}) => {
     const [selectedCard, setSelectedCard] = useState(null);
     const [visibleCard, setVisibleCard] = useState(false);
     const [scrollY, setScrollY] = useState(0);
+    const [rarityLabel, setRarityLabel] = useState(<></>);
     
 
     const highlightCard = (clickedCardProps, cards) => {
       setSelectedCard(clickedCardProps);
-      console.log(clickedCardProps.readyTime * 1000);
-      console.log(new Date().getTime());
-      console.log(clickedCardProps.readyTime * 1000 <= new Date().getTime());
+      console.log(clickedCardProps.rarity);
+      switch(clickedCardProps.rarity){
+        case "Relic":
+            setRarityLabel(<div relic={"true"}>{clickedCardProps.rarity}</div>)
+            break
+        case "Legendary":
+            setRarityLabel(<div legendary={"true"}>{clickedCardProps.rarity}</div>)
+            break
+        case "Mythic":
+            setRarityLabel(<div mythic={"true"}>{clickedCardProps.rarity}</div>)
+            break
+        case "Rare":
+            setRarityLabel(<div rare={"true"}>{clickedCardProps.rarity}</div>)
+            break
+        case "Uncommon":
+            setRarityLabel(<div uncommon={"true"}>{clickedCardProps.rarity}</div>)
+            break
+        default:
+            setRarityLabel(<div common={"true"}>{clickedCardProps.rarity}</div>)
+            break
+      }
+      // console.log(clickedCardProps.readyTime * 1000);
+      // console.log(new Date().getTime());
+      // console.log(clickedCardProps.readyTime * 1000 <= new Date().getTime());
       const availabledCards = cards.filter(car => car !== clickedCardProps)
       const cardsArray = availabledCards.map((cardProps, index) => (
         <div
@@ -28,6 +50,7 @@ const Deck = ({cars, resetCooldown}) => {
             speed={cardProps.speed}
             acceleration={cardProps.acceleration}
             maniability={cardProps.maniability}
+            cooldown={(cardProps.readyTime * 1000) > new Date().getTime()}
           />
         </div>
       ));   
@@ -38,8 +61,9 @@ const Deck = ({cars, resetCooldown}) => {
     };
   
     const closeCard = () => {
-      const overlayElement = document.querySelector('.overlay');
+      const overlayElement = document.querySelector('.showcase');
       overlayElement.classList.add('closing');
+      setRarityLabel(<></>)
     
       setTimeout(() => {
         setVisibleCard(false);
@@ -55,6 +79,7 @@ const Deck = ({cars, resetCooldown}) => {
               speed={cardProps.speed}
               acceleration={cardProps.acceleration}
               maniability={cardProps.maniability}
+              cooldown={(cardProps.readyTime * 1000) > new Date().getTime()}
             />
           </div>
         ));   
@@ -84,25 +109,33 @@ const Deck = ({cars, resetCooldown}) => {
           speed={cardProps.speed}
           acceleration={cardProps.acceleration}
           maniability={cardProps.maniability}
+          cooldown={(cardProps.readyTime * 1000) > new Date().getTime()}
         />
+        {/* <div className='cooldown-banner'>ON COOLDOWN</div> */}
       </div>
     ));   
 
     const [cards, setCards] = useState(cardsArray)
 
-
     return (
       <>
         {visibleCard && (
         <div
-          className="overlay"
+          className="showcase"
           style={{ top: `${scrollY}px` }}
-          onClick={closeCard}
+          // onClick={closeCard}
         >
+          <div className='overlay' onClick={closeCard}/>
           <div className="highlighted">
             <SelectedCard cardProps={selectedCard} />
-            <CountdownTimer readyTime={selectedCard.readyTime * 1000}/>
-            {(selectedCard.readyTime * 1000) > new Date().getTime() ? <ResetCooldown resetCooldown={resetCooldown} id={selectedCard.id}/> : <></>}
+            <div className='props-section'>
+              {rarityLabel}
+              <div>Speed : {selectedCard.speed}</div>
+              <div>Acceleration : {selectedCard.acceleration}</div>
+              <div>Maniability : {selectedCard.maniability}</div>
+              <CountdownTimer readyTime={selectedCard.readyTime * 1000}/>
+              {(selectedCard.readyTime * 1000) > new Date().getTime() ? <ResetCooldown resetCooldown={resetCooldown} id={selectedCard.id}/> : <></>}
+            </div>
           </div>
         </div>
       )}

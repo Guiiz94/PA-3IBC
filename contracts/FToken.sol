@@ -85,7 +85,7 @@ contract FToken is FCar {
         );
 
         balances[msg.sender] -= price;
-        balances[owner] += price;
+        balances[address(this)] += price;
 
         _generateBooster(rarity);
     }
@@ -97,12 +97,12 @@ contract FToken is FCar {
             "%s buying cooldown for %s tokens (%s)",
             msg.sender,
             10,
-            owner
+            address(this)
         );
 
         // Transfer the amount.
         balances[msg.sender] -= 10;
-        balances[owner] += 10;
+        balances[address(this)] += 10;
 
         _resetCooldown(id, msg.sender);
 

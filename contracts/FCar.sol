@@ -34,9 +34,11 @@ contract FCar {
     uint32 cooldownTime = 1 days;
     
     uint16[] prices = [
-        150,
-        75,
-        10
+        10000,  // PLATINE
+        1500,  // GOLD
+        250,  // SILVER
+        50,  // BRONZE
+        10 // CLASSIC
     ];
 
     event NewCar(
@@ -233,17 +235,21 @@ contract FCar {
 
     function _getRarity(uint256 rarity) internal pure returns (string memory) {
         if (rarity == 0) {
-            return "Gold";
+            return "Platine";
         } else if (rarity == 1) {
+            return "Gold";
+        } else if(rarity == 2){
             return "Silver";
-        } else{
+        } else if(rarity == 3){
             return "Bronze";
+        }else{
+            return "Classic";
         }
     }
 
     function _generateBooster(uint8 rarity) internal {
-        require(rarity >= 0 && rarity <= 3, "Invalid booster type");
-        _newCar(rarity + 3);
+        require(rarity >= 0 && rarity <= 4, "Invalid booster type");
+        _newCar(rarity + 2);
         for(uint8 i = 0; i < 4; i++)_newCar(0);
     }
 

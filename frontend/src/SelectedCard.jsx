@@ -87,7 +87,7 @@ function SelectedCard({cardProps}) {
               <Statistic name={"Maneuvrability"} value={values[2]}/> */}
               <Statistic name={"Speed"} value={Math.round(cardProps.speed / 10)}/>
               <Statistic name={"Acceleration"} value={Math.round(cardProps.acceleration / 10)}/>
-              <Statistic name={"Maneuvrability"} value={Math.round(cardProps.maniability / 10)}/>
+              <Statistic name={"Maniability"} value={Math.round(cardProps.maniability / 10)}/>
             </div>
           </div>
           {/* <div className='card-layer1'/> */}

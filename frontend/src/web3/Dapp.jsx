@@ -105,15 +105,23 @@ class Dapp extends React.Component {
               <NewCar 
               generateCar={(rarity) => this._generateCar(rarity)}
               type={0}
-              ></NewCar>
+              />
               <NewCar 
               generateCar={(rarity) => this._generateCar(rarity)}
               type={1}
-              ></NewCar>
+              />
               <NewCar 
               generateCar={(rarity) => this._generateCar(rarity)}
               type={2}
-              ></NewCar>
+              />
+              <NewCar 
+              generateCar={(rarity) => this._generateCar(rarity)}
+              type={3}
+              />
+              <NewCar 
+              generateCar={(rarity) => this._generateCar(rarity)}
+              type={4}
+              />
               <GetCars getUserCars={() => this._getUserCars()}></GetCars>
               {this.state.carsRows.map((row, index) => (
                 <Deck key={index} cars={row} resetCooldown={(id) => this._resetCooldown(id)} />
@@ -311,15 +319,19 @@ class Dapp extends React.Component {
         "Common": 1
       };
     
-      const rarity1 = car1[0];
-      const rarity2 = car2[0];
-    
+      const rarity1 = car1[1];
+      const rarity2 = car2[1];
+
+      
       // Comparez les valeurs de rareté en utilisant l'ordre de hiérarchie défini
       if (rarityOrder[rarity1] > rarityOrder[rarity2]) {
+        // console.log(`car1: ${car1[1]} > car2: ${car2[1]}`);
         return -1;
       } else if (rarityOrder[rarity1] < rarityOrder[rarity2]) {
+        // console.log(`car1: ${car1[1]} < car2: ${car2[1]}`);
         return 1;
       } else {
+        // console.log(`car1: ${car1[1]} == car2: ${car2[1]}`);
         return 0;
       }
     });
@@ -656,13 +668,19 @@ function NewCar({generateCar, type}){
   let rarity
   switch(type){
     case 0:
-      rarity = "GOLD"
+      rarity = "PLATINE"
       break;
     case 1:
-      rarity = "SILVER"
+      rarity = "GOLD"
       break;
     case 2:
+      rarity = "SILVER"
+      break;
+    case 3:
       rarity = "BRONZE"
+      break;
+    case 4:
+      rarity = "CLASSIC"
       break;
   }
   return(
