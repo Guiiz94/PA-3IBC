@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import logo from './images/F-Racelogo.png'
 import './Navbar.css'
+import ConnectNavbar from './web3/ConnectNavbar';
 
 const Navbar = () => {
 
@@ -55,11 +56,9 @@ const Navbar = () => {
                 Garage
               </a>
             </li>
-            <li className="nav-item">
-            <a className="nav-link" href="/connexion" onClick={loadAccount}>
-              {account ? account.substr(0, 8) + '...' + account.substr(account.length - 6) : 'Connexion'}
-            </a>
-            </li>
+              <a className="nav-link" href="/connexion" onClick={loadAccount}>
+                {account ? account.substr(0, 8) + '...' + account.substr(account.length - 6) : 'Connexion'}
+              </a>
             </ul>
           </div>
         </div>

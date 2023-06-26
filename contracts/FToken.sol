@@ -71,4 +71,38 @@ contract FToken {
     function balanceOf(address account) external view returns (uint256) {
         return balances[account];
     }
+
+
+    uint256 public constant RATE = 10000; // Le taux de conversion: 1 ETH = 10000 jetons
+
+    /**
+    * A function to convert ETH to token.
+    */
+    function buyToken() external payable {
+        // Check if the transaction sender has enough tokens.
+        // If `require`'s first argument evaluates to `false` then the
+        // transaction will revert.
+        require(msg.value > 0, "Not enough ETH");
+
+        console.log(
+            "Buying tokens with %s ETH",
+            msg.value,
+            msg.sender
+        );
+
+        uint256 tokens = msg.value * RATE;
+
+        // Check if the contract has enough tokens
+        require(balances[owner] >= tokens, "Not enough tokens in the total supply");
+
+        // Transfer the amount.
+        balances[owner] -= tokens;
+        balances[msg.sender] += tokens;
+
+        // Notify off-chain applications of the transfer.
+        emit Transfer(owner, msg.sender, tokens);
+    }
+
+
+
 }

@@ -12,6 +12,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import ConnectNavbar from './web3/ConnectNavbar';
 
 const router = createBrowserRouter([
   {

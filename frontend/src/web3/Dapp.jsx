@@ -35,6 +35,7 @@ const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 // you how to keep your Dapp and contract's state in sync,  and how to send a
 // transaction.
 class Dapp extends React.Component {
+  
   constructor(props) {
     super(props);
 
@@ -54,6 +55,7 @@ class Dapp extends React.Component {
     };
 
     this.state = this.initialState;
+
   }
 
   render() {
@@ -92,7 +94,7 @@ class Dapp extends React.Component {
         <div className="row">
           <div className="col-12">
             <h1>
-              {this.state.tokenData.name} ({this.state.tokenData.symbol})
+              {this.state.token} ({this.state.tokenName})
             </h1>
             <p>
               Welcome <b>{this.state.selectedAddress}</b>, you have{" "}
