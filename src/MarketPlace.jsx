@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './MarketPlace.css';
-import SelectedCard from "./SelectedCard"
+import Enchere from "./Encheres.jsx"
 
-import Web3 from 'web3';
 
 const MarketPlace = () => {
   const [web3, setWeb3] = useState(null);
@@ -241,22 +240,8 @@ const MarketPlace = () => {
           </div>
         </TabPanel>
         <TabPanel>
-          {/* Contenu de l'onglet Enchères */}
-          <p>Contenu de l'onglet Enchères.</p>
-
-          <div className="row">
-          <SelectedCard/>   
-          <SelectedCard/>   
-          <SelectedCard/>   
-          <SelectedCard/>   
-          <SelectedCard/>   
-          <SelectedCard/>   
-          </div>  
-
-          <div className="row">
-          
-          </div>          
-
+        <p>Contenu de l'onglet Enchères.</p>
+          {<Enchere></Enchere>}
         </TabPanel>
              <TabPanel>
               {/* Contenu de l'onglet Mise en vente */}
