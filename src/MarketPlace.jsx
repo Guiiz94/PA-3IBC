@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './MarketPlace.css';
-import Enchere from "./Encheres.jsx"
+import AuctionComponent from "./Encheres.jsx"
 
 
 const MarketPlace = () => {
@@ -241,7 +241,9 @@ const MarketPlace = () => {
         </TabPanel>
         <TabPanel>
         <p>Contenu de l'onglet Enchères.</p>
-          {<Enchere></Enchere>}
+          {<AuctionComponent></AuctionComponent>
+          }
+          
         </TabPanel>
              <TabPanel>
               {/* Contenu de l'onglet Mise en vente */}
