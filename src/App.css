@@ -92,7 +92,6 @@ body{
   top: 0;
   left: 0;
   position: absolute;
-  background-image: url('./images/landing_page.png');
   opacity: 40%;
   z-index: -1;
 }
