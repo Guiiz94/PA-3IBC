@@ -1,10 +1,31 @@
 {
-  "name": "hardhat-project",
-  "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.2"
-  },
-  "scripts": {
-    "deploy": "npx hardhat run scripts/deploy.js --network localhost",
-    "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a 15000"
-  }
+    "name": "pa",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview",
+      "deploy": "npx hardhat run scripts/deploy.js --network localhost",
+      "faucet": "npx hardhat --network localhost faucet 0x368A8eB0f28766a13fB803E0777eb68A25a2080d 150"
+    },
+    "dependencies": {
+      "ether": "^0.0.9",
+      "ethers": "^6.6.2",
+      "jotai": "^2.1.0",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-router-dom": "^6.11.1",
+      "react-tabs": "^6.0.1",
+      "tailwindcss": "^3.3.2",
+      "vanilla-tilt": "^1.8.0",
+      "web3": "^1.9.0"
+    },
+    "devDependencies": {
+      "@types/react": "^18.0.28",
+      "@types/react-dom": "^18.0.11",
+      "@vitejs/plugin-react": "^3.1.0",
+      "vite": "^4.2.0"
+    }
 }
