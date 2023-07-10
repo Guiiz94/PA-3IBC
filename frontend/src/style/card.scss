@@ -1,0 +1,376 @@
+.card-overlay{
+    background-color: #31063c;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: -1;
+}
+
+.card-detail{
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    color: white;
+}
+
+.card{
+
+    --grain: url("../../public/assets/utils/grain.webp");
+    --glitter: url("../../public/assets/utils/glitter.png");
+    
+    --pos:50% 50%;
+    --posx: 50%;
+    --posy: 50%;
+
+    --hyp:0.2;
+
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    // width: 300px;
+    // height: 540px;
+    perspective: 300px;
+    opacity: 1;
+    z-index: 1;
+
+    .mask{
+        position: absolute;
+        z-index: 10;
+        opacity: 0.95;
+    }
+
+    .glare {
+        background-blend-mode:overlay;
+        position:absolute;
+        top: 0;
+        visibility:hidden;
+        width:100%;
+        height:100%;
+        background-image:radial-gradient(
+                farthest-corner circle at var(--x) var(--y),
+                rgba(230, 230, 230, 0.65) 0%,
+                rgba(200, 200, 200, 0.1) 25%,
+                rgb(180, 180, 180, 0.1) 90%
+            );
+      }
+
+    .holo{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        clip-path: inset(17% 1.5% 39.5% 1.5%);
+        // top: 56px;
+        // height: 185px;
+        // border: solid white 1px;
+        // width: 270px;
+        // left: 14px;
+    }
+
+    .shine{
+        // --card-opacity:0;
+        display: grid;
+        transform: translateZ(1px);
+        overflow: hidden;
+        z-index: 3;
+        background: transparent;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(.85) contrast(2.75) saturate(.65);
+        mix-blend-mode: color-dodge;
+        opacity: var(--card-opacity);
+    }
+
+    &[data-rarity="rare"] .shine {
+          --red: #f80e7b;
+          --yel: #eedf10;
+          --gre: #21e985;
+          --blu: #0dbde9;
+          --vio: #c929f1;
+          --space: 2px;
+          --h: 21;
+          --s: 70%;
+          --l: 50%;
+          --bars: 24px;
+          --bar-color: rgba(255, 255, 255, 0.6);
+          --bar-bg: rgb(10, 10, 10);
+      
+          background-image: repeating-linear-gradient(
+                  90deg,
+                  hsl(calc(var(--h) * 0), var(--s), var(--l)) calc(var(--space) * 0),
+                  hsl(calc(var(--h) * 0), var(--s), var(--l)) calc(var(--space) * 1),
+                  black calc(var(--space) * 1.001),
+                  black calc(var(--space) * 1.999),
+                  hsl(calc(var(--h) * 1), var(--s), var(--l)) calc(var(--space) * 2),
+                  hsl(calc(var(--h) * 1), var(--s), var(--l)) calc(var(--space) * 3),
+                  black calc(var(--space) * 3.001),
+                  black calc(var(--space) * 3.999),
+                  hsl(calc(var(--h) * 2), var(--s), var(--l)) calc(var(--space) * 4),
+                  hsl(calc(var(--h) * 2), var(--s), var(--l)) calc(var(--space) * 5),
+                  black calc(var(--space) * 5.001),
+                  black calc(var(--space) * 5.999),
+                  hsl(calc(var(--h) * 3), var(--s), var(--l)) calc(var(--space) * 6),
+                  hsl(calc(var(--h) * 3), var(--s), var(--l)) calc(var(--space) * 7),
+                  black calc(var(--space) * 7.001),
+                  black calc(var(--space) * 7.999),
+                  hsl(calc(var(--h) * 4), var(--s), var(--l)) calc(var(--space) * 8),
+                  hsl(calc(var(--h) * 4), var(--s), var(--l)) calc(var(--space) * 9),
+                  black calc(var(--space) * 9.001),
+                  black calc(var(--space) * 9.999),
+                  hsl(calc(var(--h) * 5), var(--s), var(--l)) calc(var(--space) * 10),
+                  hsl(calc(var(--h) * 5), var(--s), var(--l)) calc(var(--space) * 11),
+                  black calc(var(--space) * 11.001),
+                  black calc(var(--space) * 11.999),
+                  hsl(calc(var(--h) * 6), var(--s), var(--l)) calc(var(--space) * 12),
+                  hsl(calc(var(--h) * 6), var(--s), var(--l)) calc(var(--space) * 13),
+                  black calc(var(--space) * 13.001),
+                  black calc(var(--space) * 13.999),
+                  hsl(calc(var(--h) * 7), var(--s), var(--l)) calc(var(--space) * 14),
+                  hsl(calc(var(--h) * 7), var(--s), var(--l)) calc(var(--space) * 15),
+                  black calc(var(--space) * 15.001),
+                  black calc(var(--space) * 15.999),
+                  hsl(calc(var(--h) * 8), var(--s), var(--l)) calc(var(--space) * 16),
+                  hsl(calc(var(--h) * 8), var(--s), var(--l)) calc(var(--space) * 17),
+                  black calc(var(--space) * 17.001),
+                  black calc(var(--space) * 17.999),
+                  hsl(calc(var(--h) * 9), var(--s), var(--l)) calc(var(--space) * 18),
+                  hsl(calc(var(--h) * 9), var(--s), var(--l)) calc(var(--space) * 19),
+                  black calc(var(--space) * 19.001),
+                  black calc(var(--space) * 19.999),
+                  hsl(calc(var(--h) * 10), var(--s), var(--l)) calc(var(--space) * 20),
+                  hsl(calc(var(--h) * 10), var(--s), var(--l)) calc(var(--space) * 21),
+                  black calc(var(--space) * 21.001),
+                  black calc(var(--space) * 21.999),
+                  hsl(calc(var(--h) * 11), var(--s), var(--l)) calc(var(--space) * 22),
+                  hsl(calc(var(--h) * 11), var(--s), var(--l)) calc(var(--space) * 23),
+                  black calc(var(--space) * 23.001),
+                  black calc(var(--space) * 23.999),
+                  hsl(calc(var(--h) * 12), var(--s), var(--l)) calc(var(--space) * 24),
+                  hsl(calc(var(--h) * 12), var(--s), var(--l)) calc(var(--space) * 25),
+                  black calc(var(--space) * 25.001),
+                  black calc(var(--space) * 25.999),
+                  hsl(calc(var(--h) * 13), var(--s), var(--l)) calc(var(--space) * 26),
+                  hsl(calc(var(--h) * 13), var(--s), var(--l)) calc(var(--space) * 27),
+                  black calc(var(--space) * 27.001),
+                  black calc(var(--space) * 27.999),
+                  hsl(calc(var(--h) * 14), var(--s), var(--l)) calc(var(--space) * 28),
+                  hsl(calc(var(--h) * 14), var(--s), var(--l)) calc(var(--space) * 29),
+                  black calc(var(--space) * 29.001),
+                  black calc(var(--space) * 29.999),
+                  hsl(calc(var(--h) * 15), var(--s), var(--l)) calc(var(--space) * 30),
+                  hsl(calc(var(--h) * 15), var(--s), var(--l)) calc(var(--space) * 31),
+                  black calc(var(--space) * 31.001),
+                  black calc(var(--space) * 31.999)
+              ),
+              repeating-linear-gradient(
+                  90deg,
+                  var(--vio),
+                  var(--blu),
+                  var(--gre),
+                  var(--yel),
+                  var(--red),
+                  var(--vio)
+              ),
+              repeating-linear-gradient(
+                  90deg,
+                  var(--bar-bg) calc(var(--bars) * 2),
+                  var(--bar-color) calc(var(--bars) * 3),
+                  var(--bar-bg) calc(var(--bars) * 3.5),
+                  var(--bar-color) calc(var(--bars) * 4),
+                  var(--bar-bg) calc(var(--bars) * 5),
+                  var(--bar-bg) calc(var(--bars) * 12)
+              ),
+              repeating-linear-gradient(
+                  90deg,
+                  var(--bar-bg) calc(var(--bars) * 2),
+                  var(--bar-color) calc(var(--bars) * 3),
+                  var(--bar-bg) calc(var(--bars) * 3.5),
+                  var(--bar-color) calc(var(--bars) * 4),
+                  var(--bar-bg) calc(var(--bars) * 5),
+                  var(--bar-bg) calc(var(--bars) * 9)
+              ),
+              radial-gradient(
+                  farthest-corner circle at var(--x) var(--y),
+                  rgba(230, 230, 230, 0.85) 0%,
+                  rgba(200, 200, 200, 0.1) 25%,
+                  rgb(0, 0, 0) 90%
+              );
+      
+          background-blend-mode: soft-light, soft-light, screen, overlay;
+          background-position: center, calc(((50% - var(--background-x)) * 25) + 50%) center,
+              calc(var(--background-x) * -1.2) var(--background-x), var(--pos), center;
+          background-size: 100% 100%, 200% 200%, 237% 237%, 195% 195%, 120% 120%;
+      
+          filter: brightness(calc((var(--hyp) + 0.7) * 0.7)) contrast(3.2)
+              saturate(0.66);
+        mix-blend-mode:color-dodge;
+      }
+
+      &[data-rarity="mythic"] .shine{
+        --space: 5%;
+        --angle: 133deg;
+        --imgsize: 180px 270px;
+    
+        background-image: var(--grain),
+            repeating-linear-gradient(
+                0deg,
+                rgb(255, 119, 115) calc(var(--space) * 1),
+                rgba(255, 237, 95, 1) calc(var(--space) * 2),
+                rgba(168, 255, 95, 1) calc(var(--space) * 3),
+                rgba(131, 255, 247, 1) calc(var(--space) * 4),
+                rgba(120, 148, 255, 1) calc(var(--space) * 5),
+                rgb(216, 117, 255) calc(var(--space) * 6),
+                rgb(255, 119, 115) calc(var(--space) * 7)
+            ),
+            repeating-linear-gradient(
+                var(--angle),
+                #0e152e 0%,
+                hsl(180, 10%, 60%) 3.8%,
+                hsl(180, 29%, 66%) 4.5%,
+                hsl(180, 10%, 60%) 5.2%,
+                #0e152e 10%,
+                #0e152e 12%
+            ),
+            radial-gradient(
+                farthest-corner circle at var(--x) var(--y),
+                rgba(0, 0, 0, 0.1) 12%,
+                rgba(0, 0, 0, 0.15) 20%,
+                rgba(0, 0, 0, 0.25) 120%
+            );
+    
+        background-blend-mode: screen, hue, hard-light;
+        background-size: var(--imgsize), 200% 700%, 300%, 200%;
+        background-position: center, 0% var(--background-y), var(--background-x) var(--background-y),
+            var(--background-x) var(--background-y);
+    
+        filter: brightness(0.8) contrast(2.95) saturate(0.5);
+
+        &::after {
+            content: "";
+        
+            background-position: center, 0% var(--background-y),
+                calc(var(--background-x) * -1) calc(var(--background-y) * -1), var(--background-x) var(--background-y);
+            background-size: var(--imgsize), 200% 400%, 195%, 200%;
+        
+            filter: brightness(1) contrast(2.5) saturate(1.75);
+            mix-blend-mode: soft-light;
+        }
+    }
+
+    &[data-rarity*="legendary"] .shine {
+        transform: translateZ(20px);
+        z-index: 3;
+        --barwidth: 1.2%;
+        --space: 200px;
+    
+        opacity: calc(((var(--hyp) * 0.7) + 0.2) * var(--o)) !important;
+        clip-path: inset(2.8% 4% round 2.55% / 1.5%);
+    
+        background-image: repeating-linear-gradient(
+                55deg,
+                rgb(255, 161, 158) calc(var(--space) * 1),
+                rgb(85, 178, 255) calc(var(--space) * 2),
+                rgb(255, 199, 146) calc(var(--space) * 3),
+                rgb(130, 255, 213) calc(var(--space) * 4),
+                rgb(253, 170, 240) calc(var(--space) * 5),
+                rgb(148, 241, 255) calc(var(--space) * 6),
+                rgb(255, 161, 158) calc(var(--space) * 7)
+            ),
+            repeating-linear-gradient(
+                45deg,
+                hsl(0, 0%, 10%) 0%,
+                hsl(0, 0%, 10%) 1%,
+                hsl(0, 0%, 10%) var(--barwidth),
+                hsl(0, 0%, 20%) calc(var(--barwidth) + 0.01%),
+                hsl(0, 0%, 20%) calc(var(--barwidth) * 2),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 2 + 0.01%),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 3),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 3 + 0.01%),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 4),
+                hsl(0, 0%, 50%) calc(var(--barwidth) * 4 + 0.01%),
+                hsl(0, 0%, 50%) calc(var(--barwidth) * 5),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 5 + 0.01%),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 6),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 6 + 0.01%),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 7),
+                hsl(0, 0%, 20%) calc(var(--barwidth) * 7 + 0.01%),
+                hsl(0, 0%, 20%) calc(var(--barwidth) * 8),
+                hsl(0, 0%, 10%) calc(var(--barwidth) * 8 + 0.01%),
+                hsl(0, 0%, 10%) calc(var(--barwidth) * 9),
+                hsl(0, 0%, 0%) calc(var(--barwidth) * 9 + 0.01%),
+                hsl(0, 0%, 0%) calc(var(--barwidth) * 10)
+            ),
+            repeating-linear-gradient(
+                -45deg,
+                hsl(0, 0%, 10%) 0%,
+                hsl(0, 0%, 10%) 1%,
+                hsl(0, 0%, 10%) var(--barwidth),
+                hsl(0, 0%, 20%) calc(var(--barwidth) + 0.01%),
+                hsl(0, 0%, 20%) calc(var(--barwidth) * 2),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 2 + 0.01%),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 3),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 3 + 0.01%),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 4),
+                hsl(0, 0%, 50%) calc(var(--barwidth) * 4 + 0.01%),
+                hsl(0, 0%, 50%) calc(var(--barwidth) * 5),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 5 + 0.01%),
+                hsl(0, 0%, 42.5%) calc(var(--barwidth) * 6),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 6 + 0.01%),
+                hsl(0, 0%, 35%) calc(var(--barwidth) * 7),
+                hsl(0, 0%, 20%) calc(var(--barwidth) * 7 + 0.01%),
+                hsl(0, 0%, 20%) calc(var(--barwidth) * 8),
+                hsl(0, 0%, 10%) calc(var(--barwidth) * 8 + 0.01%),
+                hsl(0, 0%, 10%) calc(var(--barwidth) * 9),
+                hsl(0, 0%, 0%) calc(var(--barwidth) * 9 + 0.01%),
+                hsl(0, 0%, 0%) calc(var(--barwidth) * 10)
+            );
+    
+        background-size: 400% 400%, 210% 210%, 210% 210%;
+        background-position: calc(((var(--background-x)) * -2.5))
+                calc(((var(--background-y) - 50%) * -2.5)),
+            calc(((var(--background-x) - 50%) * 1.5))
+                calc(((var(--background-y) - 50%) * 1.5)),
+            calc(((var(--background-x) - 50%) * 1.5))
+                calc(((var(--background-y) - 50%) * 1.5));
+    
+        background-blend-mode: exclusion, darken, color-dodge;
+    
+        filter: brightness(0.55) contrast(4) saturate(0.45);
+        mix-blend-mode: color-dodge;
+
+        &:after {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            content: "";
+            background-image: url("../../public/assets/utils/rainbow.jpg"), repeating-linear-gradient( 55deg, hsl(3, 95%, 85%) calc(var(--space)*1), hsl(207, 100%, 84%) calc(var(--space)*2), hsl(29, 100%, 85%) calc(var(--space)*3), hsl(160, 100%, 86%) calc(var(--space)*4), hsl(309, 94%, 87%) calc(var(--space)*5), hsl(188, 95%, 85%) calc(var(--space)*6), hsl(3, 95%, 85%) calc(var(--space)*7) );
+            background-size: 180px 270px, 400% 100%;
+            background-position: center, calc( ((var(--background-x) - 50%) * -2.5)) calc( ((var(--background-y)) * -2.5));
+            filter: brightness(.45) contrast(3) saturate(2);
+            mix-blend-mode: color-dodge;
+            background-blend-mode: hard-light;
+        }
+
+        &:before {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            content: "";
+            z-index: 2;
+            grid-area: 1/1;
+            background-image: var(--glitter), radial-gradient( farthest-corner ellipse at calc( ((var(--x)) * 0.5) ) calc( ((var(--y)) * 0.5)), hsla(0, 0%, 58%, 0.8) 10%, hsla(0, 0%, 20%, 0.9) 20%, hsla(0, 0%, 20%, 0.5) 50% );
+            background-position: center;
+            background-size: 15% 15%, 350% 350%;
+            background-blend-mode: color-dodge;
+            mix-blend-mode: overlay;
+            filter: brightness(.45) contrast(2) saturate(.8);
+        }
+
+    }
+    
+    
+}

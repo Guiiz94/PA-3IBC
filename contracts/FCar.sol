@@ -6,10 +6,10 @@ contract FCar {
         owner = msg.sender;
     }
 
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
+    // modifier onlyOwner() {
+    //     require(msg.sender == owner);
+    //     _;
+    // }
 
     event ResetCooldown(address indexed _user, uint indexed _car);
 

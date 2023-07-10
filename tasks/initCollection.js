@@ -3,7 +3,7 @@ const fs = require("fs");
 // This file is only here to make interacting with the Dapp easier,
 // feel free to ignore it if you don't need it.
 
-task("faucet", "Sends ETH and tokens to an address")
+task("initCollection", "add the initial collection")
   .addPositionalParam("receiver", "The address that will receive them")
   .setAction(async ({ receiver}, { ethers }) => {
     if (network.name === "hardhat") {
@@ -15,7 +15,7 @@ task("faucet", "Sends ETH and tokens to an address")
     }
 
     const addressesFile =
-      __dirname + "/../frontend/src/contracts/token-address.json";
+      __dirname + "/../frontend/src/contracts/nft-address.json";
 
     if (!fs.existsSync(addressesFile)) {
       console.error("You need to deploy your contract first");
@@ -30,17 +30,13 @@ task("faucet", "Sends ETH and tokens to an address")
       return;
     }
 
-    const token = await ethers.getContractAt("FCarToken", address.Token);
-    const [sender] = await ethers.getSigners();
+    const token = await ethers.getContractAt("NFTCar", address.Token);
 
-    // const tx = await token.buy(receiver,{value:1000});
-    // await tx.wait();
+    // const tx = await token.addCollection("ipfs://bafybeibgvtf2grdqbh2cq5o53ypq67pcm3f56mykel2r66hcgbnyd4caeq","5543432332343221543");
+    const tx = await token.addCollection("ipfs://bafybeidc6ue6xoaan2woze77bigbgvac4n7a64xozgixtau7oa6u75p5iu","21433232512454");
+    await tx.wait();
 
-    const tx2 = await sender.sendTransaction({
-      to: receiver,
-      value: ethers.constants.WeiPerEther,
-    });
-    await tx2.wait();
+    const collections = await token.getCollections()
 
-    console.log(`Transferred 1 ETH and 1000 tokens to ${receiver}`);
+    console.log(`New collection added\nCurrents collections :\n${collections}`);
   });
