@@ -240,10 +240,7 @@ const MarketPlace = () => {
           </div>
         </TabPanel>
         <TabPanel>
-        <p>Contenu de l'onglet Enchères.</p>
-          {<AuctionComponent></AuctionComponent>
-          }
-          
+          {<AuctionComponent></AuctionComponent>}
         </TabPanel>
              <TabPanel>
               {/* Contenu de l'onglet Mise en vente */}

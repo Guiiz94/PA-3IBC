@@ -7,6 +7,9 @@ const AuctionComponent = () => {
     const [highestBid, setHighestBid] = useState(0);
     const [highestBidder, setHighestBidder] = useState('');
     const [bidValue, setBidValue] = useState('');
+    const [voituresEncheres, setVoituresEncheres] = useState([]);
+    const [idVoiture, setIdVoiture] = useState('');
+    const [dureeEnchere, setDureeEnchere] = useState('');
 
     useEffect(() => {
         loadBlockchainData();
@@ -23,19 +26,22 @@ const AuctionComponent = () => {
             const tokenContract = new ethers.Contract(tokenAddress, tokenAbi, signer);
             setTokenContract(tokenContract);
 
-            const highestBid = await tokenContract.highestBid();
-            const highestBidder = await tokenContract.highestBidder();
+            const highestBid = await tokenContract.meilleureOffre();
+            const highestBidder = await tokenContract.meilleurAcheteur();
             setHighestBid(ethers.utils.formatEther(highestBid));
             setHighestBidder(highestBidder);
         } else {
             console.error("Ethereum is not connected");
         }
+
+        const voituresEncheres = await tokenContract.obtenirVoituresEncheres();
+        setVoituresEncheres(voituresEncheres);
     };
 
-    const placeBid = async () => {
+    const placeBid = async (idVoiture) => {
         if (tokenContract && bidValue) {
             try {
-                const tx = await tokenContract.bid({ value: ethers.utils.parseEther(bidValue) });
+                const tx = await tokenContract.faireOffre(idVoiture, { value: ethers.utils.parseEther(bidValue) });
                 await tx.wait();
                 loadBlockchainData();
             } catch (error) {
@@ -44,10 +50,10 @@ const AuctionComponent = () => {
         }
     };
 
-    const withdraw = async () => {
+    const withdraw = async (idVoiture) => {
         if (tokenContract) {
             try {
-                const tx = await tokenContract.withdraw();
+                const tx = await tokenContract.remboursements(idVoiture);
                 await tx.wait();
                 loadBlockchainData();
             } catch (error) {
@@ -56,6 +62,19 @@ const AuctionComponent = () => {
         }
     };
 
+    const commencerEnchere = async () => {
+        if (tokenContract && idVoiture && dureeEnchere) {
+            try {
+                const tx = await tokenContract.commencerEnchere(idVoiture, dureeEnchere);
+                await tx.wait();
+                loadBlockchainData();
+            } catch (error) {
+                console.error("Error while starting auction:", error);
+            }
+        }
+    };
+
+
     return (
         <div>
             <h3>Compte courant: {currentAccount}</h3>
@@ -63,8 +82,23 @@ const AuctionComponent = () => {
             <input type="number" value={bidValue} onChange={e => setBidValue(e.target.value)} placeholder="Montant de l'enchère" />
             <button onClick={placeBid}>Faire une offre</button>
             <button onClick={withdraw}>Retirer une offre</button>
+            <hr />
+            <h2>Voitures disponibles pour les enchères</h2>
+        {voituresEncheres.map((idVoiture) => (
+            <div key={idVoiture}>
+                <h3>Voiture ID: {idVoiture}</h3>
+                <button onClick={() => placeBid(idVoiture)}>Faire une offre</button>
+                <button onClick={() => withdraw(idVoiture)}>Retirer une offre</button>
+            </div>
+        ))}
+
+        <hr />
+        <h2>Commencer une enchère</h2>
+        <input type="number" value={idVoiture} onChange={e => setIdVoiture(e.target.value)} placeholder="ID de la voiture" />
+        <input type="number" value={dureeEnchere} onChange={e => setDureeEnchere(e.target.value)} placeholder="Durée de l'enchère (en secondes)" />
+        <button onClick={commencerEnchere}>Commencer une enchère</button>
         </div>
     );
 };
 
-export default AuctionComponent;    
+export default AuctionComponent;
