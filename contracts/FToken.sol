@@ -109,4 +109,83 @@ contract FToken is FCar {
         // Notify off-chain applications of the transfer.
         emit Transfer(msg.sender, owner, 10);
     }
+
+
+    // Structure pour représenter une enchère
+    struct Enchere {
+        bool termine;
+        address meilleurAcheteur;
+        uint256 meilleureOffre;
+        uint256 finEnchere;
+    }
+
+    // Mapping de voiture à enchère
+    mapping(uint => Enchere) public encheres;
+
+    // Event pour une nouvelle meilleure offre
+    event NouvelleMeilleureOffre(uint idVoiture, address acheteur, uint montant);
+
+    // Event pour une enchère terminée
+    event EnchereTerminee(uint idVoiture, address gagnant, uint montant);
+
+    // Tableau pour garder une trace de toutes les voitures disponibles pour les enchères
+    uint[] public voituresEncheres;
+
+    // Fonction pour commencer une enchère
+    function commencerEnchere(uint idVoiture, uint dureeEnchere) external {
+        require(carToOwner[idVoiture] == msg.sender, "Vous ne possedez pas cette voiture.");
+
+        encheres[idVoiture] = Enchere({
+            termine: false,
+            meilleurAcheteur: address(0),
+            meilleureOffre: 0,
+            finEnchere: block.timestamp + dureeEnchere
+        });
+
+        // Ajouter la voiture à la liste des voitures disponibles pour les enchères
+        voituresEncheres.push(idVoiture);
+    }
+
+    // Fonction pour obtenir toutes les voitures disponibles pour les enchères
+    function obtenirVoituresEncheres() public view returns (uint[] memory) {
+        return voituresEncheres;
+    }
+
+    // Fonction pour faire une offre
+    function faireOffre(uint idVoiture) external {
+        Enchere storage enchere = encheres[idVoiture];
+
+        require(block.timestamp <= enchere.finEnchere, "Enchere terminee.");
+        require(balances[msg.sender] > enchere.meilleureOffre, "Il y a deja une meilleure offre.");
+
+        if (enchere.meilleureOffre != 0) {
+            // Rembourser l'offre précédente
+            balances[enchere.meilleurAcheteur] += enchere.meilleureOffre;
+        }
+
+        // Déduire l'offre du solde de l'acheteur
+        balances[msg.sender] -= enchere.meilleureOffre;
+
+        // Mettre à jour l'enchère
+        enchere.meilleurAcheteur = msg.sender;
+        enchere.meilleureOffre = balances[msg.sender];
+
+        emit NouvelleMeilleureOffre(idVoiture, msg.sender, balances[msg.sender]);
+    }
+
+    // Fonction pour terminer une enchère
+    function terminerEnchere(uint idVoiture) external {
+        Enchere storage enchere = encheres[idVoiture];
+
+        require(block.timestamp >= enchere.finEnchere, "Enchere non terminee.");
+        require(!enchere.termine, "Appel deja effectue.");
+
+        enchere.termine = true;
+        emit EnchereTerminee(idVoiture, enchere.meilleurAcheteur, enchere.meilleureOffre);
+
+        // Transférer la voiture au gagnant
+        carToOwner[idVoiture] = enchere.meilleurAcheteur;
+    }
+
+    
 }
