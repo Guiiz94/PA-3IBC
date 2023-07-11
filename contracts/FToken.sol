@@ -132,14 +132,15 @@ contract FToken is FCar {
     uint[] public voituresEncheres;
 
     // Fonction pour commencer une enchère
-    function commencerEnchere(uint idVoiture, uint dureeEnchere) external {
+    function commencerEnchere(uint idVoiture, uint prix) external {
         require(carToOwner[idVoiture] == msg.sender, "Vous ne possedez pas cette voiture.");
 
         encheres[idVoiture] = Enchere({
             termine: false,
             meilleurAcheteur: address(0),
             meilleureOffre: 0,
-            finEnchere: block.timestamp + dureeEnchere
+            //temps enchere
+            finEnchere: block.timestamp + 1 days 
         });
 
         // Ajouter la voiture à la liste des voitures disponibles pour les enchères
@@ -151,27 +152,7 @@ contract FToken is FCar {
         return voituresEncheres;
     }
 
-    // Fonction pour faire une offre
-    function faireOffre(uint idVoiture) external {
-        Enchere storage enchere = encheres[idVoiture];
-
-        require(block.timestamp <= enchere.finEnchere, "Enchere terminee.");
-        require(balances[msg.sender] > enchere.meilleureOffre, "Il y a deja une meilleure offre.");
-
-        if (enchere.meilleureOffre != 0) {
-            // Rembourser l'offre précédente
-            balances[enchere.meilleurAcheteur] += enchere.meilleureOffre;
-        }
-
-        // Déduire l'offre du solde de l'acheteur
-        balances[msg.sender] -= enchere.meilleureOffre;
-
-        // Mettre à jour l'enchère
-        enchere.meilleurAcheteur = msg.sender;
-        enchere.meilleureOffre = balances[msg.sender];
-
-        emit NouvelleMeilleureOffre(idVoiture, msg.sender, balances[msg.sender]);
-    }
+    
 
     // Fonction pour terminer une enchère
     function terminerEnchere(uint idVoiture) external {
@@ -184,7 +165,8 @@ contract FToken is FCar {
         emit EnchereTerminee(idVoiture, enchere.meilleurAcheteur, enchere.meilleureOffre);
 
         // Transférer la voiture au gagnant
-        carToOwner[idVoiture] = enchere.meilleurAcheteur;
+    
+    
     }
 
     

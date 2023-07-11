@@ -8,8 +8,6 @@ const AuctionComponent = () => {
     const [highestBidder, setHighestBidder] = useState('');
     const [bidValue, setBidValue] = useState('');
     const [voituresEncheres, setVoituresEncheres] = useState([]);
-    const [idVoiture, setIdVoiture] = useState('');
-    const [dureeEnchere, setDureeEnchere] = useState('');
 
     useEffect(() => {
         loadBlockchainData();
@@ -62,17 +60,6 @@ const AuctionComponent = () => {
         }
     };
 
-    const commencerEnchere = async () => {
-        if (tokenContract && idVoiture && dureeEnchere) {
-            try {
-                const tx = await tokenContract.commencerEnchere(idVoiture, dureeEnchere);
-                await tx.wait();
-                loadBlockchainData();
-            } catch (error) {
-                console.error("Error while starting auction:", error);
-            }
-        }
-    };
 
 
     return (
@@ -92,11 +79,7 @@ const AuctionComponent = () => {
             </div>
         ))}
 
-        <hr />
-        <h2>Commencer une enchère</h2>
-        <input type="number" value={idVoiture} onChange={e => setIdVoiture(e.target.value)} placeholder="ID de la voiture" />
-        <input type="number" value={dureeEnchere} onChange={e => setDureeEnchere(e.target.value)} placeholder="Durée de l'enchère (en secondes)" />
-        <button onClick={commencerEnchere}>Commencer une enchère</button>
+       
         </div>
     );
 };
