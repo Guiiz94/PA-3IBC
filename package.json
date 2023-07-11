@@ -5,8 +5,8 @@
   },
   "scripts": {
     "deploy": "npx hardhat run scripts/deploy.js --network localhost",
-    "initCollection": "npx hardhat --network localhost initCollection 0x368a8eb0f28766a13fb803e0777eb68a25a2080d",
-    "faucet": "npx hardhat --network localhost faucet 0x368a8eb0f28766a13fb803e0777eb68a25a2080d"
+    "initCollection": "npx hardhat --network localhost initCollection 0xa35cc4a4096d53e718460fdde30d36854133282a",
+    "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.2"

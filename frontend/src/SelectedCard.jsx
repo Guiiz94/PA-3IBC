@@ -26,7 +26,7 @@ function SelectedCard({cardProps}) {
     speed: 1000,
     max: 20,
     easing: "cubic-bezier(.5,.02,0.5,2)",    // Easing on enter/exit.
-    // glare: true,
+    // glare: false,
     perspective: 1000
   };
 
@@ -90,7 +90,7 @@ function SelectedCard({cardProps}) {
               <Statistic name={"Maniability"} value={Math.round(cardProps.maniability / 10)}/>
             </div>
           </div>
-          {/* <div className='card-layer1'/> */}
+          <div className='card-layer1'/>
           <div className='card-layer2'/>
         </Tilt>
       </div>
