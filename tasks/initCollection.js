@@ -32,8 +32,8 @@ task("initCollection", "add the initial collection")
 
     const token = await ethers.getContractAt("NFTCar", address.Token);
 
-    // const tx = await token.addCollection("ipfs://bafybeibgvtf2grdqbh2cq5o53ypq67pcm3f56mykel2r66hcgbnyd4caeq","5543432332343221543");
-    const tx = await token.addCollection("ipfs://bafybeidc6ue6xoaan2woze77bigbgvac4n7a64xozgixtau7oa6u75p5iu","21433232512454");
+    const tx = await token.addCollection("ipfs://bafybeibgvtf2grdqbh2cq5o53ypq67pcm3f56mykel2r66hcgbnyd4caeq","5543432332343221543");
+    // const tx = await token.addCollection("ipfs://bafybeidc6ue6xoaan2woze77bigbgvac4n7a64xozgixtau7oa6u75p5iu","21433232512454");
     await tx.wait();
 
     const collections = await token.getCollections()
