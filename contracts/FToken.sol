@@ -5,6 +5,8 @@
 pragma solidity ^0.8.9;
 
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./FCar.sol";
 
 // This is the main building block for smart contracts.
@@ -154,20 +156,7 @@ contract FToken is FCar {
 
     
 
-    // Fonction pour terminer une enchère
-    function terminerEnchere(uint idVoiture) external {
-        Enchere storage enchere = encheres[idVoiture];
-
-        require(block.timestamp >= enchere.finEnchere, "Enchere non terminee.");
-        require(!enchere.termine, "Appel deja effectue.");
-
-        enchere.termine = true;
-        emit EnchereTerminee(idVoiture, enchere.meilleurAcheteur, enchere.meilleureOffre);
-
-        // Transférer la voiture au gagnant
-    
-    
-    }
+     
 
     
 }
