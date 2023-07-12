@@ -103,7 +103,8 @@ const Card:React.FC<CardProps> = ({name,rarity,image_file, rarity_index, descrip
       });
       gsap.to(cardOverlay.current, {
         opacity:0.95,
-        zIndex:10
+        zIndex:10,
+        height:"200vh"
       });
       gsap.to(detailRef.current, {
         zIndex:15,
@@ -123,7 +124,8 @@ const Card:React.FC<CardProps> = ({name,rarity,image_file, rarity_index, descrip
       });
       gsap.to(cardOverlay.current, {
         opacity:0.0,
-        zIndex:-1
+        zIndex:-1,
+        height:"100vh"
       });
       gsap.to(detailRef.current, {
         opacity:0.0,

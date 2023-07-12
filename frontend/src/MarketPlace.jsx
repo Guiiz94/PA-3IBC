@@ -75,7 +75,7 @@ const MarketPlace = () => {
 
         <TabPanel>
           
-          <Dapp></Dapp>
+          <Dapp page="marketplace"></Dapp>
 
         </TabPanel>
         <TabPanel>

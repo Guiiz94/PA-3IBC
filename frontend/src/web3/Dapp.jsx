@@ -112,6 +112,8 @@ class Dapp extends React.Component {
               <b>
                 {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}
               </b>
+              {this.props.page == "marketplace" &&
+                <>
               <NewCar 
               generateNFT={(rarity) => this._generateNFT(rarity)}
               type={0}
@@ -135,15 +137,11 @@ class Dapp extends React.Component {
               <BuyToken
               buyToken={(amount) => this._buyToken(amount)}
               />
-              <GetNFTs getUserNFTs={() => this._getUserNFTs()}></GetNFTs>
-
-              {/* {this.state.cars.length > 0 ? <Deck cars={this.state.cars}></Deck>: <></>} */}
-              {/* {this.state.cars.length > 0 ? <>OK</>:<>KO</>} */}
-              .
+              </>}
             </p>
             
 
-            {this.state.nfts.length > 0 ? 
+            {this.props.page == "garage" && this.state.nfts.length > 0 ? 
                   <Deck collection={this.state.nfts}/>
                 : <></>
               }

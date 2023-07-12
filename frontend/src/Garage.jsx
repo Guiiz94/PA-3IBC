@@ -11,7 +11,7 @@ const Garage = () => {
             </div> */}
             <div className='reserve'>
                 {/* <Deck length={6} /> */}
-                <Dapp></Dapp>
+                <Dapp page="garage"></Dapp>
             </div>
         </div>
     )
