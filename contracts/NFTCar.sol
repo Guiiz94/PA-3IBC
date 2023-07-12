@@ -7,22 +7,11 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./FCarToken.sol";
+import "./NFTCarFactory.sol";
 
-contract NFTCar is ERC721URIStorage, Ownable {
+contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     
-    struct NFTCollection {
-        string uri;
-        uint8[] rarities;
-    }
-
-    // struct Card{
-    //     uint8 rarity;
-    //     uint8 index;
-    // }
-
-    NFTCollection[] collections;
-    
-    mapping(uint256 => address) public nftToOwner;
+    mapping(uint256 => address) nftToOwner;
     mapping(address => uint256) ownerNftCount;
     mapping(address => uint256[]) userNfts;
 
@@ -30,7 +19,6 @@ contract NFTCar is ERC721URIStorage, Ownable {
     uint256 nftId;
     address fcarToken;
 
-    event CollectionAdded(string uri);
     event LogS(string message, string value);
     event LogI(string message, uint256 value);
     event Minted(address indexed to, uint256 indexed tokenId, string indexed uri, string index);
@@ -115,84 +103,152 @@ contract NFTCar is ERC721URIStorage, Ownable {
         return userNfts[msg.sender];
     }
 
-    function mint_forced(uint256 _index) external onlyOwner {
-        require(collections.length > 0, "No collections available");
-        NFTCollection memory collection = collections[rand(collections.length)];
-        require(collection.rarities.length > 0, "Invalid collection length");
 
-        string memory indexString = Strings.toString(_index);
-        string memory uri = collection.uri;
-        
-        emit LogS("Collection URI", collection.uri);
-        emit LogI("Collection Length", collection.rarities.length);
-        emit LogS("Generated Index", indexString);
+    // Structure pour représenter une enchère
 
-        _mint(msg.sender, nftId);
-        _setTokenURI(nftId, formatURI(uri, indexString));
-        emit Minted(msg.sender, nftId, uri, indexString);
-        
-        nftId += 1;
+    struct Enchere {
+        bool termine;
+        address meilleurAcheteur;
+        uint256 meilleureOffre;
+        uint256 finEnchere;
+        address[] beter;
+        uint256[] amount;
     }
 
-    function addCollection(
-        string calldata _uri,
-        string calldata _rarities
-    ) external onlyOwner {
-        collections.push(NFTCollection(_uri, parseRarities(_rarities)));
-        emit CollectionAdded(_uri);
-    }
+    // Mapping de voiture à enchère
+    mapping(uint => Enchere) public encheres;
 
-    function parseRarities(string calldata _rarities) internal pure returns (uint8[] memory) {
-        bytes memory rarityBytes = bytes(_rarities);
-        uint8[] memory rarities = new uint8[](rarityBytes.length);
-        
-        for (uint256 i = 0; i < rarityBytes.length; i++) {
-            rarities[i] = uint8(rarityBytes[i]) - 48;
-        }
-        
-        return rarities;
-    }
+    // Event pour une nouvelle meilleure offre
+    event NouvelleMeilleureOffre(uint idVoiture, address acheteur, uint montant);
 
-    function strlen(string memory s) internal pure returns (uint256) {
-        uint256 len;
-        uint256 i = 0;
-        uint256 bytelength = bytes(s).length;
-        for (len = 0; i < bytelength; len++) {
-            bytes1 b = bytes(s)[i];
-            if (b < 0x80) {
-                i += 1;
-            } else if (b < 0xE0) {
-                i += 2;
-            } else if (b < 0xF0) {
-                i += 3;
-            } else if (b < 0xF8) {
-                i += 4;
-            } else if (b < 0xFC) {
-                i += 5;
-            } else {
-                i += 6;
-            }
-        }
-        return len;
+    // Event pour une enchère terminée
+    event EnchereTerminee(uint idVoiture, address gagnant, uint montant);
+
+    // Tableau pour garder une trace de toutes les voitures disponibles pour les enchères
+    uint[] public voituresEncheresActives;
+    Enchere[] public voituresEncheresTerminees;
+
+    // Fonction pour commencer une enchère
+    function commencerEnchere(uint idVoiture, uint prix, address seller) external {
+        require(nftToOwner[idVoiture] == seller, "Vous ne possedez pas cette voiture.");
+        require(_indexOf(idVoiture) == voituresEncheresActives.length, "Cette voiture est deja en vente");
+
+        encheres[idVoiture] = Enchere({
+            termine: false,
+            meilleurAcheteur: address(0),
+            meilleureOffre: prix,
+            //temps enchere
+            finEnchere: block.timestamp + 1 days,
+            beter: new address[](0),
+            amount: new uint256[](0)
+        });
+
+        // Ajouter la voiture à la liste des voitures disponibles pour les enchères
+        voituresEncheresActives.push(idVoiture);
     } 
 
-    function parseUint8(string memory _value) internal pure returns (uint8) {
-        bytes memory valueBytes = bytes(_value);
-        uint8 result = 0;
-        
-        for (uint256 i = 0; i < valueBytes.length; i++) {
-            uint8 digit = uint8(valueBytes[i]) - 48;
-            if (digit > 9) {
-                revert("Invalid uint8 value");
-            }
-            result = result * 10 + digit;
+    function _indexOf(uint256 _id) internal view returns(uint256){
+        for(uint256 index = 0; index < voituresEncheresActives.length; index ++){
+            if(voituresEncheresActives[index] == _id) return index;
         }
-        
-        return result;
+        return voituresEncheresActives.length;
     }
 
-    function getCollections() external view returns (NFTCollection[] memory){
-        return collections;
+    function _indexInNfts(uint256 _id, address _owner) internal view returns(uint256){
+        for(uint256 index = 0; index < userNfts[_owner].length; index ++){
+            if(userNfts[_owner][index] == _id) return index;
+        }
+        return userNfts[_owner].length;
+    }
+
+    function _getBet(Enchere memory _enchere, address _beter) internal pure returns(uint256){
+        for(uint256 i = 0; i < _enchere.beter.length;i++){
+            if(_beter == _enchere.beter[i])return i;
+        }
+        return _enchere.beter.length;
+    }
+
+    // Fonction pour faire une offre
+    function faireOffre(uint idNFT, uint montant) external {
+        Enchere storage enchere = encheres[idNFT];
+        uint256 currentMontant = 0;
+        uint256 index = _getBet(enchere, msg.sender);
+        if(index != enchere.beter.length){
+            currentMontant = enchere.amount[index];
+        }
+
+        require(block.timestamp <= enchere.finEnchere, "Auction has ended.");
+        require(montant + currentMontant > enchere.meilleureOffre, "There is already a higher bid.");
+        require(ERC20(fcarToken).balanceOf(msg.sender) >= montant, "Insufficient FRT balance");
+
+
+        // if (enchere.meilleureOffre != 0) {
+        //     // Refund the previous bid
+        //     _transfer(address(this), enchere.meilleurAcheteur, enchere.meilleureOffre);
+        // }
+
+        // Transfer the bid from the buyer to the contract
+        // _transfer(msg.sender, address(this), montant);
+        ERC20(fcarToken).transferFrom(msg.sender, address(this), montant);
+
+        if(index != enchere.beter.length){
+            enchere.amount[index] += montant;
+        }else{
+            enchere.beter.push(msg.sender);
+            enchere.amount.push(montant);
+        }
+
+        // Update the auction
+        enchere.meilleurAcheteur = msg.sender;
+        enchere.meilleureOffre = montant + currentMontant;
+
+        emit NouvelleMeilleureOffre(idNFT, msg.sender, montant + currentMontant);
+    }
+
+    // Fonction pour terminer une enchère
+    function terminerEnchere(uint idNFT) external {
+        Enchere storage enchere = encheres[idNFT];
+
+        // require(block.timestamp >= enchere.finEnchere, "L'enchere n'est pas encore terminee.");
+        require(!enchere.termine, "L'enchere a deja ete reglee.");
+
+        enchere.termine = true;
+        emit EnchereTerminee(idNFT, enchere.meilleurAcheteur, enchere.meilleureOffre);
+
+        // Transférer l'offre au propriétaire
+        // payable(ownerOf(idNFT)).transfer(enchere.meilleureOffre);
+        require(enchere.meilleureOffre <=  ERC20(fcarToken).balanceOf(address(this)), "Insufficient token balance");
+        ERC20(fcarToken).transfer(ownerOf(idNFT), enchere.meilleureOffre);
+
+        // Transférer le NFT au gagnant
+        nftToOwner[idNFT] = enchere.meilleurAcheteur;
+        ownerNftCount[ownerOf(idNFT)]-=1;
+        ownerNftCount[enchere.meilleurAcheteur]+=1;
+        // delete userNfts[ownerOf(idNFT)][_indexInNfts(idNFT,ownerOf(idNFT))];
+        uint256 index = _indexInNfts(idNFT, ownerOf(idNFT));
+        uint256[] storage userNftArray = userNfts[ownerOf(idNFT)];
+        uint256 i;
+        for(i = index; i < userNftArray.length - 1; i++){
+            userNftArray[i] = userNftArray[i-1];
+        }
+        userNftArray.pop();
+        userNfts[enchere.meilleurAcheteur].push(idNFT);
+        _transfer(ownerOf(idNFT), enchere.meilleurAcheteur, idNFT);
+
+
+        
+        // delete voituresEncheresActives[_indexOf(idNFT)];
+        index = _indexOf(idNFT);
+        for(i = index; i < voituresEncheresActives.length - 1; i++){
+            voituresEncheresActives[i] = voituresEncheresActives[i-1];
+        }
+        voituresEncheresActives.pop();
+        voituresEncheresTerminees.push(enchere);
+
+        // Remboursement
+        for(i = 0; i < enchere.beter.length; i++){
+            if(enchere.beter[i] != enchere.meilleurAcheteur) ERC20(fcarToken).transfer(enchere.beter[i], enchere.amount[i]);
+        }
     }
 
     constructor(address _fcarToken) ERC721("NFTCar", "NFTCAR") {
@@ -201,3 +257,7 @@ contract NFTCar is ERC721URIStorage, Ownable {
         randNonce = 0;
     }
 }
+// AVANT
+// 5B : 1002998 -> 1007998
+// Ab : 995000 (mise 3000)
+// 4B : 995000 (mise 5000)
