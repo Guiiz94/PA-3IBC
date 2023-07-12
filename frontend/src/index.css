@@ -117,5 +117,5 @@ button:focus-visible {
 .reserve{
   display: flex;
   justify-content: center;
-  transform: translateY(20%);
+  /* transform: translateY(20%); */
 }

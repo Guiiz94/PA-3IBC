@@ -1,5 +1,7 @@
 .deck{
     display: flex;
     flex-wrap: wrap;
-    gap:15px
+    justify-content: center;
+    gap:15px;
+    max-width: 1500px;
 }
