@@ -638,7 +638,7 @@ class Dapp extends React.Component {
     try {
       // send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._nft.getUserNFTs();
+      const tx = await this._nft.getActiveAuctions();
       this.setState({ txBeingSent: tx.hash });
       // console.log(tx);
       let nfts = []
