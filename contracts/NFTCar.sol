@@ -268,6 +268,14 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
         }
     }
 
+    function getActiveAuctions() public view returns (Enchere[] memory) {
+        Enchere[] memory activeAuctions = new Enchere[](voituresEncheresActives.length);
+        for (uint i = 0; i < voituresEncheresActives.length; i++) {
+            activeAuctions[i] = encheres[voituresEncheresActives[i]];
+        }
+        return activeAuctions;
+    }
+
     constructor(address _fcarToken) ERC721("NFTCar", "NFTCAR") {
         fcarToken = _fcarToken;
         nftId = 0;
