@@ -1,4 +1,11 @@
 import React, { useState } from "react";
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import { Tab, Tabs } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import Box from '@material-ui/core/Box';
+import './Dapp.css';
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
@@ -61,13 +68,18 @@ class Dapp extends React.Component {
         transactionError: undefined,
         networkError: undefined,
         nfts:[],
-        carsRows:[]
+        carsRows:[],
+        tabValue: 0
       };
     }
 
-
     this.state = this.initialState;
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
+
+  handleTabChange = (event, newValue) => {
+    this.setState({ tabValue: newValue });
+  }; 
 
   render() {
     // Ethereum wallets inject the window.ethereum object. If it hasn't been
@@ -101,43 +113,45 @@ class Dapp extends React.Component {
 
     // If everything is loaded, we render the application.
     return (
-      <div className="container p-4">
-        <div className="row">
-          <div className="col-12">
+      <div className="container p-4" >
+        <div className="row" style={{ display: 'flex', justifyContent: 'center', height: '70vh' }}>
+          <div className="col-12" >
             <h1>
               {this.state.tokenData.tokenName} ({this.state.tokenData.tokenSymbol})
             </h1>
             <p>
-              Welcome <b>{this.state.selectedAddress}</b>, you have{" "}
-              <b>
-                {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}
-              </b>
+              Welcome <b>{this.state.selectedAddress}</b>, you have{this.state.balance.eq(0) ? " no" : ""} {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}.
               {this.props.page == "marketplace" &&
-                <>
-              <NewCar 
-              generateNFT={(rarity) => this._generateNFT(rarity)}
-              type={0}
-              />
-              <NewCar 
-              generateNFT={(rarity) => this._generateNFT(rarity)}
-              type={1}
-              />
-              <NewCar 
-              generateNFT={(rarity) => this._generateNFT(rarity)}
-              type={2}
-              />
-              <NewCar 
-              generateNFT={(rarity) => this._generateNFT(rarity)}
-              type={3}
-              />
-              <NewCar 
-              generateNFT={(rarity) => this._generateNFT(rarity)}
-              type={4}
-              />
-              <BuyToken
-              buyToken={(amount) => this._buyToken(amount)}
-              />
-              </>}
+              <>
+                <Tabs  value={this.state.tabValue} onChange={this.handleTabChange} aria-label="simple tabs example">
+                  <Tab label="Buy NFT" style={{ marginRight: '130px' }}/>
+                  <Tab label="Buy Token" />
+                </Tabs>
+                <TabPanel value={this.state.tabValue} index={0}>
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={0}
+                  />
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={1}
+                  />
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={2}
+                  />
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={3}
+                  />                 
+                </TabPanel>
+                <TabPanel value={this.state.tabValue} index={1}>
+                  <BuyToken
+                    buyToken={(amount) => this._buyToken(amount)}
+                  />
+                </TabPanel>
+              </>
+            }
             </p>
             
 
@@ -573,35 +587,71 @@ class Dapp extends React.Component {
   
 }
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
 function NewCar({generateNFT, type}){
-  let rarity
+  const classes = useStyles();
+  let rarity, icon;
   switch(type){
     case 0:
-      rarity = "BRONZE"
+      rarity = "BRONZE";
+      icon = "fas fa-star"; // Remplacez par l'icône de votre choix
       break;
     case 1:
-      rarity = "DIAMOND"
+      rarity = "DIAMOND";
+      icon = "fas fa-gem"; // Remplacez par l'icône de votre choix
       break;
     case 2:
-      rarity = "GOLD"
+      rarity = "GOLD";
+      icon = "fas fa-trophy"; // Remplacez par l'icône de votre choix
       break;
     case 3:
-      rarity = "SILVER"
+      rarity = "SILVER";
+      icon = "fas fa-medal"; // Remplacez par l'icône de votre choix
       break;
   }
   return(
     <>
       <form
         onSubmit={(event) => {
-          // This function just calls the transferTokens callback with the
-          // form's data.
           event.preventDefault();
-
           generateNFT(type);
         }}
       >
-        <div className="form-group">
-          <input className="btn btn-primary" type="submit" value={rarity} />
+        <div className="button" >
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            endIcon={<i className={icon}></i>}
+            type="submit"
+          >
+            {rarity}
+          </Button>
         </div>
       </form>
     </>
@@ -627,7 +677,20 @@ function GetNFTs({getUserNFTs}){
   )
 }
 
+const useStyles2 = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
 function BuyToken({buyToken}){
+  const classes = useStyles2();
   const [amount,setAmount] = useState(0)
 
   const handleChange = (event) => {
@@ -636,17 +699,29 @@ function BuyToken({buyToken}){
   return(
     <>
       <form
+        className={classes.root}
         onSubmit={async (event) => {
-          // This function just calls the transferTokens callback with the
-          // form's data.
           event.preventDefault();
           buyToken(amount);
         }}
       >
-        <div className="form-group">
-          <input type="number" onChange={handleChange}/>
-          <input className="btn btn-primary" type="submit" value="Buy" />
-        </div>
+        <TextField 
+          id="outlined-basic" 
+          label="Montant" 
+          variant="outlined" 
+          type="number" 
+          onChange={handleChange}
+          style={{marginTop: '40px'}}
+        />
+        <Button 
+          variant="contained" 
+          color="primary" 
+          className={classes.button} 
+          type="submit"
+          style={{marginTop: '40px'}}
+        >
+          Acheter
+        </Button>
       </form>
     </>
   )

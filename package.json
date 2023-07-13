@@ -9,6 +9,8 @@
     "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@material-ui/core": "^4.12.4",
     "@openzeppelin/contracts": "^4.9.2"
   }
 }
