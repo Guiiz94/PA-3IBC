@@ -10,7 +10,7 @@ export const Auction = (props) => {
 
     const handleSubmit = async (event) => {
         props.onSubmit(props.id, price)
-        console.log(`Selling ${props.id} for ${price}`);
+        // console.log(`Selling ${props.id} for ${price}`);
         
         event.preventDefault()
     }
@@ -19,7 +19,7 @@ export const Auction = (props) => {
         <>
             <form onSubmit={handleSubmit}>
                 <input type="number" min={0} onChange={handleChange}/>
-                <input type="submit" value="Sell"/>
+                <input type="submit" value={props.onSale ? "Buy" : "Sell"}/>
             </form>
         </>
     )
