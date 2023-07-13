@@ -401,6 +401,17 @@ class Dapp extends React.Component {
     const newValue = await this._nft.faireOffre(nftId, price);
   }
 
+  async _getActiveAuction(){
+    const activeAuction = await this._nft.getActiveAuctions();
+    return activeAuction;
+  }
+
+  async _faireOffre(idnftIdNft, price){
+    const newOffre = await this._nft.faireOffre(nftId, price);
+    this._updateNFTs();
+  }
+  
+
   async _updateRows(){
       // Copiez le tableau de voitures de l'état
     const sortedCars = [...this.state.cars];
