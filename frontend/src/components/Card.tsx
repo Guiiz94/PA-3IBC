@@ -2,18 +2,21 @@ import React, {useRef, useState, CSSProperties, useEffect, useLayoutEffect} from
 import "../style/card.scss"
 import VanillaTilt from 'vanilla-tilt';
 import { gsap } from 'gsap';
+import { Auction } from './Auction';
 
 const CARD_WIDTH:string = "240px"
 
 interface CardProps {
+  id:number,
   name: string,
   rarity:string,
   image_file:string,
   rarity_index:number,
-  description:string
+  description:string,
+  sell
 }
 
-const Card:React.FC<CardProps> = ({name,rarity,image_file, rarity_index, description}) => {
+const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, description,sell}) => {
   
 
     const cardOverlay = useRef<HTMLDivElement>(null)
@@ -155,7 +158,8 @@ const Card:React.FC<CardProps> = ({name,rarity,image_file, rarity_index, descrip
       </div>
       <div style={{width:CARD_WIDTH}} ref={detailRef} className="card-detail">
         <h5>{name}</h5>
-        <p>{description}</p>
+        <p>{description}</p>        
+        <Auction id={id} onSubmit={sell}/>
       </div>
       <div ref={cardOverlay} className="card-overlay"/>
     </div>

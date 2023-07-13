@@ -68,6 +68,7 @@ class Dapp extends React.Component {
         transactionError: undefined,
         networkError: undefined,
         nfts:[],
+        nftsId:[],
         carsRows:[],
         tabValue: 0
       };
@@ -155,8 +156,8 @@ class Dapp extends React.Component {
             </p>
             
 
-            {this.props.page == "garage" && this.state.nfts.length > 0 ? 
-                  <Deck collection={this.state.nfts}/>
+            {this.props.page == "garage" && this.state.nftsId.length > 0 && this.state.nfts.length > 0 ? 
+                  <Deck sell={(nftId, price) => this._sellNft(nftId,price)} nftsId={this.state.nftsId} collection={this.state.nfts}/>
                 : <></>
               }
           </div>
@@ -334,14 +335,16 @@ class Dapp extends React.Component {
   }
 
   async _updateNFTs(){
-    const nftsIds = await this._getUserNFTs();
-    // console.log(nfts);
+    const nftsId = await this._getUserNFTs();
+    this.setState({nftsId});
+
     const nftArr = [];
-    nftsIds.forEach(async (nft) => {
+    
+    nftsId.forEach(async (nft) => {
       nftArr.push(await this._getNft(nft));
     })
     this.setState({nfts:nftArr});
-    console.log(this.state.nfts);
+    // console.log(this.state.nfts);
     // this._updateRows()
   }
 
@@ -361,6 +364,11 @@ class Dapp extends React.Component {
   async _sellToken(amount){
     const newValue = await this._token.sell(this.state.selectedAddress,{value:amount});
     this._updateBalance();
+  }
+
+  async _sellNft(nftId, price){
+    const newValue = await this._nft.commencerEnchere(nftId, price, this.state.selectedAddress);
+    this._updateNFTs();
   }
 
   async _updateRows(){
