@@ -7,6 +7,7 @@ import MyErrorBoundary from './MyErrorBoundary';
 import Navbar from './Navbar';
 import MarketPlace from './MarketPlace';
 import Footer from './footer';
+import Race from './Race';
 
 import {
   createBrowserRouter,
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/race",
-    element: <ErrorPage />,
+    element: <Race />,
   },
   {
     path: "*",

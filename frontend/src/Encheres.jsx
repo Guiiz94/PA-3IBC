@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 
 const AuctionComponent = () => {
     const [currentAccount, setCurrentAccount] = useState('');
+    const [currentBalance, setCurrentBalance] = useState(0);
     const [tokenContract, setTokenContract] = useState(null);
     const [highestBid, setHighestBid] = useState(0);
     const [highestBidder, setHighestBidder] = useState('');
@@ -28,6 +29,9 @@ const AuctionComponent = () => {
             const highestBidder = await tokenContract.meilleurAcheteur();
             setHighestBid(ethers.utils.formatEther(highestBid));
             setHighestBidder(highestBidder);
+
+            const activeAuctions = await tokenContract.getActiveAuctions();
+            setVoituresEncheres(activeAuctions);
         } else {
             console.error("Ethereum is not connected");
         }
@@ -36,10 +40,10 @@ const AuctionComponent = () => {
         setVoituresEncheres(voituresEncheres);
     };
 
-    const placeBid = async (idVoiture) => {
+    const faireOffre = async (idVoiture) => {
         if (tokenContract && bidValue) {
             try {
-                const tx = await tokenContract.faireOffre(idVoiture, { value: ethers.utils.parseEther(bidValue) });
+                const tx = await tokenContract.faireOffre(idVoiture, ethers.utils.parseEther(bidValue));
                 await tx.wait();
                 loadBlockchainData();
             } catch (error) {
@@ -47,41 +51,22 @@ const AuctionComponent = () => {
             }
         }
     };
-
-    const withdraw = async (idVoiture) => {
-        if (tokenContract) {
-            try {
-                const tx = await tokenContract.remboursements(idVoiture);
-                await tx.wait();
-                loadBlockchainData();
-            } catch (error) {
-                console.error("Error while withdrawing:", error);
-            }
-        }
-    };
-
-
-
+    
     return (
         <div>
-            <h3>Compte courant: {currentAccount}</h3>
-            <h3>Plus haute offre: {highestBid} FRT par {highestBidder}</h3>
-            <input type="number" value={bidValue} onChange={e => setBidValue(e.target.value)} placeholder="Montant de l'enchère" />
-            <button onClick={placeBid}>Faire une offre</button>
-            <button onClick={withdraw}>Retirer une offre</button>
-            <hr />
-            <h2>Voitures disponibles pour les enchères</h2>
-        {voituresEncheres.map((idVoiture) => (
-            <div key={idVoiture}>
-                <h3>Voiture ID: {idVoiture}</h3>
-                <button onClick={() => placeBid(idVoiture)}>Faire une offre</button>
-                <button onClick={() => withdraw(idVoiture)}>Retirer une offre</button>
+        <h3>Compte courant: {currentAccount}</h3>
+        <hr />
+        <h2>Voitures disponibles pour les enchères</h2>
+        {voituresEncheres.map((enchere, index) => (
+            <div key={index}>
+                <h3>Voiture ID: {enchere.idVoiture}</h3>
+                <h3>Meilleure offre: {enchere.meilleureOffre}</h3>
+                <h3>Meilleur acheteur: {enchere.meilleurAcheteur}</h3>
+                <button onClick={() => faireOffre(enchere.idVoiture)}>Faire une offre</button>
             </div>
         ))}
-
-       
-        </div>
-    );
+    </div>
+);
 };
 
 export default AuctionComponent;
