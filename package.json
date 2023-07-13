@@ -6,7 +6,7 @@
   "scripts": {
     "deploy": "npx hardhat run scripts/deploy.js --network localhost",
     "initCollection": "npx hardhat --network localhost initCollection 0xa35cc4a4096d53e718460fdde30d36854133282a",
-    "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a"
+    "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a & npx hardhat --network localhost faucet 0x3FeDcE1e2ed40D1f0A6875c52257D711050AC938"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
