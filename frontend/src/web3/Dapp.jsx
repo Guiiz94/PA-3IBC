@@ -72,6 +72,8 @@ class Dapp extends React.Component {
         nftsId:[],
         auctionNfts:[],
         auctionNftsId:[],
+        auctionPrices:[],
+        auctionTimeouts:[],
         carsRows:[],
         tabValue: 0
       };
@@ -165,7 +167,7 @@ class Dapp extends React.Component {
               }
 
             {this.props.page == "enchere" && this.state.auctionNftsId.length > 0 && this.state.auctionNfts.length > 0 ? 
-                  <Deck onSale={true} submitFonction={(nftId, price) => this._betNft(nftId,price)} nftsId={this.state.auctionNftsId} collection={this.state.auctionNfts}/>
+                  <Deck onSale={true} prices={this.state.auctionPrices} timeouts={this.state.auctionTimeouts} submitFonction={(nftId, price) => this._betNft(nftId,price)} nftsId={this.state.auctionNftsId} collection={this.state.auctionNfts}/>
                 : <></>
               }
               
@@ -361,14 +363,23 @@ class Dapp extends React.Component {
 
   async _updateAuctionNFTs(){
     const auctionNftsId = await this._getAuctionNFTs();
+    // console.log(auctionNftsId);
     this.setState({auctionNftsId});
 
     const nftArr = [];
+    const prices = [];
+    const timeouts = [];
     
-    nftsId.forEach(async (nft) => {
-      nftArr.push(await this._getNft(nft));
+    auctionNftsId.forEach(async (auction) => {
+      console.log(auction);
+      nftArr.push(await this._getNft(auction.carId));
+      prices.push(auction.meilleureOffre);
+      timeouts.push(auction.finEnchere);
     })
+    console.log(prices);
     this.setState({auctionNfts:nftArr});
+    this.setState({auctionPrices:prices});
+    this.setState({auctionTimeouts:timeouts});
     // console.log(this.state.nfts);
     // this._updateRows()
   }
@@ -398,17 +409,14 @@ class Dapp extends React.Component {
   }
 
   async _betNft(nftId, price){
-    const newValue = await this._nft.faireOffre(nftId, price);
+    const auth = await this._token.approve(this._nft.address,price,{gasLimit: 100000});
+    const authReceipt = await auth.wait();
+    const newValue = await this._nft.faireOffre(nftId.carId, price);
   }
 
   async _getActiveAuction(){
     const activeAuction = await this._nft.getActiveAuctions();
     return activeAuction;
-  }
-
-  async _faireOffre(idnftIdNft, price){
-    const newOffre = await this._nft.faireOffre(nftId, price);
-    this._updateNFTs();
   }
   
 

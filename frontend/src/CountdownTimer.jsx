@@ -5,8 +5,9 @@ const CountdownTimer = ({ readyTime }) => {
 
   useEffect(() => {
     const calculateRemainingTime = () => {
-      const currentTime = Date.now();
-      const difference = readyTime - currentTime;
+      const currentTime = Math.floor(Date.now() / 1000);
+      const difference = (readyTime - currentTime) * 1000;
+      console.log(difference);
       setRemainingTime(difference);
     };
 
@@ -18,7 +19,7 @@ const CountdownTimer = ({ readyTime }) => {
   }, [readyTime]);
 
   const formatTime = (time) => {
-    if(time <= 0)return "Ready for the race !"
+    if(time <= 0)return "Auction ended !"
     const seconds = Math.floor((time / 1000) % 60);
     const s_seconds = seconds > 0 ? `${seconds.toString().padStart(2,'0')}s` : ""
     const minutes = Math.floor((time / 1000 / 60) % 60);

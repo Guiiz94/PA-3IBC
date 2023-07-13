@@ -3,6 +3,7 @@ import "../style/card.scss"
 import VanillaTilt from 'vanilla-tilt';
 import { gsap } from 'gsap';
 import { Auction } from './Auction';
+import CountdownTimer from '../CountdownTimer';
 
 const CARD_WIDTH:string = "240px"
 
@@ -14,10 +15,14 @@ interface CardProps {
   rarity_index:number,
   description:string,
   submitFonction,
-  onSale:boolean
+  onSale:boolean,
+  currentPrice?,
+  timeout?
 }
 
-const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, description,submitFonction,onSale}) => {
+const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, description,submitFonction,onSale,currentPrice,timeout}) => {
+  
+  // console.log(timeout);
   
 
     const cardOverlay = useRef<HTMLDivElement>(null)
@@ -160,7 +165,20 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, des
       <div style={{width:CARD_WIDTH}} ref={detailRef} className="card-detail">
         <h5>{name}</h5>
         <p>{description}</p>        
-        <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
+        {onSale &&
+          <>
+            <p>Current Price : {currentPrice} FRT</p>
+            <CountdownTimer readyTime={timeout}/>
+          </>
+        }
+        {
+          onSale && timeout - Math.floor(Date.now() / 1000) > 0 &&
+          <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
+        }
+        {
+          !onSale &&
+          <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
+        }
       </div>
       <div ref={cardOverlay} className="card-overlay"/>
     </div>
