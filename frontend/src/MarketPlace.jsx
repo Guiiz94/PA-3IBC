@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './MarketPlace.css';
-import AuctionComponent from "./Encheres.jsx"
 import Dapp from "./web3/Dapp"
 
 const MarketPlace = () => {
@@ -79,7 +78,7 @@ const MarketPlace = () => {
 
         </TabPanel>
         <TabPanel>
-          {<AuctionComponent></AuctionComponent>}
+          <Dapp page="enchere"></Dapp>
         </TabPanel>
       </Tabs>
     </div>

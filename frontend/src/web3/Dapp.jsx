@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Box from '@material-ui/core/Box';
 import './Dapp.css';
+import AuctionComponent from "../Encheres.jsx"
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
@@ -160,6 +161,11 @@ class Dapp extends React.Component {
                   <Deck sell={(nftId, price) => this._sellNft(nftId,price)} nftsId={this.state.nftsId} collection={this.state.nfts}/>
                 : <></>
               }
+
+              {this.props.page == "enchere" 
+                <AuctionComponent> <AuctionComponent/>
+              }
+              
           </div>
         </div>
 
