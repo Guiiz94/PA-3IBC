@@ -125,8 +125,8 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     event EnchereTerminee(uint idVoiture, address gagnant, uint montant);
 
     // Tableau pour garder une trace de toutes les voitures disponibles pour les enchères
-    uint[] public voituresEncheresActives;
-    Enchere[] public voituresEncheresTerminees;
+    uint[] voituresEncheresActives;
+    Enchere[] voituresEncheresTerminees;
 
     // Fonction pour commencer une enchère
     function commencerEnchere(uint idVoiture, uint prix, address seller) external {
@@ -138,13 +138,21 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
             meilleurAcheteur: address(0),
             meilleureOffre: prix,
             //temps enchere
-            finEnchere: block.timestamp + 1 days,
+            // finEnchere: block.timestamp + 1 days,
+            finEnchere: block.timestamp + 1 minutes,
             beter: new address[](0),
             amount: new uint256[](0)
         });
 
         // Ajouter la voiture à la liste des voitures disponibles pour les enchères
         voituresEncheresActives.push(idVoiture);
+        uint256 index = _indexInNfts(idVoiture, seller);
+        uint256[] storage userNftArray = userNfts[seller];
+        uint256 i;
+        for(i = index; i < userNftArray.length - 1; i++){
+            userNftArray[i] = userNftArray[i-1];
+        }
+        userNftArray.pop();
     } 
 
     function _indexOf(uint256 _id) internal view returns(uint256){
@@ -206,10 +214,10 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     }
 
     // Fonction pour terminer une enchère
-    function terminerEnchere(uint idNFT) external {
+    function terminerEnchere(uint idNFT) internal {
         Enchere storage enchere = encheres[idNFT];
 
-        // require(block.timestamp >= enchere.finEnchere, "L'enchere n'est pas encore terminee.");
+        require(block.timestamp >= enchere.finEnchere, "L'enchere n'est pas encore terminee.");
         require(!enchere.termine, "L'enchere a deja ete reglee.");
 
         enchere.termine = true;
@@ -225,20 +233,21 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
         ownerNftCount[ownerOf(idNFT)]-=1;
         ownerNftCount[enchere.meilleurAcheteur]+=1;
         // delete userNfts[ownerOf(idNFT)][_indexInNfts(idNFT,ownerOf(idNFT))];
-        uint256 index = _indexInNfts(idNFT, ownerOf(idNFT));
-        uint256[] storage userNftArray = userNfts[ownerOf(idNFT)];
-        uint256 i;
-        for(i = index; i < userNftArray.length - 1; i++){
-            userNftArray[i] = userNftArray[i-1];
-        }
-        userNftArray.pop();
+        // uint256 index = _indexInNfts(idNFT, ownerOf(idNFT));
+        // uint256[] storage userNftArray = userNfts[ownerOf(idNFT)];
+        // uint256 i;
+        // for(i = index; i < userNftArray.length - 1; i++){
+        //     userNftArray[i] = userNftArray[i-1];
+        // }
+        // userNftArray.pop();
         userNfts[enchere.meilleurAcheteur].push(idNFT);
         _transfer(ownerOf(idNFT), enchere.meilleurAcheteur, idNFT);
 
 
         
         // delete voituresEncheresActives[_indexOf(idNFT)];
-        index = _indexOf(idNFT);
+        uint256 index = _indexOf(idNFT);
+        uint256 i;
         for(i = index; i < voituresEncheresActives.length - 1; i++){
             voituresEncheresActives[i] = voituresEncheresActives[i-1];
         }
@@ -251,14 +260,13 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
         }
     }
 
-    function getActiveAuctions() public view returns (Enchere[] memory) {
-        Enchere[] memory activeAuctions = new Enchere[](voituresEncheresActives.length);
-        for (uint i = 0; i < voituresEncheresActives.length; i++) {
-            activeAuctions[i] = encheres[voituresEncheresActives[i]];
+    function endAuctions() external {
+        Enchere storage enchere;
+        for(uint256 i = 0; i < voituresEncheresActives.length; i++){
+            enchere = encheres[voituresEncheresActives[i]];
+            if(enchere.finEnchere <= block.timestamp)terminerEnchere(voituresEncheresActives[i]);
         }
-        return activeAuctions;
     }
-
 
     constructor(address _fcarToken) ERC721("NFTCar", "NFTCAR") {
         fcarToken = _fcarToken;
@@ -266,7 +274,3 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
         randNonce = 0;
     }
 }
-// AVANT
-// 5B : 1002998 -> 1007998
-// Ab : 995000 (mise 3000)
-// 4B : 995000 (mise 5000)
