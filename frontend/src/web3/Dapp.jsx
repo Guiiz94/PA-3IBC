@@ -70,6 +70,8 @@ class Dapp extends React.Component {
         networkError: undefined,
         nfts:[],
         nftsId:[],
+        auctionNfts:[],
+        auctionNftsId:[],
         carsRows:[],
         tabValue: 0
       };
@@ -162,8 +164,9 @@ class Dapp extends React.Component {
                 : <></>
               }
 
-              {this.props.page == "enchere" 
-                <AuctionComponent> <AuctionComponent/>
+            {this.props.page == "enchere" && this.state.auctionNftsId.length > 0 && this.state.auctionNfts.length > 0 ? 
+                  <Deck onSale={true} submitFonction={(nftId, price) => this._betNft(nftId,price)} nftsId={this.state.auctionNftsId} collection={this.state.auctionNfts}/>
+                : <></>
               }
               
           </div>
@@ -283,6 +286,7 @@ class Dapp extends React.Component {
     this._getTokenData();
     this._startPollingData();
     this._updateNFTs();
+    this._updateAuctionNFTs();
   }
 
   async _initializeEthers() {
@@ -316,6 +320,7 @@ class Dapp extends React.Component {
     // We run it once immediately so we don't have to wait for it
     this._updateBalance();
     this._updateNFTs();
+    this._updateAuctionNFTs();
   }
 
   _stopPollingData() {
@@ -354,6 +359,20 @@ class Dapp extends React.Component {
     // this._updateRows()
   }
 
+  async _updateAuctionNFTs(){
+    const auctionNftsId = await this._getAuctionNFTs();
+    this.setState({auctionNftsId});
+
+    const nftArr = [];
+    
+    nftsId.forEach(async (nft) => {
+      nftArr.push(await this._getNft(nft));
+    })
+    this.setState({auctionNfts:nftArr});
+    // console.log(this.state.nfts);
+    // this._updateRows()
+  }
+
   async _getNft(id){
     const nft = await this._nft.tokenURI(id);
     const nftValues = await axios.get('https://nftstorage.link/ipfs/' + nft.split('//')[1]);
@@ -375,6 +394,11 @@ class Dapp extends React.Component {
   async _sellNft(nftId, price){
     const newValue = await this._nft.commencerEnchere(nftId, price, this.state.selectedAddress);
     this._updateNFTs();
+    this._updateAuctionNFTs();
+  }
+
+  async _betNft(nftId, price){
+    const newValue = await this._nft.faireOffre(nftId, price);
   }
 
   async _updateRows(){
@@ -569,6 +593,37 @@ class Dapp extends React.Component {
   }
 
   async _getUserNFTs() {
+    try {
+      // send the transaction, and save its hash in the Dapp's state. This
+      // way we can indicate that we are waiting for it to be mined.
+      const tx = await this._nft.getUserNFTs();
+      this.setState({ txBeingSent: tx.hash });
+      // console.log(tx);
+      let nfts = []
+      tx.forEach(async nft => {
+        // const car = await this._nft.getCar(elm);
+        nfts.push(nft)
+      })
+
+      return nfts
+      
+    } catch(error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+  
+      // Other errors are logged and stored in the Dapp's state. 
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // clear the txBeingSent part of the state.
+      this.setState({ txBeingSent: undefined });
+    }
+  }
+
+  async _getAuctionNFTs() {
     try {
       // send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
