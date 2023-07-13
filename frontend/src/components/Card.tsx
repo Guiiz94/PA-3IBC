@@ -13,10 +13,11 @@ interface CardProps {
   image_file:string,
   rarity_index:number,
   description:string,
-  sell
+  submitFonction,
+  onSale:boolean
 }
 
-const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, description,sell}) => {
+const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, description,submitFonction,onSale}) => {
   
 
     const cardOverlay = useRef<HTMLDivElement>(null)
@@ -159,7 +160,7 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, des
       <div style={{width:CARD_WIDTH}} ref={detailRef} className="card-detail">
         <h5>{name}</h5>
         <p>{description}</p>        
-        <Auction id={id} onSubmit={sell}/>
+        <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
       </div>
       <div ref={cardOverlay} className="card-overlay"/>
     </div>

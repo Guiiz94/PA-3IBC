@@ -157,7 +157,7 @@ class Dapp extends React.Component {
             
 
             {this.props.page == "garage" && this.state.nftsId.length > 0 && this.state.nfts.length > 0 ? 
-                  <Deck sell={(nftId, price) => this._sellNft(nftId,price)} nftsId={this.state.nftsId} collection={this.state.nfts}/>
+                  <Deck onSale={false} submitFonction={(nftId, price) => this._sellNft(nftId,price)} nftsId={this.state.nftsId} collection={this.state.nfts}/>
                 : <></>
               }
           </div>
