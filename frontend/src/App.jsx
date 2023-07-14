@@ -7,12 +7,14 @@ import MyErrorBoundary from './MyErrorBoundary';
 import Navbar from './Navbar';
 import MarketPlace from './MarketPlace';
 import Footer from './footer';
+import SignUp from './SignUp';
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import ConnectNavbar from './web3/ConnectNavbar';
+import UserList from './UserList';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
   {
     path: "/race",
     element: <ErrorPage />,
+  },
+  {
+    path: "/connexion",
+    element: <SignUp />,
+  },
+  {
+    path: "/test",
+    element: <UserList />,
   },
   {
     path: "*",

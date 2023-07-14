@@ -20,7 +20,7 @@ const Navbar = () => {
   useEffect(() => {  
     // loadAccount();
     window.ethereum.on('accountsChanged', () => {
-      // loadAccount()
+    // loadAccount()
     });
   }, []);
 
@@ -57,6 +57,7 @@ const Navbar = () => {
               </a>
             </li>
               <a className="nav-link" href="/connexion" onClick={loadAccount}>
+                {/* Si pseudo vide,afficher adresse, si adresse vide, afficher le bouton de connexion */}
                 {account ? account.substr(0, 8) + '...' + account.substr(account.length - 6) : 'Connexion'}
               </a>
             </ul>

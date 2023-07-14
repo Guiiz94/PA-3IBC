@@ -1,20 +1,32 @@
 {
   "name": "pa",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npm-run-all --parallel start:react start:api",
+    "start:react": "cd src && npm start",
+    "start:api": "cd server && npm start"
   },
   "dependencies": {
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.4.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "ether": "^0.0.9",
+    "ethers": "^6.6.2",
+    "express": "^4.18.2",
     "jotai": "^2.1.0",
+    "mongoose": "^7.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
     "react-tabs": "^6.0.1",
+    "tailwindcss": "^3.3.2",
     "vanilla-tilt": "^1.8.0",
     "web3": "^1.9.0"
   },
@@ -22,6 +34,8 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "vite": "^4.2.0"
   }
 }
