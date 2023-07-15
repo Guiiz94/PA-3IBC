@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Box from "@material-ui/core/Box";
 import "./Dapp.css";
-import { Car } from "../dto"
 import AuctionComponent from "../Encheres.jsx";
 
 // We'll use ethers to interact with the Ethereum network and our contract
@@ -740,9 +739,10 @@ class Dapp extends React.Component {
     }
   }
 
+  //A FAIRE
   async enterRace(tokenId) {
     try {
-      const tx = await this._race.enterRace(tokenId, Car.attributes[0].tokenId, Car.attributes[1].tokenId, Car.attributes[2].tokenId);
+      const tx = await this._race.enterRace(tokenId, Deck.Car.attributes[0].tokenId, Deck.Car.attributes[1].tokenId, Deck.Car.attributes[2].tokenId);
       await tx.wait();
     } catch (error) {
       console.error("An error occurred while entering the race: ", error);
