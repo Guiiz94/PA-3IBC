@@ -163,6 +163,8 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, des
         {rarity_index > 1 ? <img className='mask' src={`./assets/masks/${getMask(image_file)}`} width={CARD_WIDTH}/> : <></>}
       </div>
       <div style={{width:CARD_WIDTH}} ref={detailRef} className="card-detail">
+        <p>NFT ID: {id.toString()}</p>
+
         <h5>{name}</h5>
         <p>{description}</p>        
         {onSale &&
