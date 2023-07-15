@@ -1,5 +1,5 @@
 import './App.css'
-import React from 'react';
+import React, { useState } from 'react';
 import HomePage from './HomePage';
 import ErrorPage from './ErrorPage';
 import Garage from './Garage';
@@ -13,45 +13,46 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import ConnectNavbar from './web3/ConnectNavbar';
 import UserList from './UserList';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/home",
-    element: <HomePage />,
-  },
-  {
-    path: "/garage",
-    element: <Garage />,
-  },
-  {
-    path: "/marketplace",
-    element: <MarketPlace />,
-  },
-  {
-    path: "/race",
-    element: <ErrorPage />,
-  },
-  {
-    path: "/connexion",
-    element: <SignUp />,
-  },
-  {
-    path: "/test",
-    element: <UserList />,
-  },
-  {
-    path: "*",
-    element: <ErrorPage />,
-  },
-]);
-
 function App() {
+  const [selectedAddress, setSelectedAddress] = useState(null);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <HomePage />,
+    },
+    {
+      path: "/home",
+      element: <HomePage />,
+    },
+    {
+      path: "/garage",
+      element: <Garage />,
+    },
+    {
+      path: "/marketplace",
+      element: <MarketPlace />,
+    },
+    {
+      path: "/race",
+      element: <ErrorPage />,
+    },
+    {
+      path: "/connexion",
+      element: <SignUp userAddress={selectedAddress} />,
+    },  
+    {
+      path: "/test",
+      element: <UserList />,
+    },
+    {
+      path: "*",
+      element: <ErrorPage />,
+    },
+  ]);
+
   return (
     <div className="App">
       <div className='background'/>
