@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Web3 from 'web3';
 import logo from './images/F-Racelogo.png'
 import './Navbar.css'
@@ -6,6 +7,7 @@ import './Navbar.css'
 const Navbar = () => {
 
   const [account, setAccount] = useState('');
+  const [pseudo, setPseudo] = useState('');
 
   const loadAccount = async () => {
     if (window.ethereum) {
@@ -16,18 +18,32 @@ const Navbar = () => {
     }
   };
 
-  useEffect(() => {  
-    // loadAccount();
+  useEffect(() => {
     window.ethereum.on('accountsChanged', () => {
-      // loadAccount()
+      loadAccount();
     });
   }, []);
+
+  useEffect(() => {
+    const fetchPseudo = async () => {
+      const url = `http://localhost:3000/user/check/${account}`;
+
+      try {
+        const response = await axios.get(url);
+        setPseudo(response.data.pseudo);
+      } catch (error) {
+        console.error('Erreur lors de la récupération du pseudo:', error);
+      }
+    };
+
+    if (account) {
+      fetchPseudo();
+    }
+  }, [account]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
-        {/* <a className="navbar-brand" href="/">F-Race.pnj (logo sexy)</a> */}
-        {/* <hr className="my-4" /> */}
         <div className='navbar-content'>
           <div className='logo-content'>
             <img className='navbar-logo' src={logo} width='80px'/>
@@ -35,31 +51,23 @@ const Navbar = () => {
           </div>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-            <li className="nav-item active">
-              <a className="nav-link" href="/home">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/marketplace">
-                MarketPlace 
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/race">
-                Race
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/garage">
-                Garage
-              </a>
-            </li>
-            <li className="nav-item">
-            <a className="nav-link" href="/connexion" onClick={loadAccount}>
-              {account ? account.substr(0, 8) + '...' + account.substr(account.length - 6) : 'Connexion'}
-            </a>
-            </li>
+              <li className="nav-item active">
+                <a className="nav-link" href="/home">Home</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/marketplace">MarketPlace</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/race">Race</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/garage">Garage</a>
+              </li>
+              {account && (
+                <li className="nav-item">
+                  <a className="nav-link" href="/profil">Mon Profil</a>
+                </li>
+              )}
             </ul>
           </div>
         </div>
