@@ -203,6 +203,7 @@ class Dapp extends React.Component {
               <></>
             )}
 
+
             {this.props.page == "race" && (
               <>
                 <input
