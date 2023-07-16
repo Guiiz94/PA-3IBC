@@ -17,6 +17,10 @@ export interface Car {
         {
             traitType:string,
             value:string
+        },
+        {
+            traitType:string,
+            value:string
         }
     ]
     image:string

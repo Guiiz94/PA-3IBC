@@ -54,7 +54,7 @@ contract Race {
         raceEntries.push(newEntry);
     }
 
-    function runRace() public returns (uint256) {
+    function runRace(uint256 _winnerPrize) public returns (uint256) {
         // Vérifiez qu'il y a des entrées dans la course
         require(
             raceEntries.length > 0,
@@ -76,7 +76,7 @@ contract Race {
         }
 
         // Renvoyez l'ID du token du vainqueur
-        distributeWinnings(raceEntries[winnerIndex].tokenId);
+        distributeWinnings(raceEntries[winnerIndex].tokenId, _winnerPrize);
         return raceEntries[winnerIndex].tokenId;
     }
 
@@ -103,7 +103,7 @@ contract Race {
         bets.push(Bet({bettor: msg.sender, amount: _amount, carId: _carId}));
     }
 
-    function distributeWinnings(uint256 _winningCarId) internal {
+    function distributeWinnings(uint256 _winningCarId, uint256 _winnerPrize) public {
         uint256 totalBetAmount = 0;
         for (uint256 i = 0; i < bets.length; i++) {
             if (bets[i].carId == _winningCarId) {
@@ -121,8 +121,21 @@ contract Race {
                 ERC20(fcarToken).transfer(bets[i].bettor, winnings);
             }
         }
+        
+        ERC20(fcarToken).transfer(nftCar.ownerOf(_winningCarId), _winnerPrize);
+
 
         // Réinitialisez les paris pour la prochaine course
         delete bets;
+    }
+
+    // pour récupérer les voitures en liste pour la course
+    function getRaceEntries() public view returns (RaceEntry[] memory) {
+        return raceEntries;
+    }
+
+    // pour récupérer les différents paris
+    function getBets() public view returns (Bet[] memory) {
+        return bets;
     }
 }
