@@ -850,8 +850,8 @@
       ]
     },
     "C:\\Users\\Nairod\\Documents\\ESGI\\Projet\\PA\\PA-3IBC\\contracts\\Race.sol": {
-      "lastModificationDate": 1689434559718,
-      "contentHash": "54e9751bb1572fd1ebc1ab9566fd1d7f",
+      "lastModificationDate": 1689548633740,
+      "contentHash": "974705c2050ca6a7d3e052b2303addda",
       "sourceName": "contracts/Race.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -877,7 +877,8 @@
         }
       },
       "imports": [
-        "./NFTCar.sol"
+        "./NFTCar.sol",
+        "./FCarToken.sol"
       ],
       "versionPragmas": [
         ">=0.7.0 <0.9.0"

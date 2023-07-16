@@ -14,7 +14,6 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import UserList from './UserList';
 
 function App() {
 
@@ -37,11 +36,7 @@ function App() {
     },
     {
       path: "/race",
-      element: <ErrorPage />,
-    },
-    {
-      path: "/test",
-      element: <UserList />,
+      element: <Race />,
     },
     {
       path: "/inscription",
