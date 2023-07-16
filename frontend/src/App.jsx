@@ -7,7 +7,7 @@ import MyErrorBoundary from './MyErrorBoundary';
 import Navbar from './Navbar';
 import MarketPlace from './MarketPlace';
 import Footer from './footer';
-import SignUp from './SignUp';
+import Race from './Race';
 
 import {
   createBrowserRouter,
@@ -39,10 +39,6 @@ function App() {
       path: "/race",
       element: <ErrorPage />,
     },
-    {
-      path: "/connexion",
-      element: <SignUp userAddress={selectedAddress} />,
-    },  
     {
       path: "/test",
       element: <UserList />,

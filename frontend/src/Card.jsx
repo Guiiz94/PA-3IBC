@@ -6,19 +6,20 @@ import cardBg from './images/card-bg.jpg'
 import Statistic from './Statistic';
 
 
-function Card(props) {
+function Card({speed, acceleration, maniability, cooldown}) {
 
 
-    let values = [
-        //Generate a random number between 3 and 10
-        Math.floor(Math.random()*7 + 3),
-        Math.floor(Math.random()*7 + 3),
-        Math.floor(Math.random()*7 + 3)
-        ]
+    // let values = [
+    //     //Generate a random number between 3 and 10
+    //     Math.floor(Math.random()*7 + 3),
+    //     Math.floor(Math.random()*7 + 3),
+    //     Math.floor(Math.random()*7 + 3)
+    //     ]
 
   return (
     <>
         <div className="card">
+            {cooldown ? <div className='cooldown-banner'>ON COOLDOWN</div> : <></>}
             <img className='card-bg' src={cardBg}/>
             <div className='card-content'>
             <div className='card-title'>
@@ -29,9 +30,9 @@ function Card(props) {
             </div>
             <div className="card-body">
               <p>Skills : </p>
-              <Statistic name={"Speed"} value={values[0]}/>
-              <Statistic name={"Acceleration"} value={values[1]}/>
-              <Statistic name={"Maneuvrability"} value={values[2]}/>
+              <Statistic name={"Speed"} value={Math.round(speed / 10)}/>
+              <Statistic name={"Acceleration"} value={Math.round(acceleration / 10)}/>
+              <Statistic name={"Maneuvrability"} value={Math.round(maniability / 10)}/>
             </div>
             </div>
         </div>

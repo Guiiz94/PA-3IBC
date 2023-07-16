@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/* @import 'tailwindcss/base'; */
+/* @import 'tailwindcss/components';
+@import 'tailwindcss/utilities'; */
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -121,5 +121,5 @@ button:focus-visible {
 .reserve{
   display: flex;
   justify-content: center;
-  transform: translateY(20%);
+  /* transform: translateY(20%); */
 }

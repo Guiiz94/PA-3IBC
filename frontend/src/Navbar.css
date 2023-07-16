@@ -17,3 +17,8 @@
 .navbar-logo{
     margin: 5px 0 5px 5px;
 }
+
+.navbar{
+    width:100vw;
+    z-index: 100;
+}

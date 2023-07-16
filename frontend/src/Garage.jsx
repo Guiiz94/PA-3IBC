@@ -1,15 +1,17 @@
-import Deck from "./Deck"
+// import Deck from "./Deck"
 import SelectedCard from "./SelectedCard"
 import './Garage.css'
+import Dapp from "./web3/Dapp"
 
 const Garage = () => {
     return (
         <div className="garage">
-            <div className='main-deck'>
+            {/* <div className='main-deck'>
                 <SelectedCard/>
-            </div>
+            </div> */}
             <div className='reserve'>
-                <Deck length={6} />
+                {/* <Deck length={6} /> */}
+                <Dapp page="garage"></Dapp>
             </div>
         </div>
     )

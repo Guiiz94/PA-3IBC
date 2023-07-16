@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import { Tab, Tabs } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import Box from '@material-ui/core/Box';
+import './Dapp.css';
+import AuctionComponent from "../Encheres.jsx"
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
 
 // We import the contract's artifacts and address here, as we are going to be
 // using them with ethers
-import TokenArtifact from "../contracts/FToken.json";
-import contractAddress from "../contracts/contract-address.json";
+import NFTArtifact from "../contracts/NFTCar.json";
+import NFTAddress from "../contracts/nft-address.json";
+import TokenArtifact from "../contracts/FCarToken.json";
+import TokenAddress from "../contracts/token-address.json";
 
 // All the logic of this dapp is contained in the Dapp component.
 // These other components are just presentational ones: they don't have any
@@ -17,6 +27,10 @@ import { Loading } from "./Loading";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
+// import Deck from "../Deck";
+import axios from "axios";
+import Card from "../components/Card";
+import Deck from "../components/Deck";
 
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = '31337';
@@ -39,24 +53,40 @@ class Dapp extends React.Component {
   constructor(props) {
     super(props);
 
-    // We store multiple things in Dapp's state.
-    // You don't need to follow this pattern, but it's an useful example.
-    this.initialState = {
-      // The info of the token (i.e. It's Name and symbol)
-      tokenData: undefined,
-      // The user's address and balance
-      selectedAddress: undefined,
-      balance: undefined,
-      // The ID about transactions being sent, and any possible error with them
-      txBeingSent: undefined,
-      transactionError: undefined,
-      networkError: undefined,
-      hasBet: false,
-    };
+    if(props.dapp != null){
+      this.initialState = [...props.dapp];
+    }else{
+      // We store multiple things in Dapp's state.
+      // You don't need to follow this pattern, but it's an useful example.
+      this.initialState = {
+        // The info of the token (i.e. It's Name and symbol)
+        nftData: undefined,
+        tokenData: undefined,
+        // The user's address and balance
+        selectedAddress: undefined,
+        balance: undefined,
+        // The ID about transactions being sent, and any possible error with them
+        txBeingSent: undefined,
+        transactionError: undefined,
+        networkError: undefined,
+        nfts:[],
+        nftsId:[],
+        auctionNfts:[],
+        auctionNftsId:[],
+        auctionPrices:[],
+        auctionTimeouts:[],
+        carsRows:[],
+        tabValue: 0
+      };
+    }
 
     this.state = this.initialState;
-
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
+
+  handleTabChange = (event, newValue) => {
+    this.setState({ tabValue: newValue });
+  }; 
 
   render() {
     // Ethereum wallets inject the window.ethereum object. If it hasn't been
@@ -90,19 +120,58 @@ class Dapp extends React.Component {
 
     // If everything is loaded, we render the application.
     return (
-      <div className="container p-4">
-        <div className="row">
-          <div className="col-12">
+      <div className="container p-4" >
+        <div className="row" style={{ display: 'flex', justifyContent: 'center', height: '70vh' }}>
+          <div className="col-12" >
             <h1>
-              {this.state.token} ({this.state.tokenName})
+              {this.state.tokenData.tokenName} ({this.state.tokenData.tokenSymbol})
             </h1>
             <p>
-              Welcome <b>{this.state.selectedAddress}</b>, you have{" "}
-              <b>
-                {this.state.balance.toString()} {this.state.tokenData.symbol}
-              </b>
-              .
+              Welcome <b>{this.state.selectedAddress}</b>, you have{this.state.balance.eq(0) ? " no" : ""} {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}.
+              {this.props.page == "marketplace" &&
+              <>
+                <Tabs  value={this.state.tabValue} onChange={this.handleTabChange} aria-label="simple tabs example">
+                  <Tab label="Buy NFT" style={{ marginRight: '130px' }}/>
+                  <Tab label="Buy Token" />
+                </Tabs>
+                <TabPanel value={this.state.tabValue} index={0}>
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={0}
+                  />
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={1}
+                  />
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={2}
+                  />
+                  <NewCar 
+                    generateNFT={(rarity) => this._generateNFT(rarity)}
+                    type={3}
+                  />                 
+                </TabPanel>
+                <TabPanel value={this.state.tabValue} index={1}>
+                  <BuyToken
+                    buyToken={(amount) => this._buyToken(amount)}
+                  />
+                </TabPanel>
+              </>
+            }
             </p>
+            
+
+            {this.props.page == "garage" && this.state.nftsId.length > 0 && this.state.nfts.length > 0 ? 
+                  <Deck onSale={false} submitFonction={(nftId, price) => this._sellNft(nftId,price)} nftsId={this.state.nftsId} collection={this.state.nfts}/>
+                : <></>
+              }
+
+            {this.props.page == "enchere" && this.state.auctionNftsId.length > 0 && this.state.auctionNfts.length > 0 ? 
+                  <Deck onSale={true} prices={this.state.auctionPrices} timeouts={this.state.auctionTimeouts} submitFonction={(nftId, price) => this._betNft(nftId,price)} nftsId={this.state.auctionNftsId} collection={this.state.auctionNfts}/>
+                : <></>
+              }
+              
           </div>
         </div>
 
@@ -219,6 +288,8 @@ class Dapp extends React.Component {
     this._initializeEthers();
     this._getTokenData();
     this._startPollingData();
+    this._updateNFTs();
+    this._updateAuctionNFTs();
   }
 
   async _initializeEthers() {
@@ -227,8 +298,13 @@ class Dapp extends React.Component {
 
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
+    this._nft = new ethers.Contract(
+      NFTAddress.Token,
+      NFTArtifact.abi,
+      this._provider.getSigner(0)
+    );
     this._token = new ethers.Contract(
-      contractAddress.Token,
+      TokenAddress.Token,
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
@@ -242,10 +318,12 @@ class Dapp extends React.Component {
   // don't need to poll it. If that's the case, you can just fetch it when you
   // initialize the app, as we do with the token data.
   _startPollingData() {
-    this._pollDataInterval = setInterval(() => this._updateBalance(), 1000);
+    this._pollDataInterval = setInterval(() => {this._updateBalance()}, 1000);
 
     // We run it once immediately so we don't have to wait for it
     this._updateBalance();
+    this._updateNFTs();
+    this._updateAuctionNFTs();
   }
 
   _stopPollingData() {
@@ -256,15 +334,139 @@ class Dapp extends React.Component {
   // The next two methods just read from the contract and store the results
   // in the component state.
   async _getTokenData() {
-    const name = await this._token.name();
-    const symbol = await this._token.symbol();
+    const nftName = await this._nft.name();
+    const nftSymbol = await this._nft.symbol();
+    const tokenName = await this._token.name();
+    const tokenSymbol = await this._token.symbol();
 
-    this.setState({ tokenData: { name, symbol } });
+    this.setState({ nftData: { nftName, nftSymbol } });
+    this.setState({ tokenData: { tokenName, tokenSymbol } });
   }
 
   async _updateBalance() {
     const balance = await this._token.balanceOf(this.state.selectedAddress);
     this.setState({ balance });
+  }
+
+  async _updateNFTs(){
+    const nftsId = await this._getUserNFTs();
+    this.setState({nftsId});
+
+    const nftArr = [];
+    
+    nftsId.forEach(async (nft) => {
+      nftArr.push(await this._getNft(nft));
+    })
+    this.setState({nfts:nftArr});
+    // console.log(this.state.nfts);
+    // this._updateRows()
+  }
+
+  async _updateAuctionNFTs(){
+    const auctionNftsId = await this._getAuctionNFTs();
+    // console.log(auctionNftsId);
+    this.setState({auctionNftsId});
+
+    const nftArr = [];
+    const prices = [];
+    const timeouts = [];
+    
+    auctionNftsId.forEach(async (auction) => {
+      console.log(auction);
+      nftArr.push(await this._getNft(auction.carId));
+      prices.push(auction.meilleureOffre);
+      timeouts.push(auction.finEnchere);
+    })
+    console.log(prices);
+    this.setState({auctionNfts:nftArr});
+    this.setState({auctionPrices:prices});
+    this.setState({auctionTimeouts:timeouts});
+    // console.log(this.state.nfts);
+    // this._updateRows()
+  }
+
+  async _getNft(id){
+    const nft = await this._nft.tokenURI(id);
+    const nftValues = await axios.get('https://nftstorage.link/ipfs/' + nft.split('//')[1]);
+    return nftValues.data;
+    // console.log(nftValues.data);
+
+  }
+
+  async _buyToken(amount){
+    const newValue = await this._token.buy(this.state.selectedAddress,{value:amount});
+    this._updateBalance();
+  }
+
+  async _sellToken(amount){
+    const newValue = await this._token.sell(this.state.selectedAddress,{value:amount});
+    this._updateBalance();
+  }
+
+  async _sellNft(nftId, price){
+    const newValue = await this._nft.commencerEnchere(nftId, price, this.state.selectedAddress);
+    this._updateNFTs();
+    this._updateAuctionNFTs();
+  }
+
+  async _betNft(nftId, price){
+    const auth = await this._token.approve(this._nft.address,price,{gasLimit: 100000});
+    const authReceipt = await auth.wait();
+    const newValue = await this._nft.faireOffre(nftId.carId, price);
+  }
+
+  async _getActiveAuction(){
+    const activeAuction = await this._nft.getActiveAuctions();
+    return activeAuction;
+  }
+  
+
+  async _updateRows(){
+      // Copiez le tableau de voitures de l'état
+    const sortedCars = [...this.state.cars];
+    // console.log(sortedCars);
+
+    // Triez les voitures par rareté (premier élément de chaque voiture)
+    sortedCars.sort((car1, car2) => {
+      const rarityOrder = {
+        "Relic": 6,
+        "Legendary": 5,
+        "Mythic": 4,
+        "Rare": 3,
+        "Uncommon": 2,
+        "Common": 1
+      };
+    
+      const rarity1 = car1[1];
+      const rarity2 = car2[1];
+
+      
+      // Comparez les valeurs de rareté en utilisant l'ordre de hiérarchie défini
+      if (rarityOrder[rarity1] > rarityOrder[rarity2]) {
+        // console.log(`car1: ${car1[1]} > car2: ${car2[1]}`);
+        return -1;
+      } else if (rarityOrder[rarity1] < rarityOrder[rarity2]) {
+        // console.log(`car1: ${car1[1]} < car2: ${car2[1]}`);
+        return 1;
+      } else {
+        // console.log(`car1: ${car1[1]} == car2: ${car2[1]}`);
+        return 0;
+      }
+    });
+    
+
+    let carsRows = []
+    let carsRow = []
+    for(let i = 1; i <= sortedCars.length; i++){
+      carsRow.push(sortedCars[i-1]);
+      if(i%7==0){
+        carsRows.push(carsRow);
+        carsRow = []
+      }
+      if(i == sortedCars.length && carsRow.length > 0)carsRows.push(carsRow)
+    }
+    this.setState({carsRows});
+    // console.log(this.state.carsRows);
   }
 
   // This method sends an ethereum transaction to transfer tokens.
@@ -368,16 +570,24 @@ class Dapp extends React.Component {
     }
   }
 
-  async _winTokens() {
+  async _generateNFT(rarity) {
     try {
+      const auth = await this._token.approve(this._nft.address,1,{gasLimit: 100000});
+      const authReceipt = await auth.wait();
       // send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._token.win();
+      const tx = await this._nft.mint(rarity, {gasLimit: 1000000});
       this.setState({ txBeingSent: tx.hash });
   
       // We use .wait() to wait for the transaction to be mined. This method
       // returns the transaction's receipt.
       const receipt = await tx.wait();
+
+      this._updateNFTs();
+      
+      
+      // update the user's balance.
+      await this._updateBalance();
   
       // The receipt, contains a status flag, which is 0 to indicate an error.
       if (receipt.status === 0) {
@@ -385,9 +595,7 @@ class Dapp extends React.Component {
         // was mined, so we throw this generic one.
         throw new Error("Transaction failed");
       }
-      
-      // update the user's balance.
-      await this._updateBalance();
+
     } catch(error) {
       // We check the error code to see if this error was produced because the
       // user rejected a tx. If that's the case, we do nothing.
@@ -404,26 +612,21 @@ class Dapp extends React.Component {
     }
   }
 
-  async _betTokens(amount) {
+  async _getUserNFTs() {
     try {
       // send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._token.bet(amount);
+      const tx = await this._nft.getUserNFTs();
       this.setState({ txBeingSent: tx.hash });
-  
-      // We use .wait() to wait for the transaction to be mined. This method
-      // returns the transaction's receipt.
-      const receipt = await tx.wait();
-  
-      // The receipt, contains a status flag, which is 0 to indicate an error.
-      if (receipt.status === 0) {
-        // We can't know the exact error that made the transaction fail when it
-        // was mined, so we throw this generic one.
-        throw new Error("Transaction failed");
-      }
+      // console.log(tx);
+      let nfts = []
+      tx.forEach(async nft => {
+        // const car = await this._nft.getCar(elm);
+        nfts.push(nft)
+      })
+
+      return nfts
       
-      // update the user's balance.
-      await this._updateBalance();
     } catch(error) {
       // We check the error code to see if this error was produced because the
       // user rejected a tx. If that's the case, we do nothing.
@@ -438,29 +641,23 @@ class Dapp extends React.Component {
       // clear the txBeingSent part of the state.
       this.setState({ txBeingSent: undefined });
     }
-    this.setState({ hasBet: true });
   }
 
-  async _drawTokens() {
+  async _getAuctionNFTs() {
     try {
       // send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._token.draw();
+      const tx = await this._nft.getActiveAuctions();
       this.setState({ txBeingSent: tx.hash });
-  
-      // We use .wait() to wait for the transaction to be mined. This method
-      // returns the transaction's receipt.
-      const receipt = await tx.wait();
-  
-      // The receipt, contains a status flag, which is 0 to indicate an error.
-      if (receipt.status === 0) {
-        // We can't know the exact error that made the transaction fail when it
-        // was mined, so we throw this generic one.
-        throw new Error("Transaction failed");
-      }
+      // console.log(tx);
+      let nfts = []
+      tx.forEach(async nft => {
+        // const car = await this._nft.getCar(elm);
+        nfts.push(nft)
+      })
+
+      return nfts
       
-      // update the user's balance.
-      await this._updateBalance();
     } catch(error) {
       // We check the error code to see if this error was produced because the
       // user rejected a tx. If that's the case, we do nothing.
@@ -477,6 +674,171 @@ class Dapp extends React.Component {
     }
   }
   
+}
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
+function NewCar({generateNFT, type}){
+  const classes = useStyles();
+  let rarity, icon;
+  switch(type){
+    case 0:
+      rarity = "BRONZE";
+      icon = "fas fa-star"; // Remplacez par l'icône de votre choix
+      break;
+    case 1:
+      rarity = "DIAMOND";
+      icon = "fas fa-gem"; // Remplacez par l'icône de votre choix
+      break;
+    case 2:
+      rarity = "GOLD";
+      icon = "fas fa-trophy"; // Remplacez par l'icône de votre choix
+      break;
+    case 3:
+      rarity = "SILVER";
+      icon = "fas fa-medal"; // Remplacez par l'icône de votre choix
+      break;
+  }
+  return(
+    <>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          generateNFT(type);
+        }}
+      >
+        <div className="button" >
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            endIcon={<i className={icon}></i>}
+            type="submit"
+          >
+            {rarity}
+          </Button>
+        </div>
+      </form>
+    </>
+  )
+}
+
+function GetNFTs({getUserNFTs}){
+  return(
+    <>
+      <form
+        onSubmit={async (event) => {
+          // This function just calls the transferTokens callback with the
+          // form's data.
+          event.preventDefault();
+          getUserNFTs();
+        }}
+      >
+        <div className="form-group">
+          <input className="btn btn-primary" type="submit" value="get" />
+        </div>
+      </form>
+    </>
+  )
+}
+
+const useStyles2 = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
+
+function BuyToken({buyToken}){
+  const classes = useStyles2();
+  const [amount,setAmount] = useState(0)
+
+  const handleChange = (event) => {
+    setAmount(event.currentTarget.value)
+  }
+  return(
+    <>
+      <form
+        className={classes.root}
+        onSubmit={async (event) => {
+          event.preventDefault();
+          buyToken(amount);
+        }}
+      >
+        <TextField 
+          id="outlined-basic" 
+          label="Montant" 
+          variant="outlined" 
+          type="number" 
+          onChange={handleChange}
+          style={{marginTop: '40px'}}
+        />
+        <Button 
+          variant="contained" 
+          color="primary" 
+          className={classes.button} 
+          type="submit"
+          style={{marginTop: '40px'}}
+        >
+          Acheter
+        </Button>
+      </form>
+    </>
+  )
+}
+
+function SellToken({sellToken}){
+  const [amount,setAmount] = useState(0)
+
+  const handleChange = (event) => {
+    setAmount(event.currentTarget.value)
+  }
+  return(
+    <>
+      <form
+        onSubmit={async (event) => {
+          // This function just calls the transferTokens callback with the
+          // form's data.
+          event.preventDefault();
+          if(amount <= this.balance)sellToken(amount);          
+        }}
+      >
+        <div className="form-group">
+          <input type="number" onChange={handleChange}/>
+          <input className="btn btn-primary" type="submit" value="Sell" />
+        </div>
+      </form>
+    </>
+  )
 }
 
 export default Dapp

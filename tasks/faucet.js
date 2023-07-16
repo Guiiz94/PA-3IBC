@@ -5,8 +5,7 @@ const fs = require("fs");
 
 task("faucet", "Sends ETH and tokens to an address")
   .addPositionalParam("receiver", "The address that will receive them")
-  .addPositionalParam("tokenAmount", "The amount of tokens to send to the receiver")
-  .setAction(async ({ receiver, tokenAmount }, { ethers }) => {
+  .setAction(async ({ receiver}, { ethers }) => {
     if (network.name === "hardhat") {
       console.warn(
         "You are running the faucet task with Hardhat network, which" +
@@ -16,7 +15,7 @@ task("faucet", "Sends ETH and tokens to an address")
     }
 
     const addressesFile =
-      __dirname + "/../frontend/src/contracts/contract-address.json";
+      __dirname + "/../frontend/src/contracts/token-address.json";
 
     if (!fs.existsSync(addressesFile)) {
       console.error("You need to deploy your contract first");
@@ -31,11 +30,11 @@ task("faucet", "Sends ETH and tokens to an address")
       return;
     }
 
-    const token = await ethers.getContractAt("FToken", address.Token);
+    const token = await ethers.getContractAt("FCarToken", address.Token);
     const [sender] = await ethers.getSigners();
 
-    const tx = await token.transfer(receiver, tokenAmount);
-    await tx.wait();
+    // const tx = await token.buy(receiver,{value:1000});
+    // await tx.wait();
 
     const tx2 = await sender.sendTransaction({
       to: receiver,
@@ -43,5 +42,5 @@ task("faucet", "Sends ETH and tokens to an address")
     });
     await tx2.wait();
 
-    console.log(`Transferred 1 ETH and ${tokenAmount} tokens to ${receiver}`);
+    console.log(`Transferred 1 ETH and 1000 tokens to ${receiver}`);
   });

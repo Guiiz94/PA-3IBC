@@ -37,10 +37,6 @@ body{
     animation: logo-spin infinite 20s linear;
   }
 }
-/* 
-.card {
-  padding: 2em;
-} */
 
 .read-the-docs {
   color: #888;
@@ -87,12 +83,12 @@ body{
 }
 
 .background{
-  height: 100vh;
+  height: 110%;
   width: 100%;
   top: 0;
   left: 0;
   position: absolute;
-  opacity:80%;
+  opacity:90%;
   z-index: -1;
   background: rgb(0,46,250);
   background: linear-gradient(152deg, rgba(0,46,250,1) 0%, rgba(115,9,121,1) 45%, rgba(255,193,0,1) 100%);

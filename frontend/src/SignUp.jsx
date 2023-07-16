@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Remplacez 'useHistory' par 'useNavigate'
+import { useNavigate } from 'react-router-dom'; 
 import './SignUp.css';
 
 function SignUp(props) {
   const [pseudo, setPseudo] = useState('');
-  const navigate = useNavigate(); // Utilisez 'useNavigate' à la place de 'useHistory'
+  const navigate = useNavigate(); 
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -36,7 +36,7 @@ function SignUp(props) {
         <div className="mt-8 flex flex-col items-center gap-4">
           <input type="text" className="wallet-address" placeholder="Wallet" value={props.userAddress} readOnly />
           <input type="text" placeholder="Pseudo" onChange={(e) => setPseudo(e.target.value)} />
-          <button type="submit" class="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
+          <button type="submit" className="group relative h-12 w-48 overflow-hidden rounded-2xl bg-green-500 text-lg font-bold text-white">
             S'enregistrer
           </button>
         </div>
