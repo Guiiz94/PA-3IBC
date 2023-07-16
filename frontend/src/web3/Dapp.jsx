@@ -754,12 +754,9 @@ class Dapp extends React.Component {
   }
 
   async _runRace(winnerPrize) {
-    try {
-      // Convertir le prix du gagnant en wei (si vous travaillez avec de l'Ether)
-      const prizeInWei = this._web3.utils.toWei(winnerPrize, 'ether');
-  
+    try {  
       // Passez le prix du gagnant à la fonction runRace de votre contrat
-      const tx = await this._race.runRace(prizeInWei);
+      const tx = await this._race.runRace(winnerPrize);
       const receipt = await tx.wait();
       const winnerTokenId = receipt.events[0].args[0];
       return winnerTokenId;
