@@ -814,10 +814,10 @@
         "ERC165"
       ]
     },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/FToken.sol": {
-      "lastModificationDate": 1689357657418,
-      "contentHash": "bb24c04e8db576d7f6278b7149b45a67",
-      "sourceName": "contracts/FToken.sol",
+    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/Race.sol": {
+      "lastModificationDate": 1689510100216,
+      "contentHash": "54291d8da19b15a266305e997008b58c",
+      "sourceName": "contracts/Race.sol",
       "solcConfig": {
         "version": "0.8.9",
         "settings": {
@@ -842,48 +842,14 @@
         }
       },
       "imports": [
-        "hardhat/console.sol"
+        "./NFTCar.sol",
+        "./FCarToken.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        ">=0.7.0 <0.9.0"
       ],
       "artifacts": [
-        "FToken"
-      ]
-    },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1689415951187,
-      "contentHash": "e2884fb4e1ef4b4a7c7ac3a227880b0f",
-      "sourceName": "hardhat/console.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">= 0.4.22 <0.9.0"
-      ],
-      "artifacts": [
-        "console"
+        "Race"
       ]
     }
   }

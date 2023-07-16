@@ -26,7 +26,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const fetchPseudo = async () => {
-      const url = `http://localhost:3000/user/get/${account}`;
+      const url = `http://localhost:3000/user/check/${account}`;
 
       try {
         const response = await axios.get(url);
@@ -63,11 +63,11 @@ const Navbar = () => {
               <li className="nav-item">
                 <a className="nav-link" href="/garage">Garage</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/connexion" onClick={loadAccount}>
-                  {account ? pseudo : 'Connexion'}
-                </a>
-              </li>
+              {account && (
+                <li className="nav-item">
+                  <a className="nav-link" href="/profil">Mon Profil</a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

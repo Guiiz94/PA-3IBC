@@ -1,11 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useLocation, useNavigate } from 'react-router-dom'; // Importer useNavigate
 import './SignUp.css';
+import './web3/Dapp';
 
 function SignUp(props) {
+  const location = useLocation();
+  const userAddress = location.state?.userAddress;
+  const navigate = useNavigate(); // Utiliser useNavigate
+
   const [pseudo, setPseudo] = useState('');
-  const navigate = useNavigate(); 
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -13,18 +17,19 @@ function SignUp(props) {
     const url = 'http://localhost:3000/users/create';
 
     const requestBody = {
-        WalletUser: props.userAddress,
-        PseudoUser: pseudo,
-        XPUser: 0,
-        LevelUser: 1,
+      WalletUser: props.userAddress,
+      PseudoUser: pseudo,
+      XPUser: 0,
+      LVLUser: 1
     };
 
     try {
-        const response = await axios.post(url, requestBody);
-        console.log(response.data);
-        navigate('/');
+      const response = await axios.post(url, requestBody);
+      console.log(requestBody);
+      console.log('Réponse du serveur:', response.data);
+      navigate('/');
     } catch (error) {
-        console.error('Erreur lors de l\'enregistrement:', error);
+      console.error('Erreur lors de l\'enregistrement:', error);
     }
   };
 

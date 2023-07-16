@@ -33,12 +33,18 @@ async function main() {
   await nft.deployed();
 
   console.log("NFTCar address:", nft.address);
-  
+
+  const Race = await ethers.getContractFactory("Race");
+  const race = await Race.deploy(nft.address);
+  await race.deployed();
+
+  console.log("Race address:", race.address);
 
 
   // We also save the contract's artifacts and address in the frontend directory
   saveFrontendTokenFiles(token);
   saveFrontendNFTFiles(nft);
+  saveFrontendRaceFiles(race);
 }
 
 function saveFrontendTokenFiles(token) {
@@ -80,6 +86,27 @@ function saveFrontendNFTFiles(token) {
   fs.writeFileSync(
     path.join(contractsDir, "NFTCar.json"),
     JSON.stringify(TokenArtifact, null, 2)
+  );
+}
+
+function saveFrontendRaceFiles(race) {
+  const fs = require("fs");
+  const contractsDir = path.join(__dirname, "..", "frontend", "src", "contracts");
+
+  if (!fs.existsSync(contractsDir)) {
+    fs.mkdirSync(contractsDir);
+  }
+
+  fs.writeFileSync(
+    path.join(contractsDir, "race-address.json"),
+    JSON.stringify({ Race: race.address }, undefined, 2)
+  );
+
+  const RaceArtifact = artifacts.readArtifactSync("Race");
+
+  fs.writeFileSync(
+    path.join(contractsDir, "Race.json"),
+    JSON.stringify(RaceArtifact, null, 2)
   );
 }
 

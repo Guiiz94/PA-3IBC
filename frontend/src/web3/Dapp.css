@@ -10,3 +10,21 @@
     cursor: pointer;
   }
   
+  .banderole {
+    display: flex;
+    justify-content: center; /* alignement horizontal au centre */
+    align-items: center; /* alignement vertical au centre */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(10, 9, 9, 0.9); 
+    color: white;
+    font-size: 16px;
+    z-index: 100;
+  }
+
+p {
+  margin: 10px;
+}
+  

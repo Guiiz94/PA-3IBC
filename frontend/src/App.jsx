@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 import MarketPlace from './MarketPlace';
 import Footer from './footer';
 import Race from './Race';
+import SignUp from './SignUp';
 
 import {
   createBrowserRouter,
@@ -16,7 +17,6 @@ import {
 import UserList from './UserList';
 
 function App() {
-  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const router = createBrowserRouter([
     {
@@ -42,6 +42,10 @@ function App() {
     {
       path: "/test",
       element: <UserList />,
+    },
+    {
+      path: "/inscription",
+      element: <SignUp />,
     },
     {
       path: "*",
