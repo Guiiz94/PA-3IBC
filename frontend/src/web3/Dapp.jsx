@@ -83,6 +83,7 @@ class Dapp extends React.Component {
         auctionPrices: [],
         auctionTimeouts: [],
         carsRows: [],
+        winnerPrize: 0,
         tabValue: 0,
         profileData: null,
       };
@@ -250,7 +251,21 @@ class Dapp extends React.Component {
             </div>
           </div>
 
-          <hr />
+            {this.props.page == "garage" &&
+            this.state.nftsId.length > 0 &&
+            this.state.nfts.length > 0 ? (
+              <Deck
+                onSale={false}
+                submitFonction={(nftId, price) => this._sellNft(nftId, price)}
+                nftsId={this.state.nftsId}
+                collection={this.state.nfts}
+                enterRace={(nftId, speed, acceleration, maniability) =>
+                  this._enterRace(nftId, speed, acceleration, maniability)
+                }
+              />
+            ) : (
+              <></>
+            )}
 
           <div className="row">
             <div className="col-12">
@@ -306,6 +321,24 @@ class Dapp extends React.Component {
                 />
               )} */}
             </div>
+            {this.props.page == "race" && (
+              <>
+                <input
+                  type="number"
+                  placeholder="Entrez le prix du gagnant"
+                  value={this.state.winnerPrize}
+                  onChange={(e) =>
+                    this.setState({ winnerPrize: e.target.value })
+                  }
+                />
+                <Button
+                  style={{ backgroundColor: "white", color: "black" }}
+                  onClick={() => this._runRace(this.state.winnerPrize)}
+                >
+                  Run Race
+                </Button>
+              </>
+            )}
           </div>
         </div>
     );
@@ -791,18 +824,24 @@ class Dapp extends React.Component {
   }
 
   //A FAIRE
-  async enterRace(tokenId) {
+  async _enterRace(tokenId, speed, acceleration, maniability) {
     try {
-      const tx = await this._race.enterRace(tokenId, Deck.Car.attributes[0].tokenId, Deck.Car.attributes[1].tokenId, Deck.Car.attributes[2].tokenId);
+      const tx = await this._race.enterRace(
+        tokenId,
+        speed,
+        acceleration,
+        maniability
+      );
       await tx.wait();
     } catch (error) {
       console.error("An error occurred while entering the race: ", error);
     }
   }
 
-  async runRace() {
-    try {
-      const tx = await this._race.runRace();
+  async _runRace(winnerPrize) {
+    try {  
+      // Passez le prix du gagnant à la fonction runRace de votre contrat
+      const tx = await this._race.runRace(winnerPrize);
       const receipt = await tx.wait();
       const winnerTokenId = receipt.events[0].args[0];
       return winnerTokenId;
@@ -810,6 +849,7 @@ class Dapp extends React.Component {
       console.error("An error occurred while running the race: ", error);
     }
   }
+  
 }
 
 function TabPanel(props) {
