@@ -2,7 +2,6 @@
   position: relative;
   background-color: #000; 
   color: #fff; 
-  padding: 10px 0;
 }
 
 .footer h5 {
@@ -28,5 +27,11 @@
 
 .footer-bottom {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 7px;
+}
+
+@media screen and (max-height: 600px) {
+  .footer {
+    display: none;
+  }
 }

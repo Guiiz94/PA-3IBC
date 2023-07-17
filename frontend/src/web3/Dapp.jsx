@@ -143,6 +143,9 @@ class Dapp extends React.Component {
             <p>{profileData.user.WalletUser}</p>
             <p>XP: {profileData.user.XPUser}</p>
             <p>Level: {profileData.user.LVLUser}</p>
+            <button className="supprButton" style={{ background: 'red', fontSize: '85%', height: '70%', width: '15%', marginLeft: '3%', opacity: '80%' }} onClick={() => this._deleteUser(this.state.profileData.user.WalletUser)}>
+              Supprimer mon compte
+            </button>
           </>
         ) : (
           <p>Pas de données de profil utilisateur</p>
@@ -546,6 +549,17 @@ class Dapp extends React.Component {
     const url = "http://51.68.124.217:3030/api/users/check/" + UserWallet;
     const response = await axios.get(url);
     return response.data;
+  }
+
+  _deleteUser = async (UserWallet) => {
+    const url = "http://51.68.124.217:3030/api/users/delete/" + UserWallet;
+    try {
+      const response = await axios.delete(url);
+      window.location.href = '/home';
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'utilisateur :", error);
+    }
   }
 
   async _buyToken(amount) {
