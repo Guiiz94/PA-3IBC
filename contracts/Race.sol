@@ -28,10 +28,12 @@ contract Race {
 
     Bet[] public bets;
 
+    event Win(address _winner);
+
     constructor(address _nftCarAddress, address _fCarTokenAddress) {
         nftCar = NFTCar(_nftCarAddress);
         fcarToken = FCarToken(_fCarTokenAddress);
-    }
+    }    
 
     function enterRace(
         uint256 _tokenId,
@@ -46,11 +48,6 @@ contract Race {
         );
         require(ERC20(fcarToken).balanceOf(msg.sender) > raceFee, "Not enough token");
 
-        ERC20(fcarToken).transferFrom(msg.sender,address(this),raceFee);
-
-        racePrice += raceFee;
-
-        // Ajoutez le NFT à la course
         RaceEntry memory newEntry = RaceEntry({
             tokenId: _tokenId,
             owner: msg.sender,
@@ -58,6 +55,14 @@ contract Race {
             acceleration: _acceleration,
             maniability: _maniability
         });
+
+        require(!carInRace(_tokenId),"Already in a race");
+
+        ERC20(fcarToken).transferFrom(msg.sender,address(this),raceFee);
+
+        racePrice += raceFee;
+
+        // Ajoutez le NFT à la course
 
         raceEntries.push(newEntry);
     }
@@ -91,6 +96,7 @@ contract Race {
         distributeWinnings(winner);
         racePrice = 0;
         // Renvoyez l'ID du token du vainqueur
+        emit Win(nftCar.ownerOf(winner));
         return winner;
     }
 
