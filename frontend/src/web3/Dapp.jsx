@@ -123,7 +123,6 @@ class Dapp extends React.Component {
       );
     }
 
-
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
     if (!this.state.tokenData || !this.state.balance) {
@@ -155,14 +154,14 @@ class Dapp extends React.Component {
                     this._deleteUser(this.state.profileData.user.WalletUser)
                   }
                 >
-                  Supprimer mon compte
+                  Delete my account
                 </button>
               </>
             ) : (
-              <p>Pas de données de profil utilisateur</p>
+              <p>No user profile data</p>
             )
           ) : (
-            <p>Chargement des données de profil...</p>
+            <p>Loading profile data...</p>
           )}
         </div>
         <div
@@ -214,33 +213,38 @@ class Dapp extends React.Component {
               )}
             </p>
 
-            {this.props.page == "garage" &&
-            this.state.nftsId.length > 0 &&
-            this.state.nfts.length > 0 ? (
-              <Deck
-                onSale={false}
-                submitFonction={(nftId, price) => this._sellNft(nftId, price)}
-                nftsId={this.state.nftsId}
-                collection={this.state.nfts}
-                enterRace={(nftId, speed, acceleration, maniability) =>
-                  this._enterRace(nftId, speed, acceleration, maniability)
-                }
-              />
+            {this.props.page == "garage" ? (
+              this.state.nftsId.length > 0 && this.state.nfts.length > 0 ? (
+                <Deck
+                  onSale={false}
+                  submitFonction={(nftId, price) => this._sellNft(nftId, price)}
+                  nftsId={this.state.nftsId}
+                  collection={this.state.nfts}
+                  enterRace={(nftId, speed, acceleration, maniability) =>
+                    this._enterRace(nftId, speed, acceleration, maniability)
+                  }
+                />
+              ) : (
+                <p>Your deck is empty.</p>
+              )
             ) : (
               <></>
             )}
 
-            {this.props.page == "enchere" &&
-            this.state.auctionNftsId.length > 0 &&
-            this.state.auctionNfts.length > 0 ? (
-              <Deck
-                onSale={true}
-                prices={this.state.auctionPrices}
-                timeouts={this.state.auctionTimeouts}
-                submitFonction={(nftId, price) => this._betNft(nftId, price)}
-                nftsId={this.state.auctionNftsId}
-                collection={this.state.auctionNfts}
-              />
+            {this.props.page == "enchere" ? (
+              this.state.auctionNftsId.length > 0 &&
+              this.state.auctionNfts.length > 0 ? (
+                <Deck
+                  onSale={true}
+                  prices={this.state.auctionPrices}
+                  timeouts={this.state.auctionTimeouts}
+                  submitFonction={(nftId, price) => this._betNft(nftId, price)}
+                  nftsId={this.state.auctionNftsId}
+                  collection={this.state.auctionNfts}
+                />
+              ) : (
+                <p>There is no auction at the moment.</p>
+              )
             ) : (
               <></>
             )}
@@ -252,10 +256,10 @@ class Dapp extends React.Component {
                     style={{ backgroundColor: "white", color: "black" }}
                     onClick={() => this._runRace(this.state.price)}
                   >
-                    Lancer la course
+                   Start the race
                   </Button>
 
-                  {this.state.entryRace && this.state.entryRace.length > 0 && (
+                  {this.state.entryRace && this.state.entryRace.length > 0 ? (
                     <div className="row">
                       <div className="col-6">
                         <h3>Participants</h3>
@@ -304,7 +308,7 @@ class Dapp extends React.Component {
                                   <input
                                     type="number"
                                     min="0"
-                                    placeholder="Montant du pari"
+                                    placeholder="Amount of the bet"
                                     onChange={(e) =>
                                       this.setState({
                                         betAmount: e.target.value,
@@ -319,7 +323,7 @@ class Dapp extends React.Component {
                                       )
                                     }
                                   >
-                                    Parier sur ce participant
+                                    Bet on this participant
                                   </Button>
                                 </td>
                               </tr>
@@ -328,23 +332,23 @@ class Dapp extends React.Component {
                         </table>
                       </div>
 
-                      {this.state.betRace && this.state.betRace.length > 0 && (
+                      {this.state.betRace && this.state.betRace.length > 0 ? (
                         <div className="col-6">
-                          <h3>Pari en cours</h3>
+                          <h3>Bet going</h3>
                           <table style={{ borderCollapse: "collapse" }}>
                             <thead>
                               <tr>
                                 <th style={{ border: "1px solid black" }}>
-                                  Parieur
+                                  Bettor
                                 </th>
                                 <th style={{ border: "1px solid black" }}>
-                                  Montant
+                                  Amount
                                 </th>
                                 <th style={{ border: "1px solid black" }}>
-                                  ID de la voiture
+                                  car ID
                                 </th>
                                 <th style={{ border: "1px solid black" }}>
-                                  Total des paris
+                                  Total bets
                                 </th>
                               </tr>
                             </thead>
@@ -381,16 +385,23 @@ class Dapp extends React.Component {
                             </tbody>
                           </table>
                         </div>
+                       ) : (
+                        <div className="col-6">
+                          <h3>Bet going</h3>
+                          <p>There are no bets at the moment.</p>
+                        </div>
                       )}
                     </div>
+                  ) : (
+                    <p>There are currently no attendees.</p>
                   )}
                 </>
               )}
-
+              
             {this.props.page == "race" &&
               this.state.selectedAddress != addrAdmin && (
                 <>
-                  {this.state.entryRace && this.state.entryRace.length > 0 && (
+                  {this.state.entryRace && this.state.entryRace.length > 0 ? (
                     <div className="row">
                       <div className="col-6">
                         <h3>Participants</h3>
@@ -439,7 +450,7 @@ class Dapp extends React.Component {
                                   <input
                                     type="number"
                                     min="0"
-                                    placeholder="Montant du pari"
+                                    placeholder="Amount of the bet"
                                     onChange={(e) =>
                                       this.setState({
                                         betAmount: e.target.value,
@@ -454,7 +465,7 @@ class Dapp extends React.Component {
                                       )
                                     }
                                   >
-                                    Parier sur ce participant
+                                    Bet on this participant
                                   </Button>
                                 </td>
                               </tr>
@@ -463,23 +474,23 @@ class Dapp extends React.Component {
                         </table>
                       </div>
 
-                      {this.state.betRace && this.state.betRace.length > 0 && (
+                      {this.state.betRace && this.state.betRace.length > 0 ? (
                         <div className="col-6">
-                          <h3>Pari en cours</h3>
+                          <h3>Bet going</h3>
                           <table style={{ borderCollapse: "collapse" }}>
                             <thead>
                               <tr>
                                 <th style={{ border: "1px solid black" }}>
-                                  Parieur
+                                  Bettor
                                 </th>
                                 <th style={{ border: "1px solid black" }}>
-                                  Montant
+                                  Amount
                                 </th>
                                 <th style={{ border: "1px solid black" }}>
-                                  ID de la voiture
+                                  car ID
                                 </th>
                                 <th style={{ border: "1px solid black" }}>
-                                  Total des paris
+                                  Total bets
                                 </th>
                               </tr>
                             </thead>
@@ -516,8 +527,15 @@ class Dapp extends React.Component {
                             </tbody>
                           </table>
                         </div>
+                       ) : (
+                        <div className="col-6">
+                          <h3>Bet going</h3>
+                          <p>There are no bets at the moment.</p>
+                        </div>
                       )}
                     </div>
+                  ) : (
+                    <p>There are currently no attendees.</p>
                   )}
                 </>
               )}
@@ -693,9 +711,9 @@ class Dapp extends React.Component {
       RaceArtifact.abi,
       this._provider.getSigner(0)
     );
-    this._race.on("Win",(winner)=>{
+    this._race.on("Win", (winner) => {
       console.log(winner);
-    })
+    });
     // console.log(this._race);
   }
 
@@ -744,7 +762,7 @@ class Dapp extends React.Component {
     this.setState({ nftsId });
 
     const nftArr = [];
-    
+
     nftsId.forEach(async (nft) => {
       nftArr.push(await this._getNft(nft));
     });
@@ -1132,14 +1150,11 @@ class Dapp extends React.Component {
       console.error("An error occurred while running the race: ", error);
     }
   }
-  
-
 
   async _getRaceEntries() {
     try {
       const raceEntries = await this._race.getRaceEntries();
 
-      
       console.log(raceEntries);
       this.setState({ entryRace: raceEntries });
       // Après avoir obtenu les entrées de la course, vous pouvez les envoyer à votre API
@@ -1153,27 +1168,30 @@ class Dapp extends React.Component {
     try {
       for (let i = 0; i < participants.length; i++) {
         const participant = participants[i];
-  
+
         // Envoyer la requête pour chaque participant
-        const response = await axios.post(`http://51.68.124.217:3030/api/users/levelUpUser/${participant}`);
+        const response = await axios.post(
+          `http://51.68.124.217:3030/api/users/levelUpUser/${participant}`
+        );
         console.log(response.data);
       }
     } catch (error) {
-      console.error("An error occurred while leveling up the participants: ", error);
+      console.error(
+        "An error occurred while leveling up the participants: ",
+        error
+      );
     }
   }
-  
 
-  async _getWinnerRace(wallet) { 
+  async _getWinnerRace(wallet) {
     try {
       const uri = `http://51.68.124.217:3030/api/users/incrementXPUser/winner/${wallet}`;
       const response = await axios.post(uri);
       console.log(response.data);
-    } catch(error) {
+    } catch (error) {
       console.error("An error occurred while getting the winner: ", error);
     }
   }
-
 
   async _getParticipantsRace(participants) {
     try {
@@ -1182,19 +1200,20 @@ class Dapp extends React.Component {
 
         // Utilisez 'trim()' pour supprimer les espaces de début et de fin
         const walletAddress = participant[1].trim();
-        
-        const response = await axios.post(`http://51.68.124.217:3030/api/users/incrementXPUser/participate/${walletAddress}`);
+
+        const response = await axios.post(
+          `http://51.68.124.217:3030/api/users/incrementXPUser/participate/${walletAddress}`
+        );
 
         console.log(response.data);
       }
     } catch (error) {
-      console.error("An error occurred while sending the participants to the API: ", error);
+      console.error(
+        "An error occurred while sending the participants to the API: ",
+        error
+      );
     }
-}
-
-
-
-  
+  }
 
   async _getBetsRace() {
     try {
@@ -1323,7 +1342,7 @@ function BuyToken({ buyToken }) {
       >
         <TextField
           id="outlined-basic"
-          label="Montant"
+          label="Amount"
           variant="outlined"
           type="number"
           onChange={handleChange}

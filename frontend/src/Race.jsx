@@ -4,8 +4,8 @@ import Dapp from "./web3/Dapp"
 const Race = () => {
     return (
         <div>
-            <h1>Page de course</h1>
-            <p>Bienvenue sur la page de course. Ici, vous pourrez faire courir vos voitures NFT.</p>
+            <h1>Race page</h1>
+            <p>Here, you can not only race your NFT cars, but also bet on the outcomes of the races. Dive into the action and experience the thrill of NFT car racing.</p>
             <Dapp page="race"></Dapp>
         </div>
     );
