@@ -35,6 +35,7 @@ import axios from "axios";
 import Card from "../components/Card";
 import Deck from "../components/Deck";
 import SignUp from "../SignUp";
+import { AddCollection } from "../components/AddCollection";
 
 // This is the default id used by the Hardhat Network
 const HARDHAT_NETWORK_ID = "31337";
@@ -43,7 +44,7 @@ const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 var isRegister = true;
-var addrAdmin = 0x9f2b97c65a107E35Ae2204064C181BA7d6EA7610;
+var addrAdmin = 0xa35CC4A4096d53e718460fDDE30d36854133282A;
 var addrWallet = "";
 
 // This component is in charge of doing these things:
@@ -78,6 +79,7 @@ class Dapp extends React.Component {
         networkError: undefined,
         nfts: [],
         nftsId: [],
+        onRace: [],
         auctionNfts: [],
         auctionNftsId: [],
         auctionPrices: [],
@@ -194,7 +196,9 @@ class Dapp extends React.Component {
                       generateNFT={(rarity) => this._generateNFT(rarity)}
                       type={0}
                     />
-                    {/* <NewCar
+                    {this.state.selectedAddress == addrAdmin ? 
+                    <>
+                    <NewCar
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={1}
                       />
@@ -205,7 +209,8 @@ class Dapp extends React.Component {
                       <NewCar
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={3}
-                      /> */}
+                      />
+                    </>:<></>}
                   </TabPanel>
                   <TabPanel value={this.state.tabValue} index={1}>
                     <BuyToken buyToken={(amount) => this._buyToken(amount)} />
@@ -215,6 +220,10 @@ class Dapp extends React.Component {
             </p>
 
             {this.props.page == "garage" &&
+            this.state.selectedAddress == addrAdmin && 
+            <AddCollection addCollection={(ipfs, rarities) => this._addCollection(ipfs, rarities)}/>}
+
+            {this.props.page == "garage" &&
             this.state.nftsId.length > 0 &&
             this.state.nfts.length > 0 ? (
               <Deck
@@ -222,6 +231,7 @@ class Dapp extends React.Component {
                 submitFonction={(nftId, price) => this._sellNft(nftId, price)}
                 nftsId={this.state.nftsId}
                 collection={this.state.nfts}
+                onRace={this.state.onRace}
                 enterRace={(nftId, speed, acceleration, maniability) =>
                   this._enterRace(nftId, speed, acceleration, maniability)
                 }
@@ -744,11 +754,14 @@ class Dapp extends React.Component {
     this.setState({ nftsId });
 
     const nftArr = [];
+    const onRace = [];
     
     nftsId.forEach(async (nft) => {
       nftArr.push(await this._getNft(nft));
+      onRace.push(await this._isOnRace(nft))
     });
     this.setState({ nfts: nftArr });
+    this.setState({ onRace: onRace });
     // console.log(this.state.nfts);
     // this._updateRows()
   }
@@ -1058,6 +1071,17 @@ class Dapp extends React.Component {
     }
   }
 
+  async _isOnRace(nftId){
+    try {
+      // Passez le prix du gagnant à la fonction runRace de votre contrat
+      const onRace = await this._race.carInRace(nftId);
+      // const winnerTokenId = receipt.events[0].args[0];
+      return onRace;
+    } catch (error) {
+      console.error("An error occurred while running the race: ", error);
+    }
+  }
+
   async _getAuctionNFTs() {
     try {
       // send the transaction, and save its hash in the Dapp's state. This
@@ -1140,7 +1164,7 @@ class Dapp extends React.Component {
       const raceEntries = await this._race.getRaceEntries();
 
       
-      console.log(raceEntries);
+      // console.log(raceEntries);
       this.setState({ entryRace: raceEntries });
       // Après avoir obtenu les entrées de la course, vous pouvez les envoyer à votre API
       this._getParticipantsRace(raceEntries);
@@ -1192,14 +1216,16 @@ class Dapp extends React.Component {
     }
 }
 
-
-
-  
+  async _addCollection(ipfsUrl, id) {
+    const tx = await this._nft.addCollection(ipfsUrl, id,{gasLimit: 1000000});
+    const txReceipt = await tx.wait();
+    // console.log(txReceipt);
+  }  
 
   async _getBetsRace() {
     try {
       const raceBETs = await this._race.getBets();
-      console.log(raceBETs);
+      // console.log(raceBETs);
       this.setState({ betRace: raceBETs });
     } catch (error) {
       console.error("Failed to get bets: ", error);

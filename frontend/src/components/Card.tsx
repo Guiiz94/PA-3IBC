@@ -16,6 +16,7 @@ interface CardProps {
   description:string,
   submitFonction,
   onSale:boolean,
+  onRace:boolean,
   currentPrice?,
   timeout?,
   speed?,
@@ -26,7 +27,7 @@ interface CardProps {
 }
 
 
-const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,description,submitFonction,onSale,currentPrice,timeout,speed,acceleration,maniability,enterRace}) => {
+const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,description,submitFonction,onSale,onRace,currentPrice,timeout,speed,acceleration,maniability,enterRace}) => {
   
   // console.log(timeout);
 
@@ -170,6 +171,7 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
       onMouseLeave={handleMouseLeave} 
       onMouseMove={handleMouseMove} 
       onClick={handleSelectCard}>
+        {onRace ? <div className='banner'>&nbsp;IN RACE</div> : <></>}
         <img src={`https://nftstorage.link/ipfs/${image_file.split('//')[1]}`} alt={name} width={CARD_WIDTH}/>
         {rarity.toLowerCase() != "common" ? <><div className='glare' style={glareStyle}/>
         <div className='holo shine' style={holoStyles}/></> : <></>}
@@ -191,11 +193,11 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
           <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
         }
         {
-          !onSale &&
+          !onSale && !onRace &&
           <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
         }
         {
-          !onSale &&
+          !onSale && !onRace &&
           <button onClick={() => enterRace(id, speed, acceleration, maniability)}>Entrer dans la course</button>
         }
       </div>      

@@ -1,3 +1,27 @@
+.banner {
+    --f: 0px; /* control the folded part*/
+    --r: 15px; /* control the ribbon shape */
+    --t: 10px; /* the top offset */
+    
+    position: absolute;
+    inset: var(--t) auto auto calc(-1*var(--f) - 9px); /* 10px for the card border */
+    padding: 0 calc(20px + var(--r)) var(--f) 10px;
+    z-index: 30;
+    /* clip-path: polygon(100% 0%, 80% 50%, 100% 100%, 0 100%, 0 0); */
+    clip-path: 
+    polygon(
+      100% 0,
+      0 0,
+      0 calc(100% - var(--f)),
+      var(--f) 100%,
+      var(--f) calc(100% - var(--f)),
+      100% calc(100% - var(--f)),
+      calc(100% - var(--r)) calc(50% - var(--f)/2)
+      );
+    background: #532e71;
+    box-shadow: 0 calc(-1 * var(--f)) 0 inset #0005;
+  }
+
 .card-overlay{
     background-color: #31063c;
     width: 100vw;

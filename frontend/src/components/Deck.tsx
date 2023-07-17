@@ -6,6 +6,7 @@ import React from "react";
 export interface DeckAttributes {
   collection: Car[];
   nftsId: number[];
+  onRace:boolean[];
   submitFonction;
   onSale;
   prices?;
@@ -30,6 +31,7 @@ const Deck = (attributes: DeckAttributes) => {
           }
           id={attributes.nftsId[index]}
           onSale={attributes.onSale}
+          onRace={attributes.onRace[index]}
           submitFonction={attributes.submitFonction}
           description={card.description}
           name={card.name as string}
