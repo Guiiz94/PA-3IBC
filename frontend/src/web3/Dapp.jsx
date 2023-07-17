@@ -693,10 +693,6 @@ class Dapp extends React.Component {
       RaceArtifact.abi,
       this._provider.getSigner(0)
     );
-    this._race.on("Win",(winner)=>{
-      console.log(winner);
-    })
-    // console.log(this._race);
   }
 
   // The next two methods are needed to start and stop polling data. While
@@ -1100,6 +1096,8 @@ class Dapp extends React.Component {
         acceleration,
         maniability
       );
+      this._levelUpParticipants(this.state.selectedAddress);
+      this._getParticipantsRace(this.state.selectedAddress);
       await tx.wait();
     } catch (error) {
       console.error("An error occurred while entering the race: ", error);
@@ -1124,9 +1122,13 @@ class Dapp extends React.Component {
       // Passez le prix du gagnant à la fonction runRace de votre contrat
       const tokenId = await this._race.runRace();
       console.log("TokenId : ", tokenId);
-      // const receipt = await tx.wait();
-      // console.log(receipt);
-      // const winnerTokenId = receipt.events[0].args[0];
+      this._race.on("Win",(winner)=>{
+        console.log("TEST");
+        console.log(winner);
+        this._getWinnerRace(winner);
+        this._levelUpParticipants(winner);
+      })
+
       return 0;
     } catch (error) {
       console.error("An error occurred while running the race: ", error);
@@ -1143,21 +1145,17 @@ class Dapp extends React.Component {
       console.log(raceEntries);
       this.setState({ entryRace: raceEntries });
       // Après avoir obtenu les entrées de la course, vous pouvez les envoyer à votre API
-      this._getParticipantsRace(raceEntries);
+      // this._levelUpParticipants(raceEntries);
+      // this._getParticipantsRace(raceEntries);
     } catch (error) {
       console.error("An error occurred while getting the race: ", error);
     }
   }
 
-  async _levelUpParticipants(participants) {
+  async _levelUpParticipants(participant) {
     try {
-      for (let i = 0; i < participants.length; i++) {
-        const participant = participants[i];
-  
-        // Envoyer la requête pour chaque participant
         const response = await axios.post(`http://51.68.124.217:3030/api/users/levelUpUser/${participant}`);
         console.log(response.data);
-      }
     } catch (error) {
       console.error("An error occurred while leveling up the participants: ", error);
     }
@@ -1175,18 +1173,11 @@ class Dapp extends React.Component {
   }
 
 
-  async _getParticipantsRace(participants) {
+  async _getParticipantsRace(walletAddress) {
     try {
-      for (let i = 0; i < participants.length; i++) {
-        const participant = participants[i];
-
-        // Utilisez 'trim()' pour supprimer les espaces de début et de fin
-        const walletAddress = participant[1].trim();
-        
         const response = await axios.post(`http://51.68.124.217:3030/api/users/incrementXPUser/participate/${walletAddress}`);
 
         console.log(response.data);
-      }
     } catch (error) {
       console.error("An error occurred while sending the participants to the API: ", error);
     }
