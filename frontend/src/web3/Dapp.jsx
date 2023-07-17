@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { Tab, Tabs } from "@material-ui/core";
@@ -44,7 +44,8 @@ const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 var isRegister = true;
-var addrAdmin = "0x368A8eB0f28766a13fB803E0777eb68A25a2080d";
+var addrAdmin = 0x9f2b97c65a107E35Ae2204064C181BA7d6EA7610;
+var addrWallet = "";
 
 // This component is in charge of doing these things:
 //   1. It connects to the user's wallet
@@ -57,7 +58,6 @@ var addrAdmin = "0x368A8eB0f28766a13fB803E0777eb68A25a2080d";
 // you how to keep your Dapp and contract's state in sync,  and how to send a
 // transaction.
 class Dapp extends React.Component {
-  
   constructor(props) {
     super(props);
 
@@ -124,6 +124,7 @@ class Dapp extends React.Component {
       );
     }
 
+
     // If the token data or the user's balance hasn't loaded yet, we show
     // a loading component.
     if (!this.state.tokenData || !this.state.balance) {
@@ -134,56 +135,67 @@ class Dapp extends React.Component {
     // If everything is loaded, we render the application.
     return (
       <div className="container p-4">
-          {!isRegister && <SignUp userAddress={this.state.selectedAddress} />}
-          <div className="banderole">
-      {profileData ? (
-        profileData.success && profileData.user ? (
-          <>
-            <p>{profileData.user.PseudoUser}</p>
-            <p>{profileData.user.WalletUser}</p>
-            <p>XP: {profileData.user.XPUser}</p>
-            <p>Level: {profileData.user.LVLUser}</p>
-            <button className="supprButton" style={{ background: 'red', fontSize: '85%', height: '70%', width: '15%', marginLeft: '3%', opacity: '80%' }} onClick={() => this._deleteUser(this.state.profileData.user.WalletUser)}>
-              Supprimer mon compte
-            </button>
-          </>
-        ) : (
-          <p>Pas de données de profil utilisateur</p>
-        )
-      ) : (
-        <p>Chargement des données de profil...</p>
-      )}
-    </div>
-          <div
-            className="row"
-            style={{ display: "flex", justifyContent: "center", height: "70vh" }}
-          >
-            <div className="col-12">
-              <h1>
-                {this.state.tokenData.tokenName} (
-                {this.state.tokenData.tokenSymbol})
-              </h1>
-              <p>
-                Welcome <b>{this.state.selectedAddress}</b>, you have
-                {this.state.balance.eq(0) ? " no" : ""}{" "}
-                {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}
-                .
-                {this.props.page == "marketplace" && (
-                  <>
-                    <Tabs
-                      value={this.state.tabValue}
-                      onChange={this.handleTabChange}
-                      aria-label="simple tabs example"
-                    >
-                      <Tab label="Buy NFT" style={{ marginRight: "130px" }} />
-                      <Tab label="Buy Token" />
-                    </Tabs>
-                    <TabPanel value={this.state.tabValue} index={0}>
-                      <NewCar
-                        generateNFT={(rarity) => this._generateNFT(rarity)}
-                        type={0}
-                      />
-                      {/* <NewCar
+        {!isRegister && <SignUp userAddress={this.state.selectedAddress} />}
+        <div className="banderole">
+          {profileData ? (
+            profileData.success && profileData.user ? (
+              <>
+                <p>{profileData.user.PseudoUser}</p>
+                <p>XP: {profileData.user.XPUser}</p>
+                <p>Level: {profileData.user.LVLUser}</p>
+                <button
+                  style={{
+                    background: "red",
+                    fontSize: "85%",
+                    height: "70%",
+                    width: "15%",
+                    marginLeft: "%",
+                    opacity: "80%",
+                  }}
+                  onClick={() =>
+                    this._deleteUser(this.state.profileData.user.WalletUser)
+                  }
+                >
+                  Supprimer mon compte
+                </button>
+              </>
+            ) : (
+              <p>Pas de données de profil utilisateur</p>
+            )
+          ) : (
+            <p>Chargement des données de profil...</p>
+          )}
+        </div>
+        <div
+          className="row"
+          style={{ display: "flex", justifyContent: "center", height: "70vh" }}
+        >
+          <div className="col-12">
+            <h1>
+              {this.state.tokenData.tokenName} (
+              {this.state.tokenData.tokenSymbol})
+            </h1>
+            <p>
+              Welcome <b>{this.state.selectedAddress}</b>, you have
+              {this.state.balance.eq(0) ? " no" : ""}{" "}
+              {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}
+              .
+              {this.props.page == "marketplace" && (
+                <>
+                  <Tabs
+                    value={this.state.tabValue}
+                    onChange={this.handleTabChange}
+                    aria-label="simple tabs example"
+                  >
+                    <Tab label="Buy NFT" style={{ marginRight: "130px" }} />
+                    <Tab label="Buy Token" />
+                  </Tabs>
+                  <TabPanel value={this.state.tabValue} index={0}>
+                    <NewCar
+                      generateNFT={(rarity) => this._generateNFT(rarity)}
+                      type={0}
+                    />
+                    {/* <NewCar
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={1}
                       />
@@ -195,45 +207,48 @@ class Dapp extends React.Component {
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={3}
                       /> */}
-                    </TabPanel>
-                    <TabPanel value={this.state.tabValue} index={1}>
-                      <BuyToken buyToken={(amount) => this._buyToken(amount)} />
-                    </TabPanel>
-                  </>
-                )}
-              </p>
-
-              {this.props.page == "garage" &&
-              this.state.nftsId.length > 0 &&
-              this.state.nfts.length > 0 ? (
-                <Deck
-                  onSale={false}
-                  submitFonction={(nftId, price) => this._sellNft(nftId, price)}
-                  nftsId={this.state.nftsId}
-                  collection={this.state.nfts}
-                  enterRace={(nftId, speed, acceleration, maniability) => this._enterRace(nftId, speed, acceleration, maniability)}
-                />
-              ) : (
-                <></>
+                  </TabPanel>
+                  <TabPanel value={this.state.tabValue} index={1}>
+                    <BuyToken buyToken={(amount) => this._buyToken(amount)} />
+                  </TabPanel>
+                </>
               )}
+            </p>
 
-              {this.props.page == "enchere" &&
-              this.state.auctionNftsId.length > 0 &&
-              this.state.auctionNfts.length > 0 ? (
-                <Deck
-                  onSale={true}
-                  prices={this.state.auctionPrices}
-                  timeouts={this.state.auctionTimeouts}
-                  submitFonction={(nftId, price) => this._betNft(nftId, price)}
-                  nftsId={this.state.auctionNftsId}
-                  collection={this.state.auctionNfts}
-                />
-              ) : (
-                <></>
-              )}
+            {this.props.page == "garage" &&
+            this.state.nftsId.length > 0 &&
+            this.state.nfts.length > 0 ? (
+              <Deck
+                onSale={false}
+                submitFonction={(nftId, price) => this._sellNft(nftId, price)}
+                nftsId={this.state.nftsId}
+                collection={this.state.nfts}
+                enterRace={(nftId, speed, acceleration, maniability) =>
+                  this._enterRace(nftId, speed, acceleration, maniability)
+                }
+              />
+            ) : (
+              <></>
+            )}
 
-              {this.props.page == "race" && this.state.selectedAddress == addrAdmin && (
-                  <>
+            {this.props.page == "enchere" &&
+            this.state.auctionNftsId.length > 0 &&
+            this.state.auctionNfts.length > 0 ? (
+              <Deck
+                onSale={true}
+                prices={this.state.auctionPrices}
+                timeouts={this.state.auctionTimeouts}
+                submitFonction={(nftId, price) => this._betNft(nftId, price)}
+                nftsId={this.state.auctionNftsId}
+                collection={this.state.auctionNfts}
+              />
+            ) : (
+              <></>
+            )}
+
+            {this.props.page == "race" &&
+              this.state.selectedAddress == addrAdmin && (
+                <>
                   <TextField
                     label="Prix"
                     variant="outlined"
@@ -244,72 +259,104 @@ class Dapp extends React.Component {
                   <Button
                     style={{ backgroundColor: "white", color: "black" }}
                     onClick={() => this._runRace(this.state.price)}
-                  >
+                    >
                     Run Race
                   </Button>
-                </>
-              //Afficher les voitures en list de la course et les parie sur les voitures
-         
-              
-              )}
-            </div>
-          </div>
+                  
 
-            {/* {this.props.page == "garage" &&
-            this.state.nftsId.length > 0 &&
-            this.state.nfts.length > 0 ? (
-              <Deck
-                onSale={false}
-                submitFonction={(nftId, price) => this._sellNft(nftId, price)}
-                nftsId={this.state.nftsId}
-                collection={this.state.nfts}
-                enterRace={(nftId, speed, acceleration, maniability) => this._enterRace(nftId, speed, acceleration, maniability)
+                  { this.state.entryRace &&                   
+                  this.state.entryRace.map((entry) => (
+                    //Afficher les voitures en list de la course 
+                  <div className="row">
+                    <div className="col-12">
+                      <p>{Number(entry.tokenId)}</p>
+                      <p>{entry.owner}</p>
+                      <p>{entry.speed}</p>
+                      <p>{entry.acceleration}</p>
+                      <p>{entry.maniability}</p>
+                    </div>
+                  </div>
+                  ))
+                
                 }
-              />
-            ) : (
-              <></>
-            )} */}
 
-          <div className="row">
-            <div className="col-12">
-              {/* 
+                { this.state.entryRace && 
+                  this.state.betRace.map((bet) => (
+                    //Afficher  les parie sur les voitures
+                  <div className="row">
+                    <div className="col-12">
+                      <p>{bet.speed}</p>
+                      <p>{bet.acceleration}</p>
+                      <p>{bet.maniability}</p>
+                    </div>
+                  </div>
+                  ))
+                
+                
+                }
+                </>       
+              )}
+
+            {this.props.page == "race" &&
+            this.state.selectedAddress != addrAdmin && (
+              <>
+                 { this.state.entryRace && this.state.entryRace.map((entry) => (
+                    //Afficher les voitures en list de la course et les parie sur les voitures
+                  <div className="row">
+                    <div className="col-12">
+                      <p>{entry.speed}</p>
+                      <p>{entry.acceleration}</p>
+                      <p>{entry.maniability}</p>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        </div>
+
+
+
+        <div className="row">
+          <div className="col-12">
+            {/* 
                 Sending a transaction isn't an immediate action. You have to wait
                 for it to be mined.
                 If we are waiting for one, we show a message here.
               */}
-              {this.state.txBeingSent && (
-                <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
-              )}
+            {this.state.txBeingSent && (
+              <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+            )}
 
-              {/* 
+            {/* 
                 Sending a transaction can fail in multiple ways. 
                 If that happened, we show a message here.
               */}
-              {this.state.transactionError && (
-                <TransactionErrorMessage
-                  message={this._getRpcErrorMessage(this.state.transactionError)}
-                  dismiss={() => this._dismissTransactionError()}
-                />
-              )}
-            </div>
+            {this.state.transactionError && (
+              <TransactionErrorMessage
+                message={this._getRpcErrorMessage(this.state.transactionError)}
+                dismiss={() => this._dismissTransactionError()}
+              />
+            )}
           </div>
+        </div>
 
-          <div className="row">
-            <div className="col-12">
-              {/*
+        <div className="row">
+          <div className="col-12">
+            {/*
                 If the user has no tokens, we don't show the Transfer form
               */}
-              {this.state.balance.eq(0) && (
-                <NoTokensMessage selectedAddress={this.state.selectedAddress} />
-              )}
+            {this.state.balance.eq(0) && (
+              <NoTokensMessage selectedAddress={this.state.selectedAddress} />
+            )}
 
-              {/*
+            {/*
                 This component displays a form that the user can use to send a 
                 transaction and transfer some tokens.
                 The component doesn't have logic, it just calls the transferTokens
                 callback.
               */}
-              {/* {this.state.balance.gt(0) && (
+            {/* {this.state.balance.gt(0) && (
                 // <Transfer
                 //   transferTokens={(to, amount) =>
                 //     this._transferTokens(to, amount)
@@ -323,27 +370,9 @@ class Dapp extends React.Component {
                   tokenSymbol={this.state.tokenData.symbol}
                 />
               )} */}
-            </div>
-            {this.props.page == "race" && (
-              <>
-                <input
-                  type="number"
-                  placeholder="Entrez le prix du gagnant"
-                  value={this.state.winnerPrize}
-                  onChange={(e) =>
-                    this.setState({ winnerPrize: e.target.value })
-                  }
-                />
-                <Button
-                  style={{ backgroundColor: "white", color: "black" }}
-                  onClick={() => this._runRace(this.state.winnerPrize)}
-                >
-                  Run Race
-                </Button>
-              </>
-            )}
           </div>
         </div>
+      </div>
     );
   }
 
@@ -357,16 +386,15 @@ class Dapp extends React.Component {
     const url = "http://51.68.124.217:3030/api/users/check/" + wallet;
     // console.log(wallet);
     // console.log(url);
-  
+
     try {
       const response = await axios.get(url);
       // console.log(response.data);
       this.setState({ profileData: response.data });
     } catch (error) {
-      console.error('Erreur lors de la récupération du pseudo:', error);
+      console.error("Erreur lors de la récupération du pseudo:", error);
     }
   }
-  
 
   async _connectWallet() {
     // This method is run when the user clicks the Connect. It connects the
@@ -379,19 +407,21 @@ class Dapp extends React.Component {
     });
 
     // Once we have the address, we can initialize the application.
-    if(selectedAddress) {
+    if (selectedAddress) {
       this._checkNetwork();
       this._initialize(selectedAddress);
-      this._checkUserPseudo(selectedAddress).then((response) => {
-        if (response.success) {
-          isRegister = true;
-        }
-      }).catch((error) => {
-        isRegister = false;
-        console.log(error);
-      });      
+      this._checkUserPseudo(selectedAddress)
+        .then((response) => {
+          if (response.success) {
+            isRegister = true;
+          }
+        })
+        .catch((error) => {
+          isRegister = false;
+          console.log(error);
+        });
     }
-    
+
     // We reinitialize it whenever the user changes their account.
     window.ethereum.on("accountsChanged", ([newAddress]) => {
       this._stopPollingData();
@@ -452,9 +482,9 @@ class Dapp extends React.Component {
     // console.log(RaceAddress);
     // console.log(RaceArtifact);
     this._race = new ethers.Contract(
-     RaceAddress.Race,
-     RaceArtifact.abi, 
-     this._provider.getSigner(0)
+      RaceAddress.Race,
+      RaceArtifact.abi,
+      this._provider.getSigner(0)
     );
     // console.log(this._race);
   }
@@ -488,7 +518,7 @@ class Dapp extends React.Component {
     const nftName = await this._nft.name();
     const nftSymbol = await this._nft.symbol();
     const tokenName = await this._token.name();
-    const tokenSymbol = await this._token.symbol(); 
+    const tokenSymbol = await this._token.symbol();
 
     this.setState({ nftData: { nftName, nftSymbol } });
     this.setState({ tokenData: { tokenName, tokenSymbol } });
@@ -555,12 +585,12 @@ class Dapp extends React.Component {
     const url = "http://51.68.124.217:3030/api/users/delete/" + UserWallet;
     try {
       const response = await axios.delete(url);
-      window.location.href = '/home';
+      window.location.href = "/home";
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la suppression de l'utilisateur :", error);
     }
-  }
+  };
 
   async _buyToken(amount) {
     const newValue = await this._token.buy(this.state.selectedAddress, {
@@ -868,23 +898,42 @@ class Dapp extends React.Component {
   }
 
   async _runRace() {
-    try {  
+    try {
       // Passez le prix du gagnant à la fonction runRace de votre contrat
       const tx = await this._race.runRace();
+      console.log("att")
       const receipt = await tx.wait();
-      console.log(receipt);
-      const winnerTokenId = receipt.events[0].args[0];
+      const winnerTokenId = ethers.BigNumber.from(receipt.logs[0].data).toNumber();
+      const walletAddress = this._race.getOwnerOfToken(winnerTokenId);
+      console.log("Data from the first log: ", receipt.logs[0].data);
+      console.log(receipt.logs);
+      console.log("0")
+      console.log(receipt.events);
+      console.log("10")
+      console.log(receipt.events[0]);
+      console.log("11")
+      console.log("Winner token ID: ", winnerTokenId);
+      console.log(walletAddress);
+      console.log("12")
+      // const winnerTokenId = receipt.events[0].args[0];
+      // const winnerTokenId = receipt.events[0].data.toNumber();
+      // console.log(winnerTokenId);
+      console.log("apr")
+
   
       // Utilisez ownerOf pour obtenir l'adresse du portefeuille associée au TokenID gagnant
+      console.log("1")
       const winnerWalletAddress = await this._race.ownerOf(winnerTokenId);
-  
+      console.log("2")
+      console.log("Winner wallet address: ", winnerWalletAddress);
+
       this._getWinnerRace(winnerWalletAddress);  // ajout de 'this.'
       
       // Obtenir les participants
       const raceEntries = await this._race.getRaceEntries();
       this._levelUpParticipants(raceEntries);  // Appeler la fonction pour augmenter le niveau des participants
   
-      return winnerTokenId;
+      return 0;
     } catch (error) {
       console.error("An error occurred while running the race: ", error);
     }
@@ -895,11 +944,12 @@ class Dapp extends React.Component {
   async _getRaceEntries() {
     try {
       const raceEntries = await this._race.getRaceEntries();
-      this.setState({ entryRace : raceEntries });
 
+      
+      console.log(raceEntries);
+      this.setState({ entryRace: raceEntries });
       // Après avoir obtenu les entrées de la course, vous pouvez les envoyer à votre API
       this._getParticipantsRace(raceEntries);
-  
     } catch (error) {
       console.error("An error occurred while getting the race: ", error);
     }
@@ -955,12 +1005,11 @@ class Dapp extends React.Component {
   async _getBetsRace() {
     try {
       const raceBETs = await this._race.getBets();
-      this.setState({ betRace : raceBETs });
+      this.setState({ betRace: raceBETs });
     } catch (error) {
       console.error("Failed to get bets: ", error);
     }
   }
-
 }
 
 function TabPanel(props) {

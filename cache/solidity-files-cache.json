@@ -223,8 +223,8 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/Race.sol": {
-      "lastModificationDate": 1689601660428,
-      "contentHash": "bc73e49c0fbea14a8aab75f9eb93d8db",
+      "lastModificationDate": 1689629189231,
+      "contentHash": "e998a687dfdf57e098789d1683ecbfd7",
       "sourceName": "contracts/Race.sol",
       "solcConfig": {
         "version": "0.8.9",
