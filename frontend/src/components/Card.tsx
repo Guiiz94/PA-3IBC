@@ -178,9 +178,10 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
         {rarity_index > 1 ? <img className='mask' src={`./assets/masks/${getMask(image_file)}`} width={CARD_WIDTH}/> : <></>}
       </div>
       <div style={{width:CARD_WIDTH}} ref={detailRef} className="card-detail">
-        <p>NFT ID: {id.toString()}</p>
+      <hr style={{width:'100%'}}/>
 
-        <h5>{name}</h5>
+        <h3>{name}</h3>
+
         <p>{description}</p>        
         {onSale &&
           <>
@@ -189,17 +190,21 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
           </>
         }
         {
-          onSale && timeout - Math.floor(Date.now() / 1000) > 0 &&
-          <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
-        }
-        {
-          !onSale && !onRace &&
-          <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
-        }
-        {
           !onSale && !onRace &&
           <button onClick={() => enterRace(id, speed, acceleration, maniability)}>Entrer dans la course</button>
         }
+        <hr style={{width:'100%'}}/>
+        {
+          onSale && timeout - Math.floor(Date.now() / 1000) > 0 &&
+          <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
+        }
+        <p>ID: {id.toString()}</p>
+        {
+          !onSale && !onRace &&
+          <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
+        }
+                <hr style={{width:'100%'}}/>
+
       </div>      
       <div ref={cardOverlay} className="card-overlay"/>
     </div>
