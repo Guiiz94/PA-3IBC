@@ -205,6 +205,7 @@ class Dapp extends React.Component {
                   submitFonction={(nftId, price) => this._sellNft(nftId, price)}
                   nftsId={this.state.nftsId}
                   collection={this.state.nfts}
+                  enterRace={(nftId, speed, acceleration, maniability) => this._enterRace(nftId, speed, acceleration, maniability)}
                 />
               ) : (
                 <></>
@@ -259,8 +260,7 @@ class Dapp extends React.Component {
                 submitFonction={(nftId, price) => this._sellNft(nftId, price)}
                 nftsId={this.state.nftsId}
                 collection={this.state.nfts}
-                enterRace={(nftId, speed, acceleration, maniability) =>
-                  this._enterRace(nftId, speed, acceleration, maniability)
+                enterRace={(nftId, speed, acceleration, maniability) => this._enterRace(nftId, speed, acceleration, maniability)
                 }
               />
             ) : (
@@ -443,6 +443,11 @@ class Dapp extends React.Component {
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
+    this._race = new ethers.Contract(
+     RaceAddress.Token,
+     RaceArtifact.abi, 
+     this._provider.getSigner(0)
+    );
   }
 
   // The next two methods are needed to start and stop polling data. While
@@ -474,7 +479,7 @@ class Dapp extends React.Component {
     const nftName = await this._nft.name();
     const nftSymbol = await this._nft.symbol();
     const tokenName = await this._token.name();
-    const tokenSymbol = await this._token.symbol();
+    const tokenSymbol = await this._token.symbol(); 
 
     this.setState({ nftData: { nftName, nftSymbol } });
     this.setState({ tokenData: { tokenName, tokenSymbol } });

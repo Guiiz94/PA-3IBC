@@ -26,7 +26,7 @@ interface CardProps {
 }
 
 
-const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, description,submitFonction,onSale,currentPrice,timeout, speed, acceleration, maniability, enterRace}) => {
+const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,description,submitFonction,onSale,currentPrice,timeout,speed,acceleration,maniability,enterRace}) => {
   
   // console.log(timeout);
   
@@ -191,8 +191,8 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file, rarity_index, des
           <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
         }
         {
-        enterRace &&
-        <button onClick={() => enterRace(id, speed, acceleration, maniability)}>Entrer dans la course</button>
+          !enterRace &&
+          <button onClick={() => enterRace(id, speed, acceleration, maniability)}>Entrer dans la course</button>
         }
       </div>      
       <div ref={cardOverlay} className="card-overlay"/>
