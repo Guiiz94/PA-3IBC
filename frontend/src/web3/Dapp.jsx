@@ -44,6 +44,7 @@ const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 var isRegister = true;
+var addrAdmin = "0x368A8eB0f28766a13fB803E0777eb68A25a2080d";
 
 // This component is in charge of doing these things:
 //   1. It connects to the user's wallet
@@ -86,6 +87,8 @@ class Dapp extends React.Component {
         winnerPrize: 0,
         tabValue: 0,
         profileData: null,
+        betRace: [],
+        entryRace: [],
       };
     }
 
@@ -140,6 +143,9 @@ class Dapp extends React.Component {
             <p>{profileData.user.WalletUser}</p>
             <p>XP: {profileData.user.XPUser}</p>
             <p>Level: {profileData.user.LVLUser}</p>
+            <button className="supprButton" style={{ background: 'red', fontSize: '85%', height: '70%', width: '15%', marginLeft: '3%', opacity: '80%' }} onClick={() => this._deleteUser(this.state.profileData.user.WalletUser)}>
+              Supprimer mon compte
+            </button>
           </>
         ) : (
           <p>Pas de données de profil utilisateur</p>
@@ -226,8 +232,8 @@ class Dapp extends React.Component {
                 <></>
               )}
 
-              {this.props.page == "race" && (
-                <>
+              {this.props.page == "race" && this.state.selectedAddress == addrAdmin && (
+                  <>
                   <TextField
                     label="Prix"
                     variant="outlined"
@@ -242,6 +248,9 @@ class Dapp extends React.Component {
                     Run Race
                   </Button>
                 </>
+              //Afficher les voitures en list de la course et les parie sur les voitures
+         
+              
               )}
             </div>
           </div>
@@ -419,6 +428,8 @@ class Dapp extends React.Component {
     this._startPollingData();
     this._updateNFTs();
     this._updateAuctionNFTs();
+    this._getRaceEntries();
+    this._getRaceBets();
   }
 
   async _initializeEthers() {
@@ -538,6 +549,17 @@ class Dapp extends React.Component {
     const url = "http://51.68.124.217:3030/api/users/check/" + UserWallet;
     const response = await axios.get(url);
     return response.data;
+  }
+
+  _deleteUser = async (UserWallet) => {
+    const url = "http://51.68.124.217:3030/api/users/delete/" + UserWallet;
+    try {
+      const response = await axios.delete(url);
+      window.location.href = '/home';
+      return response.data;
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'utilisateur :", error);
+    }
   }
 
   async _buyToken(amount) {
@@ -857,7 +879,26 @@ class Dapp extends React.Component {
       console.error("An error occurred while running the race: ", error);
     }
   }
+
+  async _getRaceEntries() {
+    try {
+      const raceEntries = await this._race.getRaceEntries();
+      this.setState({ entryRace : raceEntries });
   
+    } catch (error) {
+      console.error("An error occurred while getting the race: ", error);
+    }
+  }
+
+  async _getBetsRace() {
+    try {
+      const raceBETs = await this._race.getBets();
+      this.setState({ betRace : raceBETs });
+    } catch (error) {
+      console.error("Failed to get bets: ", error);
+    }
+  }
+
 }
 
 function TabPanel(props) {

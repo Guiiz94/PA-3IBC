@@ -1,8 +1,6 @@
 import React from 'react';
-import Navbar from './Navbar.jsx';
 import demo_gif from './images/course.gif'
 import './HomePage.css';
-import Dapp from './web3/Dapp.jsx';
 
 const HomePage = () => {
   return (
