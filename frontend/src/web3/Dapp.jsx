@@ -268,7 +268,6 @@ class Dapp extends React.Component {
                     //Afficher les voitures en list de la course et les parie sur les voitures
                   <div className="row">
                     <div className="col-12">
-                      <p>{entry.carId}</p>
                       <p>{entry.speed}</p>
                       <p>{entry.acceleration}</p>
                       <p>{entry.maniability}</p>
@@ -281,11 +280,10 @@ class Dapp extends React.Component {
 
             {this.props.page == "race" && (
               <>
-                {entryRace.map((entry) => (
+                 { this.state.entryRace && this.state.entryRace.map((entry) => (
                     //Afficher les voitures en list de la course et les parie sur les voitures
                   <div className="row">
                     <div className="col-12">
-                      <p>{entry.carId}</p>
                       <p>{entry.speed}</p>
                       <p>{entry.acceleration}</p>
                       <p>{entry.maniability}</p>
