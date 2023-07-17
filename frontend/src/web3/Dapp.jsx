@@ -43,7 +43,7 @@ const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 var isRegister = true;
-var addrAdmin = 0x368a8eb0f28766a13fb803e0777eb68a25a2080d;
+var addrAdmin = 0xa35CC4A4096d53e718460fDDE30d36854133282A;
 
 // This component is in charge of doing these things:
 //   1. It connects to the user's wallet
@@ -388,7 +388,7 @@ class Dapp extends React.Component {
               )}
 
             {this.props.page == "race" &&
-              this.state.selectedAddress == !addrAdmin && (
+              this.state.selectedAddress != addrAdmin && (
                 <>
                   {this.state.entryRace && this.state.entryRace.length > 0 && (
                     <div className="row">
