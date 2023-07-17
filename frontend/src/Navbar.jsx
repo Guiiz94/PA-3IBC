@@ -45,10 +45,10 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
         <div className='navbar-content'>
-          <div className='logo-content'>
+          <a className='logo-content' href="/home">
             <img className='navbar-logo' src={logo} width='80px'/>
             <h2>F-RACE</h2>
-          </div>
+          </a>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item active">
