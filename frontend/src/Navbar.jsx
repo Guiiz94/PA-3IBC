@@ -24,23 +24,6 @@ const Navbar = () => {
     });
   }, []);
 
-  useEffect(() => {
-    const fetchPseudo = async () => {
-      const url = `http://localhost:3000/user/check/${account}`;
-
-      try {
-        const response = await axios.get(url);
-        setPseudo(response.data.pseudo);
-      } catch (error) {
-        console.error('Erreur lors de la récupération du pseudo:', error);
-      }
-    };
-
-    if (account) {
-      fetchPseudo();
-    }
-  }, [account]);
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">

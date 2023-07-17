@@ -874,21 +874,83 @@ class Dapp extends React.Component {
       const receipt = await tx.wait();
       console.log(receipt);
       const winnerTokenId = receipt.events[0].args[0];
+  
+      // Utilisez ownerOf pour obtenir l'adresse du portefeuille associée au TokenID gagnant
+      const winnerWalletAddress = await this._race.ownerOf(winnerTokenId);
+  
+      this._getWinnerRace(winnerWalletAddress);  // ajout de 'this.'
+      
+      // Obtenir les participants
+      const raceEntries = await this._race.getRaceEntries();
+      this._levelUpParticipants(raceEntries);  // Appeler la fonction pour augmenter le niveau des participants
+  
       return winnerTokenId;
     } catch (error) {
       console.error("An error occurred while running the race: ", error);
     }
   }
+  
+
 
   async _getRaceEntries() {
     try {
       const raceEntries = await this._race.getRaceEntries();
       this.setState({ entryRace : raceEntries });
+
+      // Après avoir obtenu les entrées de la course, vous pouvez les envoyer à votre API
+      this._getParticipantsRace(raceEntries);
   
     } catch (error) {
       console.error("An error occurred while getting the race: ", error);
     }
   }
+
+  async _levelUpParticipants(participants) {
+    try {
+      for (let i = 0; i < participants.length; i++) {
+        const participant = participants[i];
+  
+        // Envoyer la requête pour chaque participant
+        const response = await axios.post(`http://51.68.124.217:3030/api/users/levelUpUser/${participant}`);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("An error occurred while leveling up the participants: ", error);
+    }
+  }
+  
+
+  async _getWinnerRace(wallet) { 
+    try {
+      const uri = `http://51.68.124.217:3030/api/users/incrementXPUser/winner/${wallet}`;
+      const response = await axios.post(uri);
+      console.log(response.data);
+    } catch(error) {
+      console.error("An error occurred while getting the winner: ", error);
+    }
+  }
+
+
+  async _getParticipantsRace(participants) {
+    try {
+      for (let i = 0; i < participants.length; i++) {
+        const participant = participants[i];
+
+        // Utilisez 'trim()' pour supprimer les espaces de début et de fin
+        const walletAddress = participant[1].trim();
+        
+        const response = await axios.post(`http://51.68.124.217:3030/api/users/incrementXPUser/participate/${walletAddress}`);
+
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("An error occurred while sending the participants to the API: ", error);
+    }
+}
+
+
+
+  
 
   async _getBetsRace() {
     try {

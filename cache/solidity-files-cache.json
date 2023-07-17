@@ -40,11 +40,7 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557583520,
-=======
-      "lastModificationDate": 1689415950261,
->>>>>>> MR
       "contentHash": "5a20b2cad87ddb61c7a3a6af21289e28",
       "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
       "solcConfig": {
@@ -81,11 +77,7 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557583064,
-=======
-      "lastModificationDate": 1689415949671,
->>>>>>> MR
       "contentHash": "3ae5166c6827a9cf1a7a462d1632b464",
       "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
       "solcConfig": {
@@ -124,11 +116,7 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557582918,
-=======
-      "lastModificationDate": 1689415949339,
->>>>>>> MR
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -163,11 +151,7 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557583342,
-=======
-      "lastModificationDate": 1689415950040,
->>>>>>> MR
       "contentHash": "df36f7051335cd1e748b1b6463b7fdd3",
       "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
       "solcConfig": {
@@ -202,11 +186,7 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557583352,
-=======
-      "lastModificationDate": 1689415950049,
->>>>>>> MR
       "contentHash": "909ab67fc5c25033fe6cd364f8c056f9",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
       "solcConfig": {
@@ -242,10 +222,9 @@
         "IERC20Metadata"
       ]
     },
-<<<<<<< HEAD
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/Race.sol": {
-      "lastModificationDate": 1689545908520,
-      "contentHash": "36ef15902dac94eae6d422f8829561fb",
+      "lastModificationDate": 1689601660428,
+      "contentHash": "bc73e49c0fbea14a8aab75f9eb93d8db",
       "sourceName": "contracts/Race.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -281,11 +260,9 @@
         "Race"
       ]
     },
-=======
->>>>>>> MR
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/NFTCar.sol": {
-      "lastModificationDate": 1689415477954,
-      "contentHash": "0c87dcb5deda0b6fd3de835e08a33c58",
+      "lastModificationDate": 1689601660426,
+      "contentHash": "4a1e8a8f20f61a30af06dbc103acf5a3",
       "sourceName": "contracts/NFTCar.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -362,54 +339,8 @@
         "NFTCarFactory"
       ]
     },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
-<<<<<<< HEAD
-      "lastModificationDate": 1689557583594,
-=======
-      "lastModificationDate": 1689415950378,
->>>>>>> MR
-      "contentHash": "48686fc32a22a3754b8e63321857dd2a",
-      "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./math/Math.sol",
-        "./math/SignedMath.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Strings"
-      ]
-    },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557583159,
-=======
-      "lastModificationDate": 1689415949857,
->>>>>>> MR
       "contentHash": "de368c6a87e159c86544ae5041b58cf3",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
       "solcConfig": {
@@ -446,14 +377,10 @@
         "ERC721URIStorage"
       ]
     },
-<<<<<<< HEAD
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
-      "lastModificationDate": 1689557583486,
-=======
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/math/SignedMath.sol": {
-      "lastModificationDate": 1689415950361,
-      "contentHash": "9488ebd4daacfee8ad04811600d7d061",
-      "sourceName": "@openzeppelin/contracts/utils/math/SignedMath.sol",
+    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
+      "lastModificationDate": 1689557583594,
+      "contentHash": "48686fc32a22a3754b8e63321857dd2a",
+      "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
         "version": "0.8.9",
         "settings": {
@@ -477,17 +404,19 @@
           }
         }
       },
-      "imports": [],
+      "imports": [
+        "./math/Math.sol",
+        "./math/SignedMath.sol"
+      ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "SignedMath"
+        "Strings"
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
-      "lastModificationDate": 1689415950247,
->>>>>>> MR
+      "lastModificationDate": 1689557583486,
       "contentHash": "fe63409d8a06818b926cf89e0ea88b1b",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
       "solcConfig": {
@@ -521,7 +450,6 @@
         "Math"
       ]
     },
-<<<<<<< HEAD
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/math/SignedMath.sol": {
       "lastModificationDate": 1689557583581,
       "contentHash": "9488ebd4daacfee8ad04811600d7d061",
@@ -559,10 +487,6 @@
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/interfaces/IERC4906.sol": {
       "lastModificationDate": 1689557583375,
-=======
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/interfaces/IERC4906.sol": {
-      "lastModificationDate": 1689415950093,
->>>>>>> MR
       "contentHash": "d3f355e15269d1476d86c84730cebb5e",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC4906.sol",
       "solcConfig": {
@@ -600,11 +524,7 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-<<<<<<< HEAD
       "lastModificationDate": 1689557583117,
-=======
-      "lastModificationDate": 1689415949778,
->>>>>>> MR
       "contentHash": "95602b04f0b53f1139f4668d123ddeb7",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
@@ -646,12 +566,8 @@
         "ERC721"
       ]
     },
-<<<<<<< HEAD
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/interfaces/IERC721.sol": {
-      "lastModificationDate": 1689557583389,
-=======
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/interfaces/IERC165.sol": {
-      "lastModificationDate": 1689415950014,
+      "lastModificationDate": 1689557583324,
       "contentHash": "ee9624272968c23d93d4c2e39f06e6e2",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC165.sol",
       "solcConfig": {
@@ -686,8 +602,7 @@
       "artifacts": []
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/interfaces/IERC721.sol": {
-      "lastModificationDate": 1689415950123,
->>>>>>> MR
+      "lastModificationDate": 1689557583389,
       "contentHash": "e6da7798a8c22c5043cc42d64a2a8f80",
       "sourceName": "@openzeppelin/contracts/interfaces/IERC721.sol",
       "solcConfig": {
@@ -721,90 +636,6 @@
       ],
       "artifacts": []
     },
-<<<<<<< HEAD
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/interfaces/IERC165.sol": {
-      "lastModificationDate": 1689557583324,
-      "contentHash": "ee9624272968c23d93d4c2e39f06e6e2",
-      "sourceName": "@openzeppelin/contracts/interfaces/IERC165.sol",
-=======
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1689415950017,
-      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
-      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
->>>>>>> MR
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../utils/introspection/IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": []
-    },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-<<<<<<< HEAD
-      "lastModificationDate": 1689557583391,
-=======
-      "lastModificationDate": 1689415950127,
->>>>>>> MR
-      "contentHash": "48de4c9a3a4ae5ef66a2aa620843413f",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../../utils/introspection/IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC721"
-      ]
-    },
-<<<<<<< HEAD
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
       "lastModificationDate": 1689557583325,
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
@@ -840,12 +671,45 @@
         "IERC165"
       ]
     },
+    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
+      "lastModificationDate": 1689557583391,
+      "contentHash": "48de4c9a3a4ae5ef66a2aa620843413f",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721"
+      ]
+    },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/Address.sol": {
       "lastModificationDate": 1689557582884,
-=======
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/Address.sol": {
-      "lastModificationDate": 1689415949302,
->>>>>>> MR
       "contentHash": "211ffd288c1588ba8c10eae668ca3c66",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
@@ -879,46 +743,6 @@
         "Address"
       ]
     },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
-<<<<<<< HEAD
-      "lastModificationDate": 1689557583407,
-=======
-      "lastModificationDate": 1689415950154,
->>>>>>> MR
-      "contentHash": "c22d4395e33763de693fd440c6fd10e1",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC721Receiver"
-      ]
-    },
-<<<<<<< HEAD
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
       "lastModificationDate": 1689557583048,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
@@ -958,10 +782,6 @@
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
       "lastModificationDate": 1689557583403,
-=======
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
-      "lastModificationDate": 1689415950149,
->>>>>>> MR
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
@@ -996,13 +816,11 @@
       "artifacts": [
         "IERC721Metadata"
       ]
-<<<<<<< HEAD
-=======
     },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1689415949556,
-      "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
-      "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
+    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+      "lastModificationDate": 1689557583407,
+      "contentHash": "c22d4395e33763de693fd440c6fd10e1",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
         "version": "0.8.9",
         "settings": {
@@ -1026,54 +844,13 @@
           }
         }
       },
-      "imports": [
-        "./IERC165.sol"
-      ],
+      "imports": [],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "ERC165"
+        "IERC721Receiver"
       ]
-    },
-    "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/Race.sol": {
-      "lastModificationDate": 1689545908520,
-      "contentHash": "36ef15902dac94eae6d422f8829561fb",
-      "sourceName": "contracts/Race.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./NFTCar.sol",
-        "./FCarToken.sol"
-      ],
-      "versionPragmas": [
-        ">=0.7.0 <0.9.0"
-      ],
-      "artifacts": [
-        "Race"
-      ]
->>>>>>> MR
     }
   }
 }
