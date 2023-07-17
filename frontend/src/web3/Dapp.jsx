@@ -7,11 +7,10 @@ import TextField from "@material-ui/core/TextField";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Box from "@material-ui/core/Box";
 import "./Dapp.css";
-import AuctionComponent from "../Encheres.jsx";
-import Utils from "./Utils.jsx";
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
+import { BigNumber } from "ethers";
 
 // We import the contract's artifacts and address here, as we are going to be
 // using them with ethers
@@ -44,7 +43,7 @@ const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 var isRegister = true;
-var addrAdmin = 0x368A8eB0f28766a13fB803E0777eb68A25a2080d;
+var addrAdmin = 0x368a8eb0f28766a13fb803e0777eb68a25a2080d;
 
 // This component is in charge of doing these things:
 //   1. It connects to the user's wallet
@@ -171,10 +170,10 @@ class Dapp extends React.Component {
           style={{ display: "flex", justifyContent: "center", height: "70vh" }}
         >
           <div className="col-12">
-            <h1>
+            {/* <h1>
               {this.state.tokenData.tokenName} (
               {this.state.tokenData.tokenSymbol})
-            </h1>
+            </h1> */}
             <p>
               Welcome <b>{this.state.selectedAddress}</b>, you have
               {this.state.balance.eq(0) ? " no" : ""}{" "}
@@ -249,73 +248,163 @@ class Dapp extends React.Component {
             {this.props.page == "race" &&
               this.state.selectedAddress == addrAdmin && (
                 <>
-                  <TextField
-                    label="Prix"
-                    variant="outlined"
-                    className="button"
-                    value={this.state.price}
-                    onChange={(e) => this.setState({ price: e.target.value })}
-                  />
                   <Button
                     style={{ backgroundColor: "white", color: "black" }}
                     onClick={() => this._runRace(this.state.price)}
-                    >
-                    Run Race
+                  >
+                    Lancer la course
                   </Button>
-                  
 
-                  { this.state.entryRace &&                   
-                  this.state.entryRace.map((entry) => (
-                    //Afficher les voitures en list de la course 
-                  <div className="row">
-                    <div className="col-12">
-                      <p>{Number(entry.tokenId)}</p>
-                      <p>{entry.owner}</p>
-                      <p>{entry.speed}</p>
-                      <p>{entry.acceleration}</p>
-                      <p>{entry.maniability}</p>
-                    </div>
-                  </div>
-                  ))
-                
-                }
+                  {this.state.entryRace && this.state.entryRace.length > 0 && (
+                    <div className="row">
+                      <div className="col-6">
+                        <h3>Participants</h3>
+                        <table style={{ borderCollapse: "collapse" }}>
+                          <thead>
+                            <tr>
+                              <th style={{ border: "1px solid black" }}>
+                                ID du jeton
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Propriétaire
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Vitesse
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Accélération
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Maniabilité
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {this.state.entryRace.map((entry, index) => (
+                              <tr key={index}>
+                                <td style={{ border: "1px solid black" }}>
+                                  {Number(entry.tokenId)}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.owner}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.speed}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.acceleration}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.maniability}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Montant du pari"
+                                    onChange={(e) =>
+                                      this.setState({
+                                        betAmount: e.target.value,
+                                      })
+                                    }
+                                  />
+                                  <Button
+                                    onClick={() =>
+                                      this._placeBet(
+                                        entry.tokenId,
+                                        this.state.betAmount
+                                      )
+                                    }
+                                  >
+                                    Parier sur ce participant
+                                  </Button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
 
-                { this.state.entryRace && 
-                  this.state.betRace.map((bet) => (
-                    //Afficher  les parie sur les voitures
-                  <div className="row">
-                    <div className="col-12">
-                      <p>{bet.bettor}</p>
-                      <p>{bet.amount}</p>
-                      <p>{bet.carID}</p>
+                      {this.state.betRace && this.state.betRace.length > 0 && (
+                        <div className="col-6">
+                          <h3>Pari en cours</h3>
+                          <table style={{ borderCollapse: "collapse" }}>
+                            <thead>
+                              <tr>
+                                <th style={{ border: "1px solid black" }}>
+                                  Parieur
+                                </th>
+                                <th style={{ border: "1px solid black" }}>
+                                  Montant
+                                </th>
+                                <th style={{ border: "1px solid black" }}>
+                                  ID de la voiture
+                                </th>
+                                <th style={{ border: "1px solid black" }}>
+                                  Total des paris
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {this.state.betRace.map((bet, index) => (
+                                <tr key={index}>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {bet.bettor}
+                                  </td>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {bet.amount.toString()}
+                                  </td>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {bet.carId.toString()}
+                                  </td>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {this.state.betRace
+                                      .filter(
+                                        (b) =>
+                                          b.carId.toString() ===
+                                          bet.carId.toString()
+                                      )
+                                      .reduce(
+                                        (total, b) =>
+                                          total.add(
+                                            BigNumber.from(b.amount.toString())
+                                          ),
+                                        BigNumber.from(0)
+                                      )
+                                      .toString()}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  ))
-                
-                
-                }
-                </>       
+                  )}
+                </>
               )}
 
             {this.props.page == "race" &&
-            this.state.selectedAddress != addrAdmin && (
-              <>
-                 { this.state.entryRace && this.state.entryRace.map((entry) => (
-                    //Afficher les voitures en list de la course et les parie sur les voitures
-                  <div className="row">
-                    <div className="col-12">
-                      <p>{entry.speed}</p>
-                      <p>{entry.acceleration}</p>
-                      <p>{entry.maniability}</p>
-                    </div>
-                  </div>
-                ))}
-              </>
-            )}
+              this.state.selectedAddress != addrAdmin && (
+                <>
+                  {this.state.entryRace &&
+                    this.state.entryRace.map((entry) => (
+                      //Afficher les voitures en list de la course et les parie sur les voitures
+                      <div className="row">
+                        <div className="col-12">
+                          <p>{entry.speed}</p>
+                          <p>{entry.acceleration}</p>
+                          <p>{entry.maniability}</p>
+                        </div>
+                      </div>
+                    ))}
+                </>
+              )}
           </div>
         </div>
-
-
 
         <div className="row">
           <div className="col-12">
@@ -878,7 +967,6 @@ class Dapp extends React.Component {
     }
   }
 
-  //A FAIRE
   async _enterRace(tokenId, speed, acceleration, maniability) {
     try {
       const auth = await this._token.approve(this._race.address, 10, {
@@ -894,6 +982,19 @@ class Dapp extends React.Component {
       await tx.wait();
     } catch (error) {
       console.error("An error occurred while entering the race: ", error);
+    }
+  }
+
+  async _placeBet(tokenId, amount) {
+    try {
+      const auth = await this._token.approve(this._race.address, 10, {
+        gasLimit: 100000,
+      });
+      const authReceipt = await auth.wait();
+      const bet = await this._race.placeBet(tokenId, amount);
+      await bet.wait();
+    } catch (error) {
+      console.error("An error occurred while placing the bet: ", error);
     }
   }
 
@@ -923,6 +1024,7 @@ class Dapp extends React.Component {
   async _getBetsRace() {
     try {
       const raceBETs = await this._race.getBets();
+      console.log(raceBETs);
       this.setState({ betRace: raceBETs });
     } catch (error) {
       console.error("Failed to get bets: ", error);
