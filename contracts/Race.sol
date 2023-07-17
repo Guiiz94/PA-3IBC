@@ -67,7 +67,7 @@ contract Race {
         raceEntries.push(newEntry);
     }
 
-    function runRace() public returns (uint256) {
+    function runRace() public returns (address) {
         // Vérifiez qu'il y a des entrées dans la course
         require(
             raceEntries.length > 0,
@@ -97,7 +97,8 @@ contract Race {
         racePrice = 0;
         // Renvoyez l'ID du token du vainqueur
         emit Win(nftCar.ownerOf(winner));
-        return winner;
+        address winnerAddress = nftCar.ownerOf(winner);
+        return winnerAddress;
     }
 
     function carInRace(uint256 _carId) internal view returns (bool) {
