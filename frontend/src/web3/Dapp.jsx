@@ -44,7 +44,7 @@ const HARDHAT_NETWORK_ID = "31337";
 const ERROR_CODE_TX_REJECTED_BY_USER = 4001;
 
 var isRegister = true;
-var addrAdmin = "0x368A8eB0f28766a13fB803E0777eb68A25a2080d";
+var addrAdmin = 0xa35CC4A4096d53e718460fDDE30d36854133282A;
 
 // This component is in charge of doing these things:
 //   1. It connects to the user's wallet
@@ -268,6 +268,8 @@ class Dapp extends React.Component {
                     //Afficher les voitures en list de la course et les parie sur les voitures
                   <div className="row">
                     <div className="col-12">
+                      <p>{Number(entry.tokenId)}</p>
+                      <p>{entry.owner}</p>
                       <p>{entry.speed}</p>
                       <p>{entry.acceleration}</p>
                       <p>{entry.maniability}</p>
@@ -278,7 +280,8 @@ class Dapp extends React.Component {
                 </>       
               )}
 
-            {this.props.page == "race" && (
+            {this.props.page == "race" &&
+            this.state.selectedAddress != addrAdmin && (
               <>
                  { this.state.entryRace && this.state.entryRace.map((entry) => (
                     //Afficher les voitures en list de la course et les parie sur les voitures
@@ -893,6 +896,7 @@ class Dapp extends React.Component {
   async _getRaceEntries() {
     try {
       const raceEntries = await this._race.getRaceEntries();
+      console.log(raceEntries);
       this.setState({ entryRace: raceEntries });
     } catch (error) {
       console.error("An error occurred while getting the race: ", error);
