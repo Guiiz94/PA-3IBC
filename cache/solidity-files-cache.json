@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/FCarToken.sol": {
-      "lastModificationDate": 1689415477954,
-      "contentHash": "2a33437c3be2eb24cc993327761d4bb3",
+      "lastModificationDate": 1689631804581,
+      "contentHash": "d539ff60390ef70e6f57df8309e2a76f",
       "sourceName": "contracts/FCarToken.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -223,8 +223,8 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/Race.sol": {
-      "lastModificationDate": 1689629189231,
-      "contentHash": "e998a687dfdf57e098789d1683ecbfd7",
+      "lastModificationDate": 1689633368494,
+      "contentHash": "a4418645060d21941b43bd65c72057df",
       "sourceName": "contracts/Race.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -261,8 +261,8 @@
       ]
     },
     "/Users/matteo/Documents/L3/S2/PA/PA-3IBC/contracts/NFTCar.sol": {
-      "lastModificationDate": 1689601660426,
-      "contentHash": "4a1e8a8f20f61a30af06dbc103acf5a3",
+      "lastModificationDate": 1689631804582,
+      "contentHash": "050470d44e586473319c911b33d5d83a",
       "sourceName": "contracts/NFTCar.sol",
       "solcConfig": {
         "version": "0.8.9",
