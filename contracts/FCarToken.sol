@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract FCarToken is ERC20, Ownable{
     uint256 decimalFactor;
     constructor() ERC20("F-RACEToken","FRT"){
-        decimalFactor = 10**5;
+        decimalFactor = 1;
         uint256 totalSupply = 1000000000 * decimalFactor; // Total supply of 1 trillion tokens
         _mint(address(this), totalSupply);
     }

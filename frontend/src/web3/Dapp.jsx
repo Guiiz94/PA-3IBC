@@ -469,6 +469,9 @@ class Dapp extends React.Component {
       RaceArtifact.abi,
       this._provider.getSigner(0)
     );
+    this._race.on("Win",(winner)=>{
+      console.log(winner);
+    })
     // console.log(this._race);
   }
 
@@ -517,7 +520,7 @@ class Dapp extends React.Component {
     this.setState({ nftsId });
 
     const nftArr = [];
-
+    
     nftsId.forEach(async (nft) => {
       nftArr.push(await this._getNft(nft));
     });
@@ -883,11 +886,12 @@ class Dapp extends React.Component {
   async _runRace() {
     try {
       // Passez le prix du gagnant à la fonction runRace de votre contrat
-      const tx = await this._race.runRace();
-      const receipt = await tx.wait();
-      console.log(receipt);
-      const winnerTokenId = receipt.events[0].args[0];
-      return winnerTokenId;
+      const tokenId = await this._race.runRace();
+      console.log("TokenId : ", tokenId);
+      // const receipt = await tx.wait();
+      // console.log(receipt);
+      // const winnerTokenId = receipt.events[0].args[0];
+      return 0;
     } catch (error) {
       console.error("An error occurred while running the race: ", error);
     }
