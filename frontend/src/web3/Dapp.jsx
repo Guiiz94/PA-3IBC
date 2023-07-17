@@ -388,19 +388,137 @@ class Dapp extends React.Component {
               )}
 
             {this.props.page == "race" &&
-              this.state.selectedAddress != addrAdmin && (
+              this.state.selectedAddress == !addrAdmin && (
                 <>
-                  {this.state.entryRace &&
-                    this.state.entryRace.map((entry) => (
-                      //Afficher les voitures en list de la course et les parie sur les voitures
-                      <div className="row">
-                        <div className="col-12">
-                          <p>{entry.speed}</p>
-                          <p>{entry.acceleration}</p>
-                          <p>{entry.maniability}</p>
-                        </div>
+                  {this.state.entryRace && this.state.entryRace.length > 0 && (
+                    <div className="row">
+                      <div className="col-6">
+                        <h3>Participants</h3>
+                        <table style={{ borderCollapse: "collapse" }}>
+                          <thead>
+                            <tr>
+                              <th style={{ border: "1px solid black" }}>
+                                ID du jeton
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Propriétaire
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Vitesse
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Accélération
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Maniabilité
+                              </th>
+                              <th style={{ border: "1px solid black" }}>
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {this.state.entryRace.map((entry, index) => (
+                              <tr key={index}>
+                                <td style={{ border: "1px solid black" }}>
+                                  {Number(entry.tokenId)}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.owner}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.speed}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.acceleration}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  {entry.maniability}
+                                </td>
+                                <td style={{ border: "1px solid black" }}>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Montant du pari"
+                                    onChange={(e) =>
+                                      this.setState({
+                                        betAmount: e.target.value,
+                                      })
+                                    }
+                                  />
+                                  <Button
+                                    onClick={() =>
+                                      this._placeBet(
+                                        entry.tokenId,
+                                        this.state.betAmount
+                                      )
+                                    }
+                                  >
+                                    Parier sur ce participant
+                                  </Button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
-                    ))}
+
+                      {this.state.betRace && this.state.betRace.length > 0 && (
+                        <div className="col-6">
+                          <h3>Pari en cours</h3>
+                          <table style={{ borderCollapse: "collapse" }}>
+                            <thead>
+                              <tr>
+                                <th style={{ border: "1px solid black" }}>
+                                  Parieur
+                                </th>
+                                <th style={{ border: "1px solid black" }}>
+                                  Montant
+                                </th>
+                                <th style={{ border: "1px solid black" }}>
+                                  ID de la voiture
+                                </th>
+                                <th style={{ border: "1px solid black" }}>
+                                  Total des paris
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {this.state.betRace.map((bet, index) => (
+                                <tr key={index}>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {bet.bettor}
+                                  </td>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {bet.amount.toString()}
+                                  </td>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {bet.carId.toString()}
+                                  </td>
+                                  <td style={{ border: "1px solid black" }}>
+                                    {this.state.betRace
+                                      .filter(
+                                        (b) =>
+                                          b.carId.toString() ===
+                                          bet.carId.toString()
+                                      )
+                                      .reduce(
+                                        (total, b) =>
+                                          total.add(
+                                            BigNumber.from(b.amount.toString())
+                                          ),
+                                        BigNumber.from(0)
+                                      )
+                                      .toString()}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
           </div>
