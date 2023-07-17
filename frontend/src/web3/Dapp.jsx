@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { Tab, Tabs } from "@material-ui/core";
@@ -57,7 +57,6 @@ var addrAdmin = "0x368A8eB0f28766a13fB803E0777eb68A25a2080d";
 // you how to keep your Dapp and contract's state in sync,  and how to send a
 // transaction.
 class Dapp extends React.Component {
-  
   constructor(props) {
     super(props);
 
@@ -134,56 +133,69 @@ class Dapp extends React.Component {
     // If everything is loaded, we render the application.
     return (
       <div className="container p-4">
-          {!isRegister && <SignUp userAddress={this.state.selectedAddress} />}
-          <div className="banderole">
-      {profileData ? (
-        profileData.success && profileData.user ? (
-          <>
-            <p>{profileData.user.PseudoUser}</p>
-            <p>{profileData.user.WalletUser}</p>
-            <p>XP: {profileData.user.XPUser}</p>
-            <p>Level: {profileData.user.LVLUser}</p>
-            <button className="supprButton" style={{ background: 'red', fontSize: '85%', height: '70%', width: '15%', marginLeft: '3%', opacity: '80%' }} onClick={() => this._deleteUser(this.state.profileData.user.WalletUser)}>
-              Supprimer mon compte
-            </button>
-          </>
-        ) : (
-          <p>Pas de données de profil utilisateur</p>
-        )
-      ) : (
-        <p>Chargement des données de profil...</p>
-      )}
-    </div>
-          <div
-            className="row"
-            style={{ display: "flex", justifyContent: "center", height: "70vh" }}
-          >
-            <div className="col-12">
-              <h1>
-                {this.state.tokenData.tokenName} (
-                {this.state.tokenData.tokenSymbol})
-              </h1>
-              <p>
-                Welcome <b>{this.state.selectedAddress}</b>, you have
-                {this.state.balance.eq(0) ? " no" : ""}{" "}
-                {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}
-                .
-                {this.props.page == "marketplace" && (
-                  <>
-                    <Tabs
-                      value={this.state.tabValue}
-                      onChange={this.handleTabChange}
-                      aria-label="simple tabs example"
-                    >
-                      <Tab label="Buy NFT" style={{ marginRight: "130px" }} />
-                      <Tab label="Buy Token" />
-                    </Tabs>
-                    <TabPanel value={this.state.tabValue} index={0}>
-                      <NewCar
-                        generateNFT={(rarity) => this._generateNFT(rarity)}
-                        type={0}
-                      />
-                      {/* <NewCar
+        {!isRegister && <SignUp userAddress={this.state.selectedAddress} />}
+        <div className="banderole">
+          {profileData ? (
+            profileData.success && profileData.user ? (
+              <>
+                <p>{profileData.user.PseudoUser}</p>
+                <p>{profileData.user.WalletUser}</p>
+                <p>XP: {profileData.user.XPUser}</p>
+                <p>Level: {profileData.user.LVLUser}</p>
+                <button
+                  className="supprButton"
+                  style={{
+                    background: "red",
+                    fontSize: "85%",
+                    height: "70%",
+                    width: "15%",
+                    marginLeft: "3%",
+                    opacity: "80%",
+                  }}
+                  onClick={() =>
+                    this._deleteUser(this.state.profileData.user.WalletUser)
+                  }
+                >
+                  Supprimer mon compte
+                </button>
+              </>
+            ) : (
+              <p>Pas de données de profil utilisateur</p>
+            )
+          ) : (
+            <p>Chargement des données de profil...</p>
+          )}
+        </div>
+        <div
+          className="row"
+          style={{ display: "flex", justifyContent: "center", height: "70vh" }}
+        >
+          <div className="col-12">
+            <h1>
+              {this.state.tokenData.tokenName} (
+              {this.state.tokenData.tokenSymbol})
+            </h1>
+            <p>
+              Welcome <b>{this.state.selectedAddress}</b>, you have
+              {this.state.balance.eq(0) ? " no" : ""}{" "}
+              {this.state.balance.toString()} {this.state.tokenData.tokenSymbol}
+              .
+              {this.props.page == "marketplace" && (
+                <>
+                  <Tabs
+                    value={this.state.tabValue}
+                    onChange={this.handleTabChange}
+                    aria-label="simple tabs example"
+                  >
+                    <Tab label="Buy NFT" style={{ marginRight: "130px" }} />
+                    <Tab label="Buy Token" />
+                  </Tabs>
+                  <TabPanel value={this.state.tabValue} index={0}>
+                    <NewCar
+                      generateNFT={(rarity) => this._generateNFT(rarity)}
+                      type={0}
+                    />
+                    {/* <NewCar
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={1}
                       />
@@ -195,45 +207,48 @@ class Dapp extends React.Component {
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={3}
                       /> */}
-                    </TabPanel>
-                    <TabPanel value={this.state.tabValue} index={1}>
-                      <BuyToken buyToken={(amount) => this._buyToken(amount)} />
-                    </TabPanel>
-                  </>
-                )}
-              </p>
-
-              {this.props.page == "garage" &&
-              this.state.nftsId.length > 0 &&
-              this.state.nfts.length > 0 ? (
-                <Deck
-                  onSale={false}
-                  submitFonction={(nftId, price) => this._sellNft(nftId, price)}
-                  nftsId={this.state.nftsId}
-                  collection={this.state.nfts}
-                  enterRace={(nftId, speed, acceleration, maniability) => this._enterRace(nftId, speed, acceleration, maniability)}
-                />
-              ) : (
-                <></>
+                  </TabPanel>
+                  <TabPanel value={this.state.tabValue} index={1}>
+                    <BuyToken buyToken={(amount) => this._buyToken(amount)} />
+                  </TabPanel>
+                </>
               )}
+            </p>
 
-              {this.props.page == "enchere" &&
-              this.state.auctionNftsId.length > 0 &&
-              this.state.auctionNfts.length > 0 ? (
-                <Deck
-                  onSale={true}
-                  prices={this.state.auctionPrices}
-                  timeouts={this.state.auctionTimeouts}
-                  submitFonction={(nftId, price) => this._betNft(nftId, price)}
-                  nftsId={this.state.auctionNftsId}
-                  collection={this.state.auctionNfts}
-                />
-              ) : (
-                <></>
-              )}
+            {this.props.page == "garage" &&
+            this.state.nftsId.length > 0 &&
+            this.state.nfts.length > 0 ? (
+              <Deck
+                onSale={false}
+                submitFonction={(nftId, price) => this._sellNft(nftId, price)}
+                nftsId={this.state.nftsId}
+                collection={this.state.nfts}
+                enterRace={(nftId, speed, acceleration, maniability) =>
+                  this._enterRace(nftId, speed, acceleration, maniability)
+                }
+              />
+            ) : (
+              <></>
+            )}
 
-              {this.props.page == "race" && this.state.selectedAddress == addrAdmin && (
-                  <>
+            {this.props.page == "enchere" &&
+            this.state.auctionNftsId.length > 0 &&
+            this.state.auctionNfts.length > 0 ? (
+              <Deck
+                onSale={true}
+                prices={this.state.auctionPrices}
+                timeouts={this.state.auctionTimeouts}
+                submitFonction={(nftId, price) => this._betNft(nftId, price)}
+                nftsId={this.state.auctionNftsId}
+                collection={this.state.auctionNfts}
+              />
+            ) : (
+              <></>
+            )}
+
+            {this.props.page == "race" &&
+              this.state.selectedAddress == addrAdmin && (
+                <>
                   <TextField
                     label="Prix"
                     variant="outlined"
@@ -244,72 +259,86 @@ class Dapp extends React.Component {
                   <Button
                     style={{ backgroundColor: "white", color: "black" }}
                     onClick={() => this._runRace(this.state.price)}
-                  >
+                    >
                     Run Race
                   </Button>
-                </>
-              //Afficher les voitures en list de la course et les parie sur les voitures
-         
-              
+                  
+
+                  { this.state.entryRace && this.state.entryRace.map((entry) => (
+                    //Afficher les voitures en list de la course et les parie sur les voitures
+                  <div className="row">
+                    <div className="col-12">
+                      <p>{entry.carId}</p>
+                      <p>{entry.speed}</p>
+                      <p>{entry.acceleration}</p>
+                      <p>{entry.maniability}</p>
+                    </div>
+                  </div>
+                ))}
+
+                </>       
               )}
-            </div>
+
+            {this.props.page == "race" && (
+              <>
+                {entryRace.map((entry) => (
+                    //Afficher les voitures en list de la course et les parie sur les voitures
+                  <div className="row">
+                    <div className="col-12">
+                      <p>{entry.carId}</p>
+                      <p>{entry.speed}</p>
+                      <p>{entry.acceleration}</p>
+                      <p>{entry.maniability}</p>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
+        </div>
 
-            {/* {this.props.page == "garage" &&
-            this.state.nftsId.length > 0 &&
-            this.state.nfts.length > 0 ? (
-              <Deck
-                onSale={false}
-                submitFonction={(nftId, price) => this._sellNft(nftId, price)}
-                nftsId={this.state.nftsId}
-                collection={this.state.nfts}
-                enterRace={(nftId, speed, acceleration, maniability) => this._enterRace(nftId, speed, acceleration, maniability)
-                }
-              />
-            ) : (
-              <></>
-            )} */}
 
-          <div className="row">
-            <div className="col-12">
-              {/* 
+
+        <div className="row">
+          <div className="col-12">
+            {/* 
                 Sending a transaction isn't an immediate action. You have to wait
                 for it to be mined.
                 If we are waiting for one, we show a message here.
               */}
-              {this.state.txBeingSent && (
-                <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
-              )}
+            {this.state.txBeingSent && (
+              <WaitingForTransactionMessage txHash={this.state.txBeingSent} />
+            )}
 
-              {/* 
+            {/* 
                 Sending a transaction can fail in multiple ways. 
                 If that happened, we show a message here.
               */}
-              {this.state.transactionError && (
-                <TransactionErrorMessage
-                  message={this._getRpcErrorMessage(this.state.transactionError)}
-                  dismiss={() => this._dismissTransactionError()}
-                />
-              )}
-            </div>
+            {this.state.transactionError && (
+              <TransactionErrorMessage
+                message={this._getRpcErrorMessage(this.state.transactionError)}
+                dismiss={() => this._dismissTransactionError()}
+              />
+            )}
           </div>
+        </div>
 
-          <div className="row">
-            <div className="col-12">
-              {/*
+        <div className="row">
+          <div className="col-12">
+            {/*
                 If the user has no tokens, we don't show the Transfer form
               */}
-              {this.state.balance.eq(0) && (
-                <NoTokensMessage selectedAddress={this.state.selectedAddress} />
-              )}
+            {this.state.balance.eq(0) && (
+              <NoTokensMessage selectedAddress={this.state.selectedAddress} />
+            )}
 
-              {/*
+            {/*
                 This component displays a form that the user can use to send a 
                 transaction and transfer some tokens.
                 The component doesn't have logic, it just calls the transferTokens
                 callback.
               */}
-              {/* {this.state.balance.gt(0) && (
+            {/* {this.state.balance.gt(0) && (
                 // <Transfer
                 //   transferTokens={(to, amount) =>
                 //     this._transferTokens(to, amount)
@@ -323,27 +352,9 @@ class Dapp extends React.Component {
                   tokenSymbol={this.state.tokenData.symbol}
                 />
               )} */}
-            </div>
-            {this.props.page == "race" && (
-              <>
-                <input
-                  type="number"
-                  placeholder="Entrez le prix du gagnant"
-                  value={this.state.winnerPrize}
-                  onChange={(e) =>
-                    this.setState({ winnerPrize: e.target.value })
-                  }
-                />
-                <Button
-                  style={{ backgroundColor: "white", color: "black" }}
-                  onClick={() => this._runRace(this.state.winnerPrize)}
-                >
-                  Run Race
-                </Button>
-              </>
-            )}
           </div>
         </div>
+      </div>
     );
   }
 
@@ -357,16 +368,15 @@ class Dapp extends React.Component {
     const url = "http://51.68.124.217:3030/api/users/check/" + wallet;
     // console.log(wallet);
     // console.log(url);
-  
+
     try {
       const response = await axios.get(url);
       // console.log(response.data);
       this.setState({ profileData: response.data });
     } catch (error) {
-      console.error('Erreur lors de la récupération du pseudo:', error);
+      console.error("Erreur lors de la récupération du pseudo:", error);
     }
   }
-  
 
   async _connectWallet() {
     // This method is run when the user clicks the Connect. It connects the
@@ -379,19 +389,21 @@ class Dapp extends React.Component {
     });
 
     // Once we have the address, we can initialize the application.
-    if(selectedAddress) {
+    if (selectedAddress) {
       this._checkNetwork();
       this._initialize(selectedAddress);
-      this._checkUserPseudo(selectedAddress).then((response) => {
-        if (response.success) {
-          isRegister = true;
-        }
-      }).catch((error) => {
-        isRegister = false;
-        console.log(error);
-      });      
+      this._checkUserPseudo(selectedAddress)
+        .then((response) => {
+          if (response.success) {
+            isRegister = true;
+          }
+        })
+        .catch((error) => {
+          isRegister = false;
+          console.log(error);
+        });
     }
-    
+
     // We reinitialize it whenever the user changes their account.
     window.ethereum.on("accountsChanged", ([newAddress]) => {
       this._stopPollingData();
@@ -452,9 +464,9 @@ class Dapp extends React.Component {
     // console.log(RaceAddress);
     // console.log(RaceArtifact);
     this._race = new ethers.Contract(
-     RaceAddress.Race,
-     RaceArtifact.abi, 
-     this._provider.getSigner(0)
+      RaceAddress.Race,
+      RaceArtifact.abi,
+      this._provider.getSigner(0)
     );
     // console.log(this._race);
   }
@@ -488,7 +500,7 @@ class Dapp extends React.Component {
     const nftName = await this._nft.name();
     const nftSymbol = await this._nft.symbol();
     const tokenName = await this._token.name();
-    const tokenSymbol = await this._token.symbol(); 
+    const tokenSymbol = await this._token.symbol();
 
     this.setState({ nftData: { nftName, nftSymbol } });
     this.setState({ tokenData: { tokenName, tokenSymbol } });
@@ -555,12 +567,12 @@ class Dapp extends React.Component {
     const url = "http://51.68.124.217:3030/api/users/delete/" + UserWallet;
     try {
       const response = await axios.delete(url);
-      window.location.href = '/home';
+      window.location.href = "/home";
       return response.data;
     } catch (error) {
       console.error("Erreur lors de la suppression de l'utilisateur :", error);
     }
-  }
+  };
 
   async _buyToken(amount) {
     const newValue = await this._token.buy(this.state.selectedAddress, {
@@ -868,7 +880,7 @@ class Dapp extends React.Component {
   }
 
   async _runRace() {
-    try {  
+    try {
       // Passez le prix du gagnant à la fonction runRace de votre contrat
       const tx = await this._race.runRace();
       const receipt = await tx.wait();
@@ -883,8 +895,7 @@ class Dapp extends React.Component {
   async _getRaceEntries() {
     try {
       const raceEntries = await this._race.getRaceEntries();
-      this.setState({ entryRace : raceEntries });
-  
+      this.setState({ entryRace: raceEntries });
     } catch (error) {
       console.error("An error occurred while getting the race: ", error);
     }
@@ -893,12 +904,11 @@ class Dapp extends React.Component {
   async _getBetsRace() {
     try {
       const raceBETs = await this._race.getBets();
-      this.setState({ betRace : raceBETs });
+      this.setState({ betRace: raceBETs });
     } catch (error) {
       console.error("Failed to get bets: ", error);
     }
   }
-
 }
 
 function TabPanel(props) {
