@@ -35,7 +35,7 @@ async function main() {
   console.log("NFTCar address:", nft.address);
 
   const Race = await ethers.getContractFactory("Race");
-  const race = await Race.deploy(nft.address);
+  const race = await Race.deploy(nft.address,token.address);
   await race.deployed();
 
   console.log("Race address:", race.address);

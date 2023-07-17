@@ -19,7 +19,7 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     uint256 nftId;
     address fcarToken;
 
-    event Minted(address indexed to, uint256 indexed tokenId, string indexed uri, string index);
+    // event Minted(address indexed to, uint256 indexed tokenId, string indexed uri, string index);
 
     function formatURI(string memory _uri, string memory _index) internal pure returns (string memory) {
         return string(abi.encodePacked(_uri, "/", _index, ".json"));
@@ -33,7 +33,7 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     }
 
     function mint(uint8 _forcedRarity) external {
-        uint256 requiredFrtAmount = 10;
+        uint256 requiredFrtAmount = 1;
         require(ERC20(fcarToken).balanceOf(msg.sender) >= requiredFrtAmount, "Insufficient FRT balance");
         ERC20(fcarToken).transferFrom(msg.sender, address(this), requiredFrtAmount);
 
@@ -83,7 +83,7 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
 
         _mint(msg.sender, nftId);
         _setTokenURI(nftId, formatURI(uri, indexString));
-        emit Minted(msg.sender, nftId, uri, indexString);
+        // emit Minted(msg.sender, nftId, uri, indexString);
 
         nftToOwner[nftId] = msg.sender;
         ownerNftCount[msg.sender]++;
@@ -210,8 +210,8 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     function terminerEnchere(uint idNFT) internal {
         Enchere storage enchere = encheres[idNFT];
 
-        require(block.timestamp >= enchere.finEnchere, "Auction not ended.");
-        require(!enchere.termine, "L'enchere a deja ete reglee.");
+        require(block.timestamp >= enchere.finEnchere, "Auction not ended");
+        require(!enchere.termine, "Auction solved.");
 
         enchere.termine = true;
         // emit EnchereTerminee(idNFT, enchere.meilleurAcheteur, enchere.meilleureOffre);

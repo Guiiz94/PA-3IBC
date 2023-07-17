@@ -346,12 +346,12 @@ class Dapp extends React.Component {
 
   async _dataProfile(wallet) {
     const url = "http://51.68.124.217:3030/api/users/check/" + wallet;
-    console.log(wallet);
-    console.log(url);
+    // console.log(wallet);
+    // console.log(url);
   
     try {
       const response = await axios.get(url);
-      console.log(response.data);
+      // console.log(response.data);
       this.setState({ profileData: response.data });
     } catch (error) {
       console.error('Erreur lors de la récupération du pseudo:', error);
@@ -422,7 +422,7 @@ class Dapp extends React.Component {
   }
 
   async _initializeEthers() {
-    console.log('HERE');
+    // console.log('HERE');
     // We first initialize ethers by creating a provider using window.ethereum
     this._provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -438,8 +438,8 @@ class Dapp extends React.Component {
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
-    console.log(RaceAddress);
-    console.log(RaceArtifact);
+    // console.log(RaceAddress);
+    // console.log(RaceArtifact);
     this._race = new ethers.Contract(
      RaceAddress.Race,
      RaceArtifact.abi, 
@@ -512,12 +512,12 @@ class Dapp extends React.Component {
     const timeouts = [];
 
     auctionNftsId.forEach(async (auction) => {
-      console.log(auction);
+      // console.log(auction);
       nftArr.push(await this._getNft(auction.carId));
       prices.push(auction.meilleureOffre);
       timeouts.push(auction.finEnchere);
     });
-    console.log(prices);
+    // console.log(prices);
     this.setState({ auctionNfts: nftArr });
     this.setState({ auctionPrices: prices });
     this.setState({ auctionTimeouts: timeouts });
@@ -726,7 +726,7 @@ class Dapp extends React.Component {
 
   async _generateNFT(rarity) {
     try {
-      const auth = await this._token.approve(this._nft.address, 1, {
+      const auth = await this._token.approve(this._nft.address, 10, {
         gasLimit: 100000,
       });
       const authReceipt = await auth.wait();
@@ -829,6 +829,10 @@ class Dapp extends React.Component {
   //A FAIRE
   async _enterRace(tokenId, speed, acceleration, maniability) {
     try {
+      const auth = await this._token.approve(this._race.address, 10, {
+        gasLimit: 100000,
+      });
+      const authReceipt = await auth.wait();
       const tx = await this._race.enterRace(
         tokenId,
         speed,
@@ -841,10 +845,10 @@ class Dapp extends React.Component {
     }
   }
 
-  async _runRace(winnerPrize) {
+  async _runRace() {
     try {  
       // Passez le prix du gagnant à la fonction runRace de votre contrat
-      const tx = await this._race.runRace(winnerPrize);
+      const tx = await this._race.runRace();
       const receipt = await tx.wait();
       console.log(receipt);
       const winnerTokenId = receipt.events[0].args[0];

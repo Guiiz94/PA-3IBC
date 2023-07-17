@@ -17,6 +17,8 @@ contract Race {
     }
 
     RaceEntry[] public raceEntries;
+    uint256 public racePrice;
+    uint256 public raceFee = 10;
 
     struct Bet {
         address bettor; // Celui qui fait le pari
@@ -26,8 +28,9 @@ contract Race {
 
     Bet[] public bets;
 
-    constructor(address _nftCarAddress) {
+    constructor(address _nftCarAddress, address _fCarTokenAddress) {
         nftCar = NFTCar(_nftCarAddress);
+        fcarToken = FCarToken(_fCarTokenAddress);
     }
 
     function enterRace(
@@ -41,6 +44,11 @@ contract Race {
             nftCar.ownerOf(_tokenId) == msg.sender,
             "Vous devez etre le proprietaire du NFT pour entrer dans la course"
         );
+        require(ERC20(fcarToken).balanceOf(msg.sender) > raceFee, "Not enough token");
+
+        ERC20(fcarToken).transferFrom(msg.sender,address(this),raceFee);
+
+        racePrice += raceFee;
 
         // Ajoutez le NFT à la course
         RaceEntry memory newEntry = RaceEntry({
@@ -54,7 +62,7 @@ contract Race {
         raceEntries.push(newEntry);
     }
 
-    function runRace(uint256 _winnerPrize) public returns (uint256) {
+    function runRace() public returns (uint256) {
         // Vérifiez qu'il y a des entrées dans la course
         require(
             raceEntries.length > 0,
@@ -75,9 +83,17 @@ contract Race {
             }
         }
 
+        // ID du vainqueur
+        uint256 winner = raceEntries[winnerIndex].tokenId;
+        // Reset du tableau
+        delete raceEntries;
+        // DIstributuon des gains
+        // distributeWinnings(winner, _winnerPrize);
+        uint256 winningsAmount = (racePrice * 85) / 100;
+        ERC20(fcarToken).transfer(nftCar.ownerOf(winner), winningsAmount);
+        racePrice = 0;
         // Renvoyez l'ID du token du vainqueur
-        distributeWinnings(raceEntries[winnerIndex].tokenId, _winnerPrize);
-        return raceEntries[winnerIndex].tokenId;
+        return winner;
     }
 
     function carInRace(uint256 _carId) internal view returns (bool) {
