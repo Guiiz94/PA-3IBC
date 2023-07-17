@@ -285,9 +285,9 @@ class Dapp extends React.Component {
                     //Afficher  les parie sur les voitures
                   <div className="row">
                     <div className="col-12">
-                      <p>{bet.speed}</p>
-                      <p>{bet.acceleration}</p>
-                      <p>{bet.maniability}</p>
+                      <p>{bet.bettor}</p>
+                      <p>{bet.amount}</p>
+                      <p>{bet.carID}</p>
                     </div>
                   </div>
                   ))
@@ -459,7 +459,7 @@ class Dapp extends React.Component {
     this._updateNFTs();
     this._updateAuctionNFTs();
     this._getRaceEntries();
-    this._getRaceBets();
+    this._getBetsRace();
   }
 
   async _initializeEthers() {
