@@ -88,9 +88,7 @@ contract Race {
         // Reset du tableau
         delete raceEntries;
         // DIstributuon des gains
-        // distributeWinnings(winner, _winnerPrize);
-        uint256 winningsAmount = (racePrice * 85) / 100;
-        ERC20(fcarToken).transfer(nftCar.ownerOf(winner), winningsAmount);
+        distributeWinnings(winner);
         racePrice = 0;
         // Renvoyez l'ID du token du vainqueur
         return winner;
@@ -115,30 +113,32 @@ contract Race {
         // Transférez les tokens du parieur au contrat
         ERC20(fcarToken).transferFrom(msg.sender, address(this), _amount);
 
+        uint256 amount = (_amount * 90) / 100;
+
         // Ajoutez le pari à la liste des paris
-        bets.push(Bet({bettor: msg.sender, amount: _amount, carId: _carId}));
+        bets.push(Bet({bettor: msg.sender, amount: amount, carId: _carId}));
     }
 
-    function distributeWinnings(uint256 _winningCarId, uint256 _winnerPrize) public {
+    function distributeWinnings(uint256 _winningCarId) public {
         uint256 totalBetAmount = 0;
+        uint256 totalWinningAmount = 0;
         for (uint256 i = 0; i < bets.length; i++) {
             if (bets[i].carId == _winningCarId) {
                 totalBetAmount += bets[i].amount;
             }
+            totalWinningAmount += bets[i].amount;
         }
-
-        uint256 commission = address(this).balance / 10; // Calcul de la commission de 10%
-        uint256 winningsPool = address(this).balance - commission; // Le pool de gains est le solde du contrat moins la commission
 
         for (uint256 i = 0; i < bets.length; i++) {
             if (bets[i].carId == _winningCarId) {
                 uint256 winnings = (bets[i].amount / totalBetAmount) *
-                    winningsPool;
+                    totalWinningAmount;
                 ERC20(fcarToken).transfer(bets[i].bettor, winnings);
             }
         }
         
-        ERC20(fcarToken).transfer(nftCar.ownerOf(_winningCarId), _winnerPrize);
+        uint256 winningsAmount = (racePrice * 85) / 100;
+        ERC20(fcarToken).transfer(nftCar.ownerOf(_winningCarId), winningsAmount);
 
 
         // Réinitialisez les paris pour la prochaine course
