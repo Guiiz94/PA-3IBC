@@ -1,0 +1,34 @@
+.card-form {
+    width: 400px; /* Ajustez la largeur en fonction de vos besoins */
+    margin: auto; /* Centrer la carte */
+    padding: 20px; /* Espacement intérieur autour de votre formulaire */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Ombre de la carte */
+    border-radius: 5px; /* Coins arrondis de la carte */
+    background-color: #474747d6; /* Couleur de fond de la carte */
+}
+
+.card-form p {
+    color: rgb(255, 255, 255);
+}
+
+.card-form h3 {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.card-form input,
+.card-form button {
+  width: 90%;
+}
+
+.card-form input {
+    margin-bottom: 10px; 
+    padding: 10px; 
+}
+
+.wallet-address {
+    background-color: #606060d6;
+    border-color: none;
+}
+
+
+
