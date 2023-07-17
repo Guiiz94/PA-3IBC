@@ -33,7 +33,7 @@ contract NFTCar is ERC721URIStorage, Ownable, NFTCarFactory{
     }
 
     function mint(uint8 _forcedRarity) external {
-        uint256 requiredFrtAmount = 1;
+        uint256 requiredFrtAmount = 10;
         require(ERC20(fcarToken).balanceOf(msg.sender) >= requiredFrtAmount, "Insufficient FRT balance");
         ERC20(fcarToken).transferFrom(msg.sender, address(this), requiredFrtAmount);
 

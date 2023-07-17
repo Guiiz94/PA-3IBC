@@ -13,11 +13,11 @@ export interface DeckAttributes {
   speed?;
   maniability?;
   acceleration?;
-  enterRace;
+  enterRace?;
 }
 
 const Deck = (attributes: DeckAttributes) => {
-  console.log(attributes);
+  // console.log(attributes);
 
   return (
     <div className="deck">

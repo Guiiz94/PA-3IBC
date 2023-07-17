@@ -14,7 +14,7 @@ function SignUp(props) {
   const handleRegister = async (event) => {
     event.preventDefault();
 
-    const url = 'http://localhost:3000/users/create';
+    const url = 'http://51.68.124.217:3030/api/users/create';
 
     const requestBody = {
       WalletUser: props.userAddress,

@@ -177,7 +177,7 @@ class Dapp extends React.Component {
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={0}
                       />
-                      <NewCar
+                      {/* <NewCar
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={1}
                       />
@@ -188,7 +188,7 @@ class Dapp extends React.Component {
                       <NewCar
                         generateNFT={(rarity) => this._generateNFT(rarity)}
                         type={3}
-                      />
+                      /> */}
                     </TabPanel>
                     <TabPanel value={this.state.tabValue} index={1}>
                       <BuyToken buyToken={(amount) => this._buyToken(amount)} />
@@ -229,21 +229,15 @@ class Dapp extends React.Component {
               {this.props.page == "race" && (
                 <>
                   <TextField
-                    label="Token ID"
+                    label="Prix"
                     variant="outlined"
                     className="button"
-                    value={this.state.tokenId}
-                    onChange={(e) => this.setState({ tokenId: e.target.value })}
+                    value={this.state.price}
+                    onChange={(e) => this.setState({ price: e.target.value })}
                   />
                   <Button
                     style={{ backgroundColor: "white", color: "black" }}
-                    onClick={() => this.enterRace(this.state.tokenId)}
-                  >
-                    Enter Race
-                  </Button>
-                  <Button
-                    style={{ backgroundColor: "white", color: "black" }}
-                    onClick={() => this.runRace()}
+                    onClick={() => this._runRace(this.state.price)}
                   >
                     Run Race
                   </Button>
@@ -252,7 +246,7 @@ class Dapp extends React.Component {
             </div>
           </div>
 
-            {this.props.page == "garage" &&
+            {/* {this.props.page == "garage" &&
             this.state.nftsId.length > 0 &&
             this.state.nfts.length > 0 ? (
               <Deck
@@ -265,7 +259,7 @@ class Dapp extends React.Component {
               />
             ) : (
               <></>
-            )}
+            )} */}
 
           <div className="row">
             <div className="col-12">
@@ -351,7 +345,7 @@ class Dapp extends React.Component {
   }
 
   async _dataProfile(wallet) {
-    const url = "http://localhost:3000/users/check/" + wallet;
+    const url = "http://51.68.124.217:3030/api/users/check/" + wallet;
     console.log(wallet);
     console.log(url);
   
@@ -428,6 +422,7 @@ class Dapp extends React.Component {
   }
 
   async _initializeEthers() {
+    console.log('HERE');
     // We first initialize ethers by creating a provider using window.ethereum
     this._provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -443,11 +438,14 @@ class Dapp extends React.Component {
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
+    console.log(RaceAddress);
+    console.log(RaceArtifact);
     this._race = new ethers.Contract(
-     RaceAddress.Token,
+     RaceAddress.Race,
      RaceArtifact.abi, 
      this._provider.getSigner(0)
     );
+    // console.log(this._race);
   }
 
   // The next two methods are needed to start and stop polling data. While
@@ -537,7 +535,7 @@ class Dapp extends React.Component {
   }
 
   async _checkUserPseudo(UserWallet) {
-    const url = "http://localhost:3000/users/check/" + UserWallet;
+    const url = "http://51.68.124.217:3030/api/users/check/" + UserWallet;
     const response = await axios.get(url);
     return response.data;
   }
@@ -848,6 +846,7 @@ class Dapp extends React.Component {
       // Passez le prix du gagnant à la fonction runRace de votre contrat
       const tx = await this._race.runRace(winnerPrize);
       const receipt = await tx.wait();
+      console.log(receipt);
       const winnerTokenId = receipt.events[0].args[0];
       return winnerTokenId;
     } catch (error) {
@@ -884,7 +883,7 @@ function NewCar({ generateNFT, type }) {
   let rarity, icon;
   switch (type) {
     case 0:
-      rarity = "BRONZE";
+      rarity = "CLASSIC";
       icon = "fas fa-star"; // Remplacez par l'icône de votre choix
       break;
     case 1:

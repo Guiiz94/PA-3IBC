@@ -18,10 +18,10 @@ interface CardProps {
   onSale:boolean,
   currentPrice?,
   timeout?,
-  speed,
-  acceleration,
-  maniability,
-  enterRace
+  speed?,
+  acceleration?,
+  maniability?,
+  enterRace?
 
 }
 
@@ -29,6 +29,10 @@ interface CardProps {
 const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,description,submitFonction,onSale,currentPrice,timeout,speed,acceleration,maniability,enterRace}) => {
   
   // console.log(timeout);
+
+  // console.log(enterRace);
+  
+  
   
 
     const cardOverlay = useRef<HTMLDivElement>(null)
@@ -191,7 +195,7 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
           <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>
         }
         {
-          !enterRace &&
+          !onSale &&
           <button onClick={() => enterRace(id, speed, acceleration, maniability)}>Entrer dans la course</button>
         }
       </div>      
