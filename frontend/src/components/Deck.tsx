@@ -31,7 +31,7 @@ const Deck = (attributes: DeckAttributes) => {
           }
           id={attributes.nftsId[index]}
           onSale={attributes.onSale}
-          onRace={attributes.onRace[index]}
+          onRace={attributes.onRace.length > 0 ? attributes.onRace[index] : false}
           submitFonction={attributes.submitFonction}
           description={card.description}
           name={card.name as string}

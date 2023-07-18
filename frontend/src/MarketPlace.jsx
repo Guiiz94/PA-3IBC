@@ -68,8 +68,8 @@ const MarketPlace = () => {
       <h1 className="text-center mb-4">Marketplace NFT</h1>
       <Tabs>
         <TabList>
-          <Tab>Catalogue</Tab>
-          <Tab>Enchères</Tab>
+          <Tab>Market</Tab>
+          <Tab>Auctions</Tab>
         </TabList>
 
         <TabPanel>

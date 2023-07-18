@@ -218,6 +218,10 @@ class Dapp extends React.Component {
               )}
             </p>
 
+            {this.props.page == "garage" &&
+            this.state.selectedAddress == addrAdmin &&
+            <AddCollection addCollection={(ipfs, rarities)=>this._addCollection(ipfs,rarities)}/>}
+
             {this.props.page == "garage" ? (
               this.state.nftsId.length > 0 && this.state.nfts.length > 0 ? (
                 <Deck
@@ -246,6 +250,7 @@ class Dapp extends React.Component {
                   timeouts={this.state.auctionTimeouts}
                   submitFonction={(nftId, price) => this._betNft(nftId, price)}
                   nftsId={this.state.auctionNftsId}
+                  onRace={[]}
                   collection={this.state.auctionNfts}
                 />
               ) : (
@@ -779,9 +784,9 @@ class Dapp extends React.Component {
   async _updateAuctionNFTs() {
     const auctionNftsId = await this._getAuctionNFTs();
     // console.log(auctionNftsId);
-    this.setState({ auctionNftsId });
 
     const nftArr = [];
+    const nftIds = [];
     const prices = [];
     const timeouts = [];
 
@@ -790,11 +795,13 @@ class Dapp extends React.Component {
       nftArr.push(await this._getNft(auction.carId));
       prices.push(auction.meilleureOffre);
       timeouts.push(auction.finEnchere);
+      nftIds.push(auction.carId);
     });
     // console.log(prices);
     this.setState({ auctionNfts: nftArr });
     this.setState({ auctionPrices: prices });
     this.setState({ auctionTimeouts: timeouts });
+    this.setState({ auctionNftsId:nftIds });
     // console.log(this.state.nfts);
     // this._updateRows()
   }
@@ -854,7 +861,7 @@ class Dapp extends React.Component {
       gasLimit: 100000,
     });
     const authReceipt = await auth.wait();
-    const newValue = await this._nft.faireOffre(nftId.carId, price);
+    const newValue = await this._nft.faireOffre(nftId, price);
   }
 
   async _getActiveAuction() {

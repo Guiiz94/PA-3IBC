@@ -183,6 +183,7 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
         <h3>{name}</h3>
 
         <p>{description}</p>        
+        <hr style={{width:'100%'}}/>
         {onSale &&
           <>
             <p>Current Price : {currentPrice} FRT</p>
@@ -193,7 +194,6 @@ const Card:React.FC<CardProps> = ({id, name,rarity,image_file,rarity_index,descr
           !onSale && !onRace &&
           <button onClick={() => enterRace(id, speed, acceleration, maniability)}>Entrer dans la course</button>
         }
-        <hr style={{width:'100%'}}/>
         {
           onSale && timeout - Math.floor(Date.now() / 1000) > 0 &&
           <Auction id={id} onSubmit={submitFonction} onSale={onSale}/>

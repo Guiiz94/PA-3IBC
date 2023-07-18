@@ -101,7 +101,7 @@ contract Race {
         return winnerAddress;
     }
 
-    function carInRace(uint256 _carId) internal view returns (bool) {
+    function carInRace(uint256 _carId) public view returns (bool) {
         for (uint256 i = 0; i < raceEntries.length; i++) {
             if (raceEntries[i].tokenId == _carId) {
                 return true;

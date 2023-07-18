@@ -7,7 +7,7 @@ const CountdownTimer = ({ readyTime }) => {
     const calculateRemainingTime = () => {
       const currentTime = Math.floor(Date.now() / 1000);
       const difference = (readyTime - currentTime) * 1000;
-      console.log(difference);
+      // console.log(difference);
       setRemainingTime(difference);
     };
 
