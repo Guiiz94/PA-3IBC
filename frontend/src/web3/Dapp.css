@@ -1,0 +1,30 @@
+.button {
+    border: none;
+    color: white; /* couleur du texte */
+    padding: 15px 32px; /* espace autour du texte */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  
+  .banderole {
+    display: flex;
+    justify-content: center; /* alignement horizontal au centre */
+    align-items: center; /* alignement vertical au centre */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(10, 9, 9, 0.9); 
+    color: white;
+    font-size: 16px;
+    z-index: 100;
+  }
+
+p {
+  margin: 10px;
+}
+  

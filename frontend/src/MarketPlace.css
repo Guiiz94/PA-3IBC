@@ -1,0 +1,150 @@
+.marketplace form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.marketplace input,
+.marketplace textarea,
+.marketplace button {
+  width: 100%;
+}
+
+.marketplace{
+  margin-top: 100px;
+}
+
+.marketplace label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.marketplace input,
+.marketplace textarea {
+  margin-bottom: 20px;
+}
+
+.marketplace button {
+  cursor: pointer;
+  background-color: #f1c229;
+  color: #000000;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  border: none;
+}
+
+.marketplace button:hover {
+  background-color: #f3734a;
+}
+
+
+.cardmp {
+  font-family: 'Noto Serif Khojki', serif;
+  height: 380px;
+  width: 270px;
+  border: 10px solid rgb(50, 5, 53);
+  border-radius: 16px;
+  background: linear-gradient(to top, #202020, #00a0b5, #85007e);
+  box-shadow: -1rem 0 3rem #000;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  transform-style: preserve-3d;
+  margin-bottom: 1rem;
+  margin-right: 2rem;
+}
+
+.card-contentmp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-titlemp {
+  margin-top: 10px;
+}
+
+.imgmp img {
+  align-items: center;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+  margin: 0 auto;
+}
+
+.card-bodymp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-footermp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnmp {
+  margin-top: -10px;
+  background-color: #f1c229;
+  color: #000000;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btnmp:hover {
+  background-color: #f3734a;
+}
+
+.react-tabs__tab-list {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.react-tabs__tab {
+  list-style-type: none;
+  cursor: pointer;
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  margin-bottom: -1px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #888;
+}
+
+.react-tabs__tab--selected {
+  border: 1px solid #ccc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: white;
+  color: #333;
+}
+
+.react-tabs__tab-panel {
+  border: 1px solid #ccc;
+  padding: 20px;
+  display: none;
+}
+
+.react-tabs__tab-panel--selected {
+  display: block;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+

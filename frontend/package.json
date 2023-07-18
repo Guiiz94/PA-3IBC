@@ -1,0 +1,36 @@
+{
+  "name": "pa",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "npm-run-all --parallel start:react start:api",
+    "start:react": "cd src && npm start",
+    "start:api": "cd server && npm start"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "axios": "^1.4.0",
+    "ether": "^0.0.9",
+    "gsap": "^3.12.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.11.1",
+    "react-tabs": "^6.0.1",
+    "sass": "^1.63.6",
+    "tailwind": "^4.0.0",
+    "vanilla-tilt": "^1.8.0",
+    "web3": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "vite": "^4.2.0"
+  }
+}

@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Khojki&display=swap');
+
+:root{
+  --skill-common: rgb(225, 225, 225);
+  --skill-uncommon: rgb(18, 169, 10);
+  --skill-rare: rgb(98, 153, 205);
+  --skill-mythic: rgb(191, 41, 133);
+  --skill-legendary: rgb(215, 152, 27);
+  --skill-relic: rgb(202, 34, 34);
+}
+
+.deck {
+    display: flex;
+    padding: 3rem;
+    /* overflow-x: scroll; */
+}
+
+
+.card-bg{
+    width: 100%;
+    height: 100%;
+    clip-path: inset(0 0 1px 0 round 3px);
+    position: absolute;
+    opacity: 70%;
+  }
+  
+.card {
+font-family: 'Noto Serif Khojki', serif;
+height: 380px;
+width: 170px;
+min-width: 250px;
+margin: 0 0.5rem 0 0.5rem;
+border: 10px solid rgb(92, 4, 96);
+border-radius: 16px;
+background: linear-gradient(to top, #00a0b5, #00a0b5, #85007e);
+box-shadow: -1rem 0 3rem #000;
+display: flex;
+align-items: center;
+flex-direction: column;
+/* transition: .5s ease-in-out; */
+margin: 0;
+scroll-snap-align: start;
+clear: both;
+position: relative;
+transform-style: preserve-3d;
+/* transform: rotateY(var(--r-x)) rotateX(var(--r-y)); */
+}
+
+/* soft light */
+.card-layer1 {
+position: absolute;
+inset: 0;
+z-index: 20;
+mix-blend-mode: soft-light;
+clip-path: inset(0 0 1px 0 round 48px);
+background: radial-gradient(
+    farthest-corner circle at var(--x) var(--y),
+    rgba(255, 255, 255, 0.8) 10%,
+    rgba(255, 255, 255, 0.65) 20%,
+    rgba(255, 255, 255, 0) 90%
+);
+}
+
+/* first crazy blend  */
+.card-layer2 {
+position: absolute;
+inset: 0;
+z-index: 30;
+
+mix-blend-mode: color-dodge;
+will-change: background;
+transition-property: opacity;
+clip-path: inset(0 0 1px 0 round 3px);
+
+background-blend-mode: hue, hue, hard-light, overlay;
+background: var(--pattern), var(--rainbow), var(--diagonal);
+}
+/* second crazy blend  */
+.card-layer2:after {
+content: "";
+position: absolute;
+inset: 0;
+background: var(--pattern), var(--rainbow), var(--diagonal), var(--shade);
+mix-blend-mode: exclusion;
+background-size: 75%, 200% 400%, 800%, 200%;
+background-blend-mode: soft-light, hue, hard-light;
+}
+
+.card-wrapper{
+transition: 0.5s ease-in-out;
+/* overflow: hidden; */
+}
+
+.card-wrapper:focus-within~.card-wrapper, .card-wrapper:hover~.card-wrapper {
+transform: translateX(135px);
+}
+
+.card-wrapper:hover {
+transform: translateY(-12rem);
+}
+
+.card-wrapper:not(:first-child) {
+margin-left: -130px;
+}
+
+.card-title{
+margin: 0;
+padding: 0.1rem;
+display: flex;
+justify-content: start;
+text-shadow: 0 0 1px #434344,
+             0 0 2px #434344,
+             0 0 4px #434344;
+}
+
+.card-title > h3{
+margin: 0;
+padding: 0;
+}
+
+.card-content{
+transform: translateZ(0px);
+width: 90%;
+display: flex;
+align-items: left;
+flex-direction: column;
+padding: 0 0.5rem 0 0.5rem;
+}
+
+
+.card-content > .img{
+height: 40%;
+/* padding-bottom: 1rem; */
+}
+
+.card-content > .img > img{
+border: 1px solid black;
+width: 100%;
+height: 100%;
+}
+
+.card-body > p{
+/* font-family: 'Poppins', sans-serif; */
+font-weight: 800;
+margin-top: 10px;
+font-size: 0.9rem;
+margin-bottom: 0.5rem;
+text-transform:uppercase;
+letter-spacing: 0.5rem;
+font-weight: bold;
+transform: translateX(5%);
+text-shadow: 0 0 1px #434344,
+             0 0 2px #434344,
+             0 0 4px #434344;
+}
+
+.card-body > p::after{
+    content: '';
+    width: 90%;
+    height: 0.1rem;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    left:0;
+    transform: translateY(1.8rem);
+    border-radius: 5px;
+    box-shadow: 0 0 1px #434344,
+                 0 0 2px #434344;
+}
+
+.card-body > h2{
+font-family: 'Poppins', sans-serif;
+color: rgb(18, 18, 19);
+font-weight: 600;
+font-size: 1.7rem;
+}
+
+.card-body > ul{
+margin-top: 10px;
+list-style: none;
+columns: 2;
+}
+
+.card-body > ul > li{
+list-style: none;
+/* margin: 5px 0; */
+font-family: 'Pavanam', sans-serif;
+}
+
+.highlighted {
+    /* background-color: #fff; */
+    padding: 20px;
+    border-radius: 5px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+    animation-delay: 0.5s;
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+  }
+
+.props-section{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  text-align: start;
+  font-weight: bold;
+}
+
+.props-section > [relic]{
+  color: var(--skill-relic);
+  text-transform: uppercase;
+}
+.props-section > [legendary]{
+  color: var(--skill-legendary);
+  text-transform: uppercase;
+}
+.props-section > [mythic]{
+  color: var(--skill-mythic);
+}
+.props-section > [rare]{
+  color: var(--skill-rare);
+}
+.props-section > [uncommon]{
+  color: var(--skill-uncommon);
+}
+.props-section > [common]{
+  color: var(--skill-common);
+}
+
+.showcase {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 200vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  /* animation-delay: 0.5s; */
+}
+
+.overlay{
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.851);
+  width: 100%;
+  height: 100%;
+}
+
+.closing{
+    animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+.cooldown-bannerv2 {
+  position: fixed;
+  background: #da1529;
+  box-shadow: 0 0 0 999px #c80c0c;
+  clip-path: inset(0 -100%);
+  inset: 0 auto auto 0;
+  /* font-size: 25px; */
+  z-index: 999;
+  transform-origin: 100% 0;
+  transform: translate(-29.3%) rotate(-45deg);
+}
+
+.cooldown-banner {
+  --f: 10px; /* control the folded part*/
+  --r: 15px; /* control the ribbon shape */
+  --t: 10px; /* the top offset */
+  
+  position: absolute;
+  inset: var(--t) auto auto calc(-1*var(--f) - 9px); /* 10px for the card border */
+  padding: 0 calc(20px + var(--r)) var(--f) 10px;
+  z-index: 30;
+  /* clip-path: polygon(100% 0%, 80% 50%, 100% 100%, 0 100%, 0 0); */
+  clip-path: 
+  polygon(
+    100% 0,
+    0 0,
+    0 calc(100% - var(--f)),
+    var(--f) 100%,
+    var(--f) calc(100% - var(--f)),
+    100% calc(100% - var(--f)),
+    calc(100% - var(--r)) calc(50% - var(--f)/2)
+    );
+  background: #BD1550;
+  box-shadow: 0 calc(-1 * var(--f)) 0 inset #0005;
+}
+
+
+
+    
+    
+    
+    
+    

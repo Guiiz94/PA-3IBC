@@ -1,0 +1,72 @@
+:root{
+    --skill-common: rgb(225, 225, 225);
+    --skill-uncommon: rgb(18, 169, 10);
+    --skill-rare: rgb(98, 153, 205);
+    --skill-mythical: rgb(191, 41, 133);
+    --skill-legendary: rgb(215, 152, 27);
+    --skill-relic: rgb(202, 34, 34);
+}
+
+.skill{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    /* padding-bottom: 10px; */
+}
+
+.skill-name{
+    margin: 0;
+    padding-bottom: 5px;
+    text-shadow: 0 0 1px #434344,
+                 0 0 2px #434344,
+                 0 0 4px #434344;
+    /* width: 40%; */
+}
+
+.skillPoint {
+    width: 1.3rem;
+    height: 0.5rem;
+    transform: skew(20deg);
+    background: rgb(157, 149, 149);
+    border-radius: 20%;
+    list-style: none;
+    opacity: 55%;
+    box-shadow: inset -1px -1px 1px rgba(0, 0, 0, 0.167), 
+                inset -1px -1px 2px rgba(0, 0, 0, 0.167), 
+                inset 1px 1px 1px rgba(70, 70, 70, 0.12),
+                inset 1px 1px 2px rgba(70, 70, 70, 0.12);
+  }
+
+.skillPoint-acquired{
+    opacity: 100%;
+}
+
+.skillPoint[relic] {
+    background: var(--skill-relic);
+}
+.skillPoint[legendary] {
+    background: var(--skill-legendary);
+}
+.skillPoint[mythical] {
+    background: var(--skill-mythical);
+}
+.skillPoint[rare] {
+    background: var(--skill-rare);
+}
+.skillPoint[uncommon] {
+    background: var(--skill-uncommon);
+}
+.skillPoint[common] {
+    background: var(--skill-common);
+}
+/* change color if class="skillPoint" and has attribute "common" */
+
+
+.skillPoint-line{
+    /* padding-left: 1rem; */
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap:1px;
+}

@@ -1,21 +1,17 @@
 {
   "name": "pa",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "deploy": "npx hardhat run scripts/deploy.js --network localhost",
+    "initCollection": "npx hardhat --network localhost initCollection 0xa35cc4a4096d53e718460fdde30d36854133282a",
+    "endAuctions": "npx hardhat --network localhost endAuctions 0xa35cc4a4096d53e718460fdde30d36854133282a",
+    "faucet": "npx hardhat --network localhost faucet 0xa35cc4a4096d53e718460fdde30d36854133282a & npx hardhat --network localhost faucet 0x3FeDcE1e2ed40D1f0A6875c52257D711050AC938"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^3.1.0",
-    "vite": "^4.2.0"
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@material-ui/core": "^4.12.4",
+    "@openzeppelin/contracts": "^4.9.2"
   }
 }

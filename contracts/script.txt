@@ -1,0 +1,4 @@
+npx hardhat node
+npx hardhat run scripts/deploy.js --network localhost
+npx hardhat --network localhost faucet 0x9f2b97c65a107E35Ae2204064C181BA7d6EA7610
+npm run initCollection
