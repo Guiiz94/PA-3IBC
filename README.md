@@ -27,3 +27,7 @@ This project use the new Web3 technologies to privide a funny website where you 
 1. Deploy your contract using a tool like [Remix](https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.18+commit.87f61d96.js)
 2. Update your contract address in Dapp.jsx
 3. Run `cd fontend && npm run dev`
+
+---
+
+To generate a new NFTs collection don't forget to use our [Card generator](https://github.com/MatthieuLvsr/cardGenerator) tool !
