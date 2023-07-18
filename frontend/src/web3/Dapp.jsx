@@ -706,19 +706,22 @@ class Dapp extends React.Component {
     // Then, we initialize the contract using that provider and the token's
     // artifact. You can do this same thing with your contracts.
     this._nft = new ethers.Contract(
-      NFTAddress.Token,
+      // NFTAddress.Token,
+      "0xde0ffB9C80b9664f5b81c0C39203ca4Ee634E6Da",
       NFTArtifact.abi,
       this._provider.getSigner(0)
     );
     this._token = new ethers.Contract(
-      TokenAddress.Token,
+      // TokenAddress.Token,
+      "0x8569E32F05058c09F6c294eBbE71B8067F592FB8",
       TokenArtifact.abi,
       this._provider.getSigner(0)
     );
     // console.log(RaceAddress);
     // console.log(RaceArtifact);
     this._race = new ethers.Contract(
-      RaceAddress.Race,
+      // RaceAddress.Race,
+      "0x350a6A38007f91C36ECfc24A2caA798654cAC5eB",
       RaceArtifact.abi,
       this._provider.getSigner(0)
     );
